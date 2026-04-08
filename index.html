@@ -84,39 +84,85 @@
     margin-bottom: 2.5rem;
   }
 
-  .gate-input-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .gate-input {
-    background: rgba(168,216,234,0.06);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 0.875rem 1rem;
-    color: var(--frost);
+  .gate-prompt {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 1rem;
-    letter-spacing: 0.1em;
-    text-align: center;
-    outline: none;
-    transition: border-color 0.2s;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
   }
 
-  .gate-input:focus { border-color: var(--ice-dim); }
-  .gate-input.error { border-color: var(--danger); animation: shake 0.3s; }
+  .gate-code-display {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .code-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    transition: all 0.2s;
+  }
+
+  .code-dot.filled {
+    background: var(--ice-dim);
+    border-color: var(--ice-dim);
+    box-shadow: 0 0 8px rgba(74,143,168,0.4);
+  }
+
+  .code-dot.wrong {
+    background: var(--danger);
+    border-color: var(--danger);
+    animation: shake 0.3s;
+  }
 
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-8px); }
-    75% { transform: translateX(8px); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    max-width: 240px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .numpad-btn {
+    background: rgba(168,216,234,0.06);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.9rem;
+    color: var(--frost);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .numpad-btn:hover { background: rgba(168,216,234,0.12); border-color: var(--ice-dim); }
+  .numpad-btn:active { transform: scale(0.95); background: rgba(168,216,234,0.18); }
+
+  .numpad-btn.zero { grid-column: 2; }
+  .numpad-btn.backspace {
+    font-size: 1rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
   }
 
   .gate-btn {
-    background: var(--ice-dim);
-    color: var(--deep);
-    border: none;
+    background: rgba(168,216,234,0.08);
+    color: var(--muted);
+    border: 1px solid var(--border);
     border-radius: 4px;
     padding: 0.875rem;
     font-family: 'IBM Plex Mono', monospace;
@@ -124,12 +170,29 @@
     font-weight: 500;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.2s;
+    cursor: default;
+    transition: all 0.4s;
+    pointer-events: none;
+    opacity: 0.4;
   }
 
-  .gate-btn:hover { background: var(--ice); }
-  .gate-error { color: var(--danger); font-size: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
+  .gate-btn.unlocked {
+    background: var(--ice-dim);
+    color: var(--deep);
+    border-color: var(--ice-dim);
+    cursor: pointer;
+    pointer-events: all;
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(74,143,168,0.3);
+    animation: pulse-glow 1.5s ease-in-out infinite;
+  }
+
+  .gate-btn.unlocked:hover { background: var(--ice); }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(74,143,168,0.3); }
+    50% { box-shadow: 0 0 30px rgba(74,143,168,0.5); }
+  }
 
   /* ── App ── */
   #app { display: none; }
@@ -894,18 +957,34 @@
 </head>
 <body>
 
-<!-- PASSWORD GATE -->
+<!-- CODE GATE -->
 <div id="gate">
   <div class="gate-bg"></div>
   <div class="gate-content">
     <span class="gate-bear">🐻‍❄️</span>
     <div class="gate-title">Svalbard 2026</div>
     <div class="gate-sub">78°N · Expeditionen</div>
-    <div class="gate-input-wrap">
-      <input class="gate-input" id="pwInput" type="password" placeholder="Lösenord" autocomplete="off">
-      <button class="gate-btn" onclick="checkPw()">Gå in →</button>
-      <div class="gate-error" id="pwError"></div>
+    <div class="gate-prompt">Enter code to join the expedition</div>
+    <div class="gate-code-display" id="codeDots">
+      <div class="code-dot"></div>
+      <div class="code-dot"></div>
+      <div class="code-dot"></div>
+      <div class="code-dot"></div>
     </div>
+    <div class="numpad">
+      <button class="numpad-btn" onclick="numPress('1')">1</button>
+      <button class="numpad-btn" onclick="numPress('2')">2</button>
+      <button class="numpad-btn" onclick="numPress('3')">3</button>
+      <button class="numpad-btn" onclick="numPress('4')">4</button>
+      <button class="numpad-btn" onclick="numPress('5')">5</button>
+      <button class="numpad-btn" onclick="numPress('6')">6</button>
+      <button class="numpad-btn" onclick="numPress('7')">7</button>
+      <button class="numpad-btn" onclick="numPress('8')">8</button>
+      <button class="numpad-btn" onclick="numPress('9')">9</button>
+      <button class="numpad-btn backspace" onclick="numBackspace()">⌫</button>
+      <button class="numpad-btn zero" onclick="numPress('0')">0</button>
+    </div>
+    <button class="gate-btn" id="enterBtn" onclick="enterExpedition()">Välkommen in →</button>
   </div>
 </div>
 
@@ -1214,28 +1293,57 @@ const CONTACTS = [
   { label: "🏍 Guide — Snöskoter", name: "[Företag]", detail: "[+47 ...]", type: "" },
 ];
 
-// ══ PASSWORD ══════════════════════════════════════════════
+// ══ CODE GATE ═════════════════════════════════════════════
 
-const CORRECT = "Edmund1337";
+const CODE = "1337";
+let entered = "";
 
-function checkPw() {
-  const val = document.getElementById('pwInput').value;
-  const err = document.getElementById('pwError');
-  const input = document.getElementById('pwInput');
-  if (val === CORRECT) {
-    sessionStorage.setItem('svalbard_auth', '1');
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    init();
-  } else {
-    err.textContent = 'Fel lösenord. Försök igen.';
-    input.classList.add('error');
-    setTimeout(() => input.classList.remove('error'), 400);
+function updateDots() {
+  const dots = document.querySelectorAll('.code-dot');
+  dots.forEach((d, i) => {
+    d.classList.toggle('filled', i < entered.length);
+    d.classList.remove('wrong');
+  });
+}
+
+function numPress(n) {
+  if (entered.length >= 4) return;
+  entered += n;
+  updateDots();
+
+  if (entered.length === 4) {
+    if (entered === CODE) {
+      // Correct — unlock
+      document.getElementById('enterBtn').classList.add('unlocked');
+    } else {
+      // Wrong — flash red, reset
+      const dots = document.querySelectorAll('.code-dot');
+      dots.forEach(d => { d.classList.add('wrong'); d.classList.remove('filled'); });
+      setTimeout(() => { entered = ""; updateDots(); }, 500);
+    }
   }
 }
 
-document.getElementById('pwInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') checkPw();
+function numBackspace() {
+  if (entered.length === 0) return;
+  entered = entered.slice(0, -1);
+  document.getElementById('enterBtn').classList.remove('unlocked');
+  updateDots();
+}
+
+function enterExpedition() {
+  sessionStorage.setItem('svalbard_auth', '1');
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  init();
+}
+
+// Keyboard support
+document.addEventListener('keydown', e => {
+  if (document.getElementById('gate').style.display === 'none') return;
+  if (e.key >= '0' && e.key <= '9') numPress(e.key);
+  if (e.key === 'Backspace') numBackspace();
+  if (e.key === 'Enter' && entered === CODE) enterExpedition();
 });
 
 // Auto-login if session exists
