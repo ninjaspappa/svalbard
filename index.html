@@ -2091,7 +2091,7 @@ function yrSymbolToDesc(code) {
   return map[base] || base.replace(/([a-z])([A-Z])/g, '$1 $2');
 }
 
-let yrData = null;
+var yrData = null;
 
 async function fetchYrWeather() {
   try {
@@ -2280,7 +2280,7 @@ function toggleDay(n) {
 
 // ══ PACKING ════════════════════════════════════════════════
 
-let packState = JSON.parse(localStorage.getItem('svalbard_pack') || '{}');
+var packState = JSON.parse(localStorage.getItem('svalbard_pack') || '{}');
 
 function renderPacking() {
   const grid = document.getElementById('packGrid');
@@ -2342,7 +2342,7 @@ function renderContacts() {
 
 // ══ ALBUM (Supabase) ══════════════════════════════════════
 
-let photos = [];
+var photos = [];
 
 async function loadPhotosFromSupabase() {
   try {
