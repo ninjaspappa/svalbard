@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Svalbard 2026 — Expeditionen</title>
+<title>Svalbard 2026 — The Expedition</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -224,6 +224,7 @@
   .nav-links {
     display: flex;
     gap: 0.25rem;
+    align-items: center;
   }
 
   .nav-link {
@@ -245,6 +246,74 @@
     background: rgba(168,216,234,0.08);
   }
 
+  /* ── Language Switcher ── */
+  .lang-switcher {
+    position: relative;
+    margin-left: 0.75rem;
+  }
+
+  .lang-current {
+    background: rgba(168,216,234,0.06);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.35rem 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: border-color 0.2s;
+  }
+
+  .lang-current:hover { border-color: var(--ice-dim); }
+
+  .lang-current-code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .lang-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.25rem;
+    background: rgba(6,14,28,0.97);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.25rem;
+    min-width: 130px;
+    z-index: 200;
+    backdrop-filter: blur(16px);
+  }
+
+  .lang-dropdown.open { display: block; }
+
+  .lang-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text);
+    transition: background 0.15s;
+    white-space: nowrap;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+
+  .lang-option:hover { background: rgba(168,216,234,0.08); color: var(--ice); }
+  .lang-option.active { color: var(--ice); background: rgba(168,216,234,0.06); }
+
   /* ── Hero ── */
   .hero {
     position: relative;
@@ -257,7 +326,7 @@
 
   .hero-bg {
     position: absolute; inset: 0;
-    background: 
+    background:
       radial-gradient(ellipse 120% 80% at 60% 30%, rgba(168,216,234,0.08) 0%, transparent 60%),
       linear-gradient(180deg, var(--arctic) 0%, var(--deep) 100%);
   }
@@ -474,6 +543,91 @@
     font-size: 0.8rem;
     color: var(--muted);
     line-height: 1.5;
+  }
+
+  /* ── Weather Forecast ── */
+  .forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .forecast-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .forecast-card:hover {
+    border-color: var(--ice-dim);
+    transform: translateY(-2px);
+  }
+
+  .forecast-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--ice-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .forecast-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+
+  .forecast-temp {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--frost);
+    margin-bottom: 0.25rem;
+  }
+
+  .forecast-temp-range {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .forecast-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .forecast-wind {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  .forecast-source {
+    margin-top: 1.5rem;
+    text-align: right;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+  }
+
+  .forecast-source a {
+    color: var(--ice-dim);
+    text-decoration: none;
+  }
+
+  .forecast-source a:hover { text-decoration: underline; }
+
+  .forecast-loading {
+    text-align: center;
+    padding: 3rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
   }
 
   /* ── Schedule ── */
@@ -965,6 +1119,7 @@
     .hero-content { padding: 2rem; }
     .hero-stats { display: none; }
     section { padding: 3rem 1rem; }
+    .lang-current-code { display: none; }
   }
 </style>
 </head>
@@ -974,10 +1129,10 @@
 <div id="gate">
   <div class="gate-bg"></div>
   <div class="gate-content">
-    <span class="gate-bear">🐻‍❄️</span>
-    <div class="gate-title">Svalbard 2026</div>
-    <div class="gate-sub">78°N · Expeditionen</div>
-    <div class="gate-prompt">Enter code to join the expedition</div>
+    <span class="gate-bear">&#x1F43B;&#x200D;&#x2744;&#xFE0F;</span>
+    <div class="gate-title" data-t="gate.title">Svalbard 2026</div>
+    <div class="gate-sub" data-t="gate.sub">78°N · The Expedition</div>
+    <div class="gate-prompt" data-t="gate.prompt">Enter code to join the expedition</div>
     <div class="gate-code-display" id="codeDots">
       <div class="code-dot"></div>
       <div class="code-dot"></div>
@@ -994,16 +1149,16 @@
       <button class="numpad-btn" onclick="numPress('7')">7</button>
       <button class="numpad-btn" onclick="numPress('8')">8</button>
       <button class="numpad-btn" onclick="numPress('9')">9</button>
-      <button class="numpad-btn backspace" onclick="numBackspace()">⌫</button>
+      <button class="numpad-btn backspace" onclick="numBackspace()">&#x232B;</button>
       <button class="numpad-btn zero" onclick="numPress('0')">0</button>
     </div>
-    <button class="gate-btn" id="enterBtn" onclick="enterExpedition()">Välkommen in →</button>
+    <button class="gate-btn" id="enterBtn" onclick="enterExpedition()" data-t="gate.enter">Welcome aboard &rarr;</button>
   </div>
 </div>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
   <img class="lightbox-img" id="lightboxImg" src="" alt="">
   <div class="lightbox-caption" id="lightboxCaption"></div>
 </div>
@@ -1012,32 +1167,44 @@
 <div id="app">
 
   <!-- Important banner -->
-  <div class="important-banner">
-    🛂 ALLE MÅ HA MED PASS TIL SVALBARD. IKKE GLEM DET GUTTER.
-  </div>
+  <div class="important-banner" id="passportBanner" data-t="banner"></div>
 
   <!-- Weather bar -->
-  <div class="weather-bar">
-    <div class="weather-item"><span>📍</span> Longyearbyen, Svalbard</div>
-    <div class="weather-item"><span>🌡</span> −18°C (typiskt mars)</div>
-    <div class="weather-item"><span>💨</span> 7 m/s</div>
-    <div class="weather-item"><span>☀️</span> 11h dagsljus</div>
-    <div class="weather-item"><span>🐻‍❄️</span> Isbjörnsrisk — lämna ej bebyggelsen ensam</div>
+  <div class="weather-bar" id="weatherBar">
+    <div class="weather-item"><span>&#x1F4CD;</span> Longyearbyen, Svalbard</div>
+    <div class="weather-item" id="wbTemp"><span>&#x1F321;</span> <span data-t="weather.loading">Loading...</span></div>
+    <div class="weather-item" id="wbWind"><span>&#x1F4A8;</span> --</div>
+    <div class="weather-item" id="wbCondition"><span>&#x2600;&#xFE0F;</span> --</div>
+    <div class="weather-item"><span>&#x1F43B;&#x200D;&#x2744;&#xFE0F;</span> <span data-t="weather.bear_warning" id="wbBear">Polar bear risk — do not leave town alone</span></div>
   </div>
 
   <!-- Nav -->
   <nav>
-    <div class="nav-brand" onclick="showPage('home')">❄ Svalbard</div>
+    <div class="nav-brand" onclick="showPage('home')">&#x2744; Svalbard</div>
     <div class="nav-links">
-      <button class="nav-link active" onclick="showPage('home')">Hem</button>
-      <button class="nav-link" onclick="showPage('schedule')">Schema</button>
-      <button class="nav-link" onclick="showPage('packing')">Packing</button>
-      <button class="nav-link" onclick="showPage('contacts')">Kontakt</button>
-      <button class="nav-link" onclick="showPage('album')">Album</button>
+      <button class="nav-link active" data-nav="home" onclick="showPage('home')" data-t="nav.home">Home</button>
+      <button class="nav-link" data-nav="schedule" onclick="showPage('schedule')" data-t="nav.schedule">Schedule</button>
+      <button class="nav-link" data-nav="packing" onclick="showPage('packing')" data-t="nav.packing">Packing</button>
+      <button class="nav-link" data-nav="contacts" onclick="showPage('contacts')" data-t="nav.contacts">Contacts</button>
+      <button class="nav-link" data-nav="album" onclick="showPage('album')" data-t="nav.album">Album</button>
+      <div class="lang-switcher">
+        <div class="lang-current" onclick="toggleLangDropdown(event)">
+          <span id="langFlag">&#x1F1EC;&#x1F1E7;</span>
+          <span class="lang-current-code" id="langCode">EN</span>
+        </div>
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-option active" onclick="setLang('en')">&#x1F1EC;&#x1F1E7; English</button>
+          <button class="lang-option" onclick="setLang('no')">&#x1F1F3;&#x1F1F4; Norsk</button>
+          <button class="lang-option" onclick="setLang('se')">&#x1F1F8;&#x1F1EA; Svenska</button>
+          <button class="lang-option" onclick="setLang('is')">&#x1F1EE;&#x1F1F8; &Iacute;slenska</button>
+          <button class="lang-option" onclick="setLang('da')">&#x1F1E9;&#x1F1F0; Dansk</button>
+          <button class="lang-option" onclick="setLang('fi')">&#x1F1EB;&#x1F1EE; Suomi</button>
+        </div>
+      </div>
     </div>
   </nav>
 
-  <!-- ══ HOME ══ -->
+  <!-- HOME -->
   <div id="page-home" class="page active">
     <div class="hero">
       <div class="hero-bg">
@@ -1048,220 +1215,650 @@
         </div>
       </div>
       <div class="hero-content">
-        <div class="hero-eyebrow">78° Nord · April 2026</div>
+        <div class="hero-eyebrow" data-t="hero.eyebrow">78° North · April 2026</div>
         <h1 class="hero-title">
-          Expeditionen<br>
-          <span>Svalbard</span>
+          <span id="heroTitle1" data-t="hero.title1">The Expedition</span>
+          <span id="heroTitle2" data-t="hero.title2">Svalbard</span>
         </h1>
-        <p class="hero-desc">
-          Tio äventyrare från Norge, Sverige och Island. Isfjordar, snöskotrar,
-          hundspann, föredrag i Pyramiden och temperaturer som testar gränserna.
-          Välkommen till jordens vackraste ödemark.
+        <p class="hero-desc" data-t="hero.desc">
+          Ten adventurers from Norway, Sweden and Iceland. Ice fjords, snowmobiles,
+          dog sledding, talks in Pyramiden and temperatures that push the limits.
+          Welcome to the most beautiful wilderness on Earth.
         </p>
       </div>
       <div class="hero-stats">
         <div>
           <div class="stat-val">10</div>
-          <div class="stat-label">Expeditionsmedlemmar</div>
+          <div class="stat-label" data-t="hero.stat_crew">Expedition members</div>
         </div>
         <div>
-          <div class="stat-val">−20°</div>
-          <div class="stat-label">Medeltemperatur</div>
+          <div class="stat-val">&minus;20&deg;</div>
+          <div class="stat-label" data-t="hero.stat_temp">Average temperature</div>
         </div>
         <div>
-          <div class="stat-val">78°N</div>
-          <div class="stat-label">Latitud</div>
+          <div class="stat-val">78&deg;N</div>
+          <div class="stat-label" data-t="hero.stat_lat">Latitude</div>
         </div>
       </div>
     </div>
 
     <section>
       <div class="section-header">
-        <div class="section-label">Besättningen</div>
-        <h2 class="section-title">Expeditionens hjältar</h2>
+        <div class="section-label" data-t="crew.label">The Crew</div>
+        <h2 class="section-title" data-t="crew.title">Expedition Heroes</h2>
       </div>
-
       <div class="crew-grid" id="crewGrid"></div>
+    </section>
+
+    <!-- Weather Forecast Section -->
+    <section id="forecastSection">
+      <div class="section-header">
+        <div class="section-label" data-t="weather.label">Arctic Forecast</div>
+        <h2 class="section-title" data-t="weather.title">Weather Forecast</h2>
+      </div>
+      <div id="forecastGrid" class="forecast-grid">
+        <div class="forecast-loading" data-t="weather.loading_full">Loading weather data from YR.no...</div>
+      </div>
+      <div class="forecast-source" data-t-html="weather.source_html">
+        Source: <a href="https://www.yr.no/en/forecast/daily-table/lat=78.22/lon=15.63" target="_blank" rel="noopener">YR.no / MET Norway</a>
+      </div>
     </section>
   </div>
 
-  <!-- ══ SCHEDULE ══ -->
+  <!-- SCHEDULE -->
   <div id="page-schedule" class="page">
     <section>
       <div class="section-header">
-        <div class="section-label">Dagsprogram</div>
-        <h2 class="section-title">Schema & Utflykter</h2>
+        <div class="section-label" data-t="schedule.label">Program</div>
+        <h2 class="section-title" data-t="schedule.title">Schedule &amp; Excursions</h2>
       </div>
-      <div class="danger-box">
-        🐻‍❄️ <strong>Isbjörnsrisk:</strong> Alla utomhusaktiviteter utanför Longyearbyen kräver beväpnad guide. 
-        Lämna aldrig bebyggelsen utan guide — det är norsk lag.
+      <div class="danger-box" data-t-html="schedule.bear_warning">
+        &#x1F43B;&#x200D;&#x2744;&#xFE0F; <strong>Polar bear risk:</strong> All outdoor activities outside Longyearbyen require an armed guide.
+        Never leave town without a guide &mdash; it is Norwegian law.
       </div>
       <div class="schedule-days" id="scheduleDays"></div>
     </section>
   </div>
 
-  <!-- ══ PACKING ══ -->
+  <!-- PACKING -->
   <div id="page-packing" class="page">
     <section>
       <div class="section-header">
-        <div class="section-label">Utrustning</div>
-        <h2 class="section-title">Paklista</h2>
+        <div class="section-label" data-t="packing.label">Equipment</div>
+        <h2 class="section-title" data-t="packing.title">Packing List</h2>
       </div>
-      <div class="tip-box">
-        💡 <strong>Lagerprincipen är allt.</strong> Tre lager av ull och fleece håller dig varmare än en tjock jacka. 
-        Bomull är farligt — det isolerar inte när det är fuktigt.
+      <div class="tip-box" data-t-html="packing.layer_tip">
+        &#x1F4A1; <strong>Layering is everything.</strong> Three layers of wool and fleece keep you warmer than one thick jacket.
+        Cotton is dangerous &mdash; it does not insulate when wet.
       </div>
       <div class="pack-grid" id="packGrid"></div>
     </section>
   </div>
 
-  <!-- ══ CONTACTS ══ -->
+  <!-- CONTACTS -->
   <div id="page-contacts" class="page">
     <section>
       <div class="section-header">
-        <div class="section-label">Viktig info</div>
-        <h2 class="section-title">Kontakter</h2>
+        <div class="section-label" data-t="contacts.label">Important Info</div>
+        <h2 class="section-title" data-t="contacts.title">Contacts</h2>
       </div>
       <div class="contacts-grid" id="contactsGrid"></div>
     </section>
   </div>
 
-  <!-- ══ ALBUM ══ -->
+  <!-- ALBUM -->
   <div id="page-album" class="page">
     <section>
       <div class="section-header">
-        <div class="section-label">Minnesalbum</div>
-        <h2 class="section-title">Bilder från resan</h2>
+        <div class="section-label" data-t="album.label">Memories</div>
+        <h2 class="section-title" data-t="album.title">Photos from the trip</h2>
       </div>
 
       <div class="album-upload-zone" id="uploadZone">
-        <div class="upload-icon">📷</div>
-        <div class="upload-title">Dela dina bilder</div>
-        <div class="upload-sub">Dra och släpp bilder här, eller klicka för att välja</div>
+        <div class="upload-icon">&#x1F4F7;</div>
+        <div class="upload-title" data-t="album.upload_title">Share your photos</div>
+        <div class="upload-sub" data-t="album.upload_sub">Drag and drop images here, or click to choose</div>
         <div class="upload-fields">
-          <input class="upload-field" id="uploaderName" placeholder="Ditt namn" type="text">
-          <input class="upload-field" id="photoCaption" placeholder="Bildtext (valfri)" type="text">
+          <input class="upload-field" id="uploaderName" type="text" data-placeholder-t="album.name_placeholder">
+          <input class="upload-field" id="photoCaption" type="text" data-placeholder-t="album.caption_placeholder">
         </div>
         <input type="file" id="fileInput" accept="image/*" multiple style="display:none" onchange="handleFiles(this.files)">
-        <button class="upload-btn" onclick="document.getElementById('fileInput').click()">Välj bilder</button>
+        <button class="upload-btn" onclick="document.getElementById('fileInput').click()" data-t="album.choose_btn">Choose images</button>
         <div id="uploadStatus" style="margin-top:1rem; font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--muted)"></div>
       </div>
 
-      <div class="tip-box" id="supabaseNote">
-        ℹ️ <strong>Bilduppladdning:</strong> Kräver Supabase-konfiguration. Se <code>SUPABASE_SETUP.md</code>. 
-        I demo-läget sparas bilder lokalt i webbläsaren (försvinner vid omladdning).
-      </div>
-
       <div class="album-grid" id="albumGrid">
-        <div class="album-empty">Inga bilder ännu — ladda upp de första minnena! 🏔</div>
+        <div class="album-empty" data-t="album.empty">No photos yet &mdash; upload the first memories! &#x1F3D4;</div>
       </div>
     </section>
   </div>
 
-  <footer>
-    ❄ SVALBARD 2026 · HUMANJI.SE · 78°N · ALLE MAN OMBORD ❄
-  </footer>
+  <footer id="siteFooter" data-t="footer"></footer>
 </div>
 
 <script>
+// ══ TRANSLATIONS ═════════════════════════════════════════════
+
+const T = {
+  en: {
+    banner: "\u{1F6C2} EVERYONE MUST BRING A PASSPORT TO SVALBARD. DON'T FORGET IT!",
+    nav: { home: "Home", schedule: "Schedule", packing: "Packing", contacts: "Contacts", album: "Album" },
+    hero: {
+      eyebrow: "78\u00B0 North \u00B7 April 2026",
+      title1: "The Expedition",
+      title2: "Svalbard",
+      desc: "Ten adventurers from Norway, Sweden and Iceland. Ice fjords, snowmobiles, dog sledding, talks in Pyramiden and temperatures that push the limits. Welcome to the most beautiful wilderness on Earth.",
+      stat_crew: "Expedition members",
+      stat_temp: "Average temperature",
+      stat_lat: "Latitude"
+    },
+    crew: { label: "The Crew", title: "Expedition Heroes" },
+    weather: {
+      label: "Arctic Forecast",
+      title: "Weather Forecast",
+      source_html: 'Source: <a href="https://www.yr.no/en/forecast/daily-table/lat=78.22/lon=15.63" target="_blank" rel="noopener">YR.no / MET Norway</a>',
+      wind: "Wind",
+      temp: "Temp",
+      loading: "Loading...",
+      loading_full: "Loading weather data from YR.no...",
+      bear_warning: "Polar bear risk \u2014 do not leave town alone",
+      daylight: "daylight",
+      error: "Weather data unavailable"
+    },
+    schedule: {
+      label: "Program",
+      title: "Schedule & Excursions",
+      bear_warning: '\u{1F43B}\u200D\u2744\uFE0F <strong>Polar bear risk:</strong> All outdoor activities outside Longyearbyen require an armed guide. Never leave town without a guide \u2014 it is Norwegian law.'
+    },
+    packing: {
+      label: "Equipment",
+      title: "Packing List",
+      layer_tip: '\u{1F4A1} <strong>Layering is everything.</strong> Three layers of wool and fleece keep you warmer than one thick jacket. Cotton is dangerous \u2014 it does not insulate when wet.'
+    },
+    contacts: { label: "Important Info", title: "Contacts" },
+    album: {
+      label: "Memories",
+      title: "Photos from the trip",
+      upload_title: "Share your photos",
+      upload_sub: "Drag and drop images here, or click to choose",
+      name_placeholder: "Your name",
+      caption_placeholder: "Caption (optional)",
+      choose_btn: "Choose images",
+      empty: "No photos yet \u2014 upload the first memories! \u{1F3D4}",
+      uploading: "Uploading...",
+      uploaded_one: "1 photo uploaded",
+      uploaded_many: "{n} photos uploaded"
+    },
+    footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 ALL ABOARD \u2744",
+    gate: {
+      title: "Svalbard 2026",
+      sub: "78\u00B0N \u00B7 The Expedition",
+      prompt: "Enter code to join the expedition",
+      enter: "Welcome aboard \u2192"
+    }
+  },
+  no: {
+    banner: "\u{1F6C2} ALLE M\u00C5 HA MED PASS TIL SVALBARD. IKKE GLEM DET!",
+    nav: { home: "Hjem", schedule: "Program", packing: "Pakking", contacts: "Kontakt", album: "Album" },
+    hero: {
+      eyebrow: "78\u00B0 Nord \u00B7 April 2026",
+      title1: "Ekspedisjonen",
+      title2: "Svalbard",
+      desc: "Ti eventyrere fra Norge, Sverige og Island. Isfjorder, sn\u00F8scootere, hundekj\u00F8ring, foredrag i Pyramiden og temperaturer som tester grensene. Velkommen til verdens vakreste villmark.",
+      stat_crew: "Ekspedisjonsmedlemmer",
+      stat_temp: "Gjennomsnittstemperatur",
+      stat_lat: "Breddegrad"
+    },
+    crew: { label: "Mannskapet", title: "Ekspedisjonens helter" },
+    weather: {
+      label: "Arktisk v\u00E6rmelding",
+      title: "V\u00E6rvarsel",
+      source_html: 'Kilde: <a href="https://www.yr.no/nb/v\u00E6rvarsel/daglig-tabell/lat=78.22/lon=15.63" target="_blank" rel="noopener">YR.no / Meteorologisk institutt</a>',
+      wind: "Vind",
+      temp: "Temp",
+      loading: "Laster...",
+      loading_full: "Henter v\u00E6rdata fra YR.no...",
+      bear_warning: "Isbj\u00F8rnfare \u2014 g\u00E5 aldri alene utenfor bebyggelsen",
+      daylight: "dagslys",
+      error: "V\u00E6rdata utilgjengelig"
+    },
+    schedule: {
+      label: "Dagsprogram",
+      title: "Program & Utflukter",
+      bear_warning: '\u{1F43B}\u200D\u2744\uFE0F <strong>Isbj\u00F8rnfare:</strong> Alle utend\u00F8rsaktiviteter utenfor Longyearbyen krever bev\u00E6pnet guide. Forlat aldri bebyggelsen uten guide \u2014 det er norsk lov.'
+    },
+    packing: {
+      label: "Utstyr",
+      title: "Pakkliste",
+      layer_tip: '\u{1F4A1} <strong>Lagprinsippet er alt.</strong> Tre lag med ull og fleece holder deg varmere enn \u00E9n tykk jakke. Bomull er farlig \u2014 det isolerer ikke n\u00E5r det er fuktig.'
+    },
+    contacts: { label: "Viktig info", title: "Kontakter" },
+    album: {
+      label: "Minner",
+      title: "Bilder fra turen",
+      upload_title: "Del bildene dine",
+      upload_sub: "Dra og slipp bilder her, eller klikk for \u00E5 velge",
+      name_placeholder: "Ditt navn",
+      caption_placeholder: "Bildetekst (valgfritt)",
+      choose_btn: "Velg bilder",
+      empty: "Ingen bilder enn\u00E5 \u2014 last opp de f\u00F8rste minnene! \u{1F3D4}",
+      uploading: "Laster opp...",
+      uploaded_one: "1 bilde lastet opp",
+      uploaded_many: "{n} bilder lastet opp"
+    },
+    footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 ALLE MANN OMBORD \u2744",
+    gate: {
+      title: "Svalbard 2026",
+      sub: "78\u00B0N \u00B7 Ekspedisjonen",
+      prompt: "Skriv inn kode for \u00E5 bli med p\u00E5 ekspedisjonen",
+      enter: "Velkommen ombord \u2192"
+    }
+  },
+  se: {
+    banner: "\u{1F6C2} ALLA M\u00C5STE HA MED PASS TILL SVALBARD. GL\u00D6M INTE DET!",
+    nav: { home: "Hem", schedule: "Schema", packing: "Packing", contacts: "Kontakt", album: "Album" },
+    hero: {
+      eyebrow: "78\u00B0 Nord \u00B7 April 2026",
+      title1: "Expeditionen",
+      title2: "Svalbard",
+      desc: "Tio \u00E4ventyrare fr\u00E5n Norge, Sverige och Island. Isfjordar, sn\u00F6skotrar, hundspann, f\u00F6redrag i Pyramiden och temperaturer som testar gr\u00E4nserna. V\u00E4lkommen till jordens vackraste \u00F6demark.",
+      stat_crew: "Expeditionsmedlemmar",
+      stat_temp: "Medeltemperatur",
+      stat_lat: "Latitud"
+    },
+    crew: { label: "Bes\u00E4ttningen", title: "Expeditionens hj\u00E4ltar" },
+    weather: {
+      label: "Arktisk v\u00E4derprognos",
+      title: "V\u00E4derprognos",
+      source_html: 'K\u00E4lla: <a href="https://www.yr.no/en/forecast/daily-table/lat=78.22/lon=15.63" target="_blank" rel="noopener">YR.no / MET Norge</a>',
+      wind: "Vind",
+      temp: "Temp",
+      loading: "Laddar...",
+      loading_full: "H\u00E4mtar v\u00E4derdata fr\u00E5n YR.no...",
+      bear_warning: "Isbj\u00F6rnsrisk \u2014 l\u00E4mna ej bebyggelsen ensam",
+      daylight: "dagsljus",
+      error: "V\u00E4derdata ej tillg\u00E4nglig"
+    },
+    schedule: {
+      label: "Dagsprogram",
+      title: "Schema & Utflykter",
+      bear_warning: '\u{1F43B}\u200D\u2744\uFE0F <strong>Isbj\u00F6rnsrisk:</strong> Alla utomhusaktiviteter utanf\u00F6r Longyearbyen kr\u00E4ver bev\u00E4pnad guide. L\u00E4mna aldrig bebyggelsen utan guide \u2014 det \u00E4r norsk lag.'
+    },
+    packing: {
+      label: "Utrustning",
+      title: "Paklista",
+      layer_tip: '\u{1F4A1} <strong>Lagerprincipen \u00E4r allt.</strong> Tre lager av ull och fleece h\u00E5ller dig varmare \u00E4n en tjock jacka. Bomull \u00E4r farligt \u2014 det isolerar inte n\u00E4r det \u00E4r fuktigt.'
+    },
+    contacts: { label: "Viktig info", title: "Kontakter" },
+    album: {
+      label: "Minnesalbum",
+      title: "Bilder fr\u00E5n resan",
+      upload_title: "Dela dina bilder",
+      upload_sub: "Dra och sl\u00E4pp bilder h\u00E4r, eller klicka f\u00F6r att v\u00E4lja",
+      name_placeholder: "Ditt namn",
+      caption_placeholder: "Bildtext (valfri)",
+      choose_btn: "V\u00E4lj bilder",
+      empty: "Inga bilder \u00E4nnu \u2014 ladda upp de f\u00F6rsta minnena! \u{1F3D4}",
+      uploading: "Laddar upp...",
+      uploaded_one: "1 bild uppladdad",
+      uploaded_many: "{n} bilder uppladdade"
+    },
+    footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 ALLE MAN OMBORD \u2744",
+    gate: {
+      title: "Svalbard 2026",
+      sub: "78\u00B0N \u00B7 Expeditionen",
+      prompt: "Ange kod f\u00F6r att g\u00E5 med i expeditionen",
+      enter: "V\u00E4lkommen ombord \u2192"
+    }
+  },
+  is: {
+    banner: "\u{1F6C2} ALLIR VER\u00D0A A\u00D0 HAFA VEGABR\u00C9F ME\u00D0 S\u00C9R TIL SVALBAR\u00D0A. EKKI GLEYMA \u00DEVI!",
+    nav: { home: "Heim", schedule: "Dagskr\u00E1", packing: "Pakkning", contacts: "Tengili\u00F0ir", album: "Myndasafn" },
+    hero: {
+      eyebrow: "78\u00B0 Nor\u00F0ur \u00B7 Apr\u00EDl 2026",
+      title1: "Lei\u00F0angurinn",
+      title2: "Svalbar\u00F0i",
+      desc: "\u00C1tjan \u00E6vint\u00FDrarar fr\u00E1 Noregi, Sv\u00ED\u00FEj\u00F3\u00F0 og \u00CDslandi. \u00CDsfir\u00F0ir, sn\u00F3skutlar, hundakj\u00F3r, fyrirlestrar \u00ED P\u00FDram\u00EDda og hitastig sem reyna \u00E1 marka. Velkomin \u00ED fallegasta \u00F3byggi\u00F0 \u00E1 j\u00F6r\u00F0inni.",
+      stat_crew: "Lei\u00F0angursf\u00E9lagar",
+      stat_temp: "Me\u00F0alhiti",
+      stat_lat: "Breiddargr\u00E1\u00F0a"
+    },
+    crew: { label: "\u00C1h\u00F6fnin", title: "Hetjur lei\u00F0angursins" },
+    weather: {
+      label: "Nor\u00F0ursl\u00F3\u00F0ave\u00F0ursp\u00E1",
+      title: "Ve\u00F0ursp\u00E1",
+      source_html: 'Heimild: <a href="https://www.yr.no/en/forecast/daily-table/lat=78.22/lon=15.63" target="_blank" rel="noopener">YR.no / MET Noregur</a>',
+      wind: "Vindur",
+      temp: "Hiti",
+      loading: "Hle\u00F0",
+      loading_full: "S\u00E6ki ve\u00F0urg\u00F6gn fr\u00E1 YR.no...",
+      bear_warning: "Isbjarnarh\u00E6tta \u2014 farast aldrei einn \u00FAtan b\u00E6jarmarks",
+      daylight: "dagsbir ta",
+      error: "Ve\u00F0urg\u00F6gn \u00F3tilt\u00E6k"
+    },
+    schedule: {
+      label: "Dagskr\u00E1",
+      title: "Dagskr\u00E1 & Fer\u00F0ir",
+      bear_warning: '\u{1F43B}\u200D\u2744\uFE0F <strong>Isbjarnarh\u00E6tta:</strong> Allar \u00FAtivistir utan Longyearbyen krefjast v\u00E6pna\u00F0s lei\u00F0s\u00F6gumanns. Far\u00F0u aldrei \u00FAtan b\u00E6jarmarks \u00E1n lei\u00F0s\u00F6gumanns \u2014 \u00FEa\u00F0 eru norsk l\u00F6g.'
+    },
+    packing: {
+      label: "B\u00FAna\u00F0ur",
+      title: "Pakklisti",
+      layer_tip: '\u{1F4A1} <strong>Lagaprinsippi\u00F0 er allt.</strong> \u00DEr\u00EDr l\u00F6g af ull og fl\u00EDs halda \u00FE\u00E9r heitara en ein \u00FEykkur jakki. Bom ull er h\u00E6ttuleg \u2014 h\u00FAn einangrar ekki \u00FEegar h\u00FAn er bl\u00E1ut.'
+    },
+    contacts: { label: "Mikilv\u00E6gar uppl\u00FDsingar", title: "Tengili\u00F0ir" },
+    album: {
+      label: "Minningar",
+      title: "Myndir fr\u00E1 fer\u00F0inni",
+      upload_title: "Deildu myndunum \u00FE\u00EDnum",
+      upload_sub: "Draga og sleppa myndum h\u00E9r, e\u00F0a smella til a\u00F0 velja",
+      name_placeholder: "Nafi\u00F0 \u00FEitt",
+      caption_placeholder: "Myndatexti (valfrj\u00E1lst)",
+      choose_btn: "Velja myndir",
+      empty: "Engar myndir enn \u2014 hla\u00F0i\u00F0 upp fyrstu minningunum! \u{1F3D4}",
+      uploading: "Hle\u00F0ur upp...",
+      uploaded_one: "1 mynd hla\u00F0i\u00F0 upp",
+      uploaded_many: "{n} myndir hla\u00F0nar upp"
+    },
+    footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 ALLIR UM BOR\u00D0 \u2744",
+    gate: {
+      title: "Svalbar\u00F0i 2026",
+      sub: "78\u00B0N \u00B7 Lei\u00F0angurinn",
+      prompt: "Sl\u00E1\u00F0u inn k\u00F3\u00F0a til a\u00F0 taka \u00FE\u00E1tt \u00ED lei\u00F0angrinum",
+      enter: "Velkomin um bor\u00F0 \u2192"
+    }
+  },
+  da: {
+    banner: "\u{1F6C2} ALLE SKAL HAVE PAS MED TIL SVALBARD. GLEM DET IKKE!",
+    nav: { home: "Hjem", schedule: "Program", packing: "Pakning", contacts: "Kontakt", album: "Album" },
+    hero: {
+      eyebrow: "78\u00B0 Nord \u00B7 April 2026",
+      title1: "Ekspeditionen",
+      title2: "Svalbard",
+      desc: "Ti eventyrere fra Norge, Sverige og Island. Isfjorde, snescooterl, hundeslæde, foredrag i Pyramiden og temperaturer der tester grænser. Velkommen til verdens smukkeste vildmark.",
+      stat_crew: "Ekspeditionsmedlemmer",
+      stat_temp: "Gennemsnitstemperatur",
+      stat_lat: "Breddegrad"
+    },
+    crew: { label: "Besætningen", title: "Ekspeditionens helte" },
+    weather: {
+      label: "Arktisk vejrudsigt",
+      title: "Vejrudsigt",
+      source_html: 'Kilde: <a href="https://www.yr.no/en/forecast/daily-table/lat=78.22/lon=15.63" target="_blank" rel="noopener">YR.no / MET Norge</a>',
+      wind: "Vind",
+      temp: "Temp",
+      loading: "Indlæser...",
+      loading_full: "Henter vejrdata fra YR.no...",
+      bear_warning: "Isbjørnefare \u2014 gå aldrig alene uden for byen",
+      daylight: "dagslys",
+      error: "Vejrdata utilgængeligt"
+    },
+    schedule: {
+      label: "Dagsprogram",
+      title: "Program & Udflugter",
+      bear_warning: '\u{1F43B}\u200D\u2744\uFE0F <strong>Isbjørnefare:</strong> Alle udendørsaktiviteter uden for Longyearbyen kræver bevæbnet guide. Forlad aldrig byen uden guide \u2014 det er norsk lov.'
+    },
+    packing: {
+      label: "Udstyr",
+      title: "Pakkeliste",
+      layer_tip: '\u{1F4A1} <strong>Lagprincippet er alt.</strong> Tre lag af uld og fleece holder dig varmere end én tyk jakke. Bomuld er farligt \u2014 det isolerer ikke når det er fugtigt.'
+    },
+    contacts: { label: "Vigtig info", title: "Kontakter" },
+    album: {
+      label: "Minder",
+      title: "Billeder fra turen",
+      upload_title: "Del dine billeder",
+      upload_sub: "Træk og slip billeder her, eller klik for at vælge",
+      name_placeholder: "Dit navn",
+      caption_placeholder: "Billedtekst (valgfrit)",
+      choose_btn: "Vælg billeder",
+      empty: "Ingen billeder endnu \u2014 upload de første minder! \u{1F3D4}",
+      uploading: "Uploader...",
+      uploaded_one: "1 billede uploadet",
+      uploaded_many: "{n} billeder uploadet"
+    },
+    footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 ALLE MAND OMBORD \u2744",
+    gate: {
+      title: "Svalbard 2026",
+      sub: "78\u00B0N \u00B7 Ekspeditionen",
+      prompt: "Indtast kode for at deltage i ekspeditionen",
+      enter: "Velkommen ombord \u2192"
+    }
+  },
+  fi: {
+    banner: "\u{1F6C2} KAIKILLA ON OLTAVA PASSI MUKANA HUIPPUVUORILLE. \u00C4L\u00C4 UNOHDA SIT\u00C4!",
+    nav: { home: "Koti", schedule: "Ohjelma", packing: "Pakkaus", contacts: "Yhteystiedot", album: "Albumi" },
+    hero: {
+      eyebrow: "78\u00B0 Pohjoista \u00B7 Huhtikuu 2026",
+      title1: "Retkikunta",
+      title2: "Huippuvuoret",
+      desc: "Kymmenen seikkailijaa Norjasta, Ruotsista ja Islannista. J\u00E4\u00E4vuonoja, moottorikelkkoja, koiravaljakoita, luentoja Pyramideniss\u00E4 ja l\u00E4mp\u00F6tiloja jotka koettelevat rajoja. Tervetuloa maapallon kauneimpaan er\u00E4maahan.",
+      stat_crew: "Retkikunnan j\u00E4senet",
+      stat_temp: "Keskim\u00E4\u00E4r\u00E4inen l\u00E4mp\u00F6tila",
+      stat_lat: "Leveysaste"
+    },
+    crew: { label: "Miehistö", title: "Retkikunnan sankarit" },
+    weather: {
+      label: "Arktinen s\u00E4\u00E4ennuste",
+      title: "S\u00E4\u00E4ennuste",
+      source_html: 'L\u00E4hde: <a href="https://www.yr.no/en/forecast/daily-table/lat=78.22/lon=15.63" target="_blank" rel="noopener">YR.no / MET Norja</a>',
+      wind: "Tuuli",
+      temp: "L\u00E4mp\u00F6",
+      loading: "Ladataan...",
+      loading_full: "Haetaan s\u00E4\u00E4tietoja YR.no:sta...",
+      bear_warning: "J\u00E4\u00E4karhuvaara \u2014 \u00E4l\u00E4 koskaan poistu kaupungista yksin",
+      daylight: "p\u00E4iv\u00E4nvaloa",
+      error: "S\u00E4\u00E4tiedot eiv\u00E4t saatavilla"
+    },
+    schedule: {
+      label: "P\u00E4iv\u00E4ohjelma",
+      title: "Ohjelma & Retket",
+      bear_warning: '\u{1F43B}\u200D\u2744\uFE0F <strong>J\u00E4\u00E4karhuvaara:</strong> Kaikki ulkoilma-aktiviteetit Longyearbyenin ulkopuolella vaativat aseistetun oppaan. \u00C4l\u00E4 koskaan poistu kaupungista ilman opasta \u2014 se on Norjan laki.'
+    },
+    packing: {
+      label: "Varusteet",
+      title: "Pakkauslista",
+      layer_tip: '\u{1F4A1} <strong>Kerrospukeutuminen on kaikki kaikessa.</strong> Kolme kerrosta villaa ja fleece\u00E4 pit\u00E4\u00E4 sinut l\u00E4mpim\u00E4mp\u00E4n\u00E4 kuin yksi paksu takki. Puuvilla on vaarallista \u2014 se ei erist\u00E4 m\u00E4rk\u00E4n\u00E4.'
+    },
+    contacts: { label: "T\u00E4rke\u00E4t tiedot", title: "Yhteystiedot" },
+    album: {
+      label: "Muistot",
+      title: "Kuvia matkalta",
+      upload_title: "Jaa kuvasi",
+      upload_sub: "Ved\u00E4 ja pudota kuvia t\u00E4h\u00E4n, tai napsauta valitaksesi",
+      name_placeholder: "Nimesi",
+      caption_placeholder: "Kuvateksti (valinnainen)",
+      choose_btn: "Valitse kuvat",
+      empty: "Ei viel\u00E4 kuvia \u2014 lataa ensimm\u00E4iset muistot! \u{1F3D4}",
+      uploading: "Ladataan...",
+      uploaded_one: "1 kuva ladattu",
+      uploaded_many: "{n} kuvaa ladattu"
+    },
+    footer: "\u2744 HUIPPUVUORET 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 KAIKKI LAIVAAN \u2744",
+    gate: {
+      title: "Huippuvuoret 2026",
+      sub: "78\u00B0N \u00B7 Retkikunta",
+      prompt: "Sy\u00F6t\u00E4 koodi liitty\u00E4ksesi retkikuntaan",
+      enter: "Tervetuloa laivaan \u2192"
+    }
+  }
+};
+
+const LANG_FLAGS = { en: "\u{1F1EC}\u{1F1E7}", no: "\u{1F1F3}\u{1F1F4}", se: "\u{1F1F8}\u{1F1EA}", is: "\u{1F1EE}\u{1F1F8}", da: "\u{1F1E9}\u{1F1F0}", fi: "\u{1F1EB}\u{1F1EE}" };
+const LANG_CODES = { en: "EN", no: "NO", se: "SE", is: "IS", da: "DA", fi: "FI" };
+
+let currentLang = localStorage.getItem('svalbard_lang') || 'en';
+
+function t(key) {
+  const keys = key.split('.');
+  let val = T[currentLang];
+  for (const k of keys) {
+    if (val && typeof val === 'object') val = val[k];
+    else return key;
+  }
+  return val || key;
+}
+
+function applyTranslations() {
+  // Text content translations
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.getAttribute('data-t');
+    const val = t(key);
+    if (val !== key) el.textContent = val;
+  });
+  // HTML translations
+  document.querySelectorAll('[data-t-html]').forEach(el => {
+    const key = el.getAttribute('data-t-html');
+    const val = t(key);
+    if (val !== key) el.innerHTML = val;
+  });
+  // Placeholder translations
+  document.querySelectorAll('[data-placeholder-t]').forEach(el => {
+    const key = el.getAttribute('data-placeholder-t');
+    const val = t(key);
+    if (val !== key) el.placeholder = val;
+  });
+  // Update lang flag & code
+  document.getElementById('langFlag').textContent = LANG_FLAGS[currentLang];
+  document.getElementById('langCode').textContent = LANG_CODES[currentLang];
+  // Update active class on lang options
+  document.querySelectorAll('.lang-option').forEach(opt => {
+    opt.classList.toggle('active', opt.getAttribute('onclick').includes("'" + currentLang + "'"));
+  });
+  // Update html lang
+  document.documentElement.lang = currentLang === 'se' ? 'sv' : currentLang === 'no' ? 'nb' : currentLang;
+  // Banner
+  document.getElementById('passportBanner').textContent = t('banner');
+  // Footer
+  document.getElementById('siteFooter').textContent = t('footer');
+  // Weather bear warning
+  document.getElementById('wbBear').textContent = t('weather.bear_warning');
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('svalbard_lang', lang);
+  applyTranslations();
+  // Re-render dynamic content if app is visible
+  if (document.getElementById('app').style.display !== 'none') {
+    renderCrew();
+    renderSchedule();
+    renderPacking();
+    renderContacts();
+    renderAlbum();
+  }
+  closeLangDropdown();
+}
+
+function toggleLangDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('langDropdown').classList.toggle('open');
+}
+
+function closeLangDropdown() {
+  document.getElementById('langDropdown').classList.remove('open');
+}
+
+document.addEventListener('click', closeLangDropdown);
+
 // ══ DATA ══════════════════════════════════════════════════
 
 const CREW = [
   {
     name: "Edmund Skoie",
-    role: "Expeditionsarrangör & själen i laget",
-    bio: "Hjärnan bakom drömturen — mannen som samlade gänget, planerade rutten och håller koll på att alla är med. Driver Salteamet AS och lever efter mottot: \"Vår erfaring — din trygghet.\"",
+    role: "Expeditionsarrang\u00F6r & sj\u00E4len i laget",
+    bio: "Hj\u00E4rnan bakom dr\u00F6mturen \u2014 mannen som samlade g\u00E4nget, planerade rutten och h\u00E5ller koll p\u00E5 att alla \u00E4r med. Driver Salteamet AS och lever efter mottot: \"V\u00E5r erfaring \u2014 din trygghet.\"",
     photo: "public/crew/edmund.png",
-    emoji: "🧭"
+    emoji: "\u{1F9ED}"
   },
   {
     name: "Jesper Nord",
-    role: "Digital entreprenör & skämtlevererare",
-    bio: "43 år, fyrabarnspappa och entreprenör. Driver digitalbyrå, konsult för Polestar och vd för ett mobilspelsbolag. Kanske inte fixar skotern — men levererar gärna en kall öl och ett skämt.",
+    role: "Digital entrepren\u00F6r & sk\u00E4mtlevererare",
+    bio: "43 \u00E5r, fyrabarnspappa och entrepren\u00F6r. Driver digitalbyr\u00E5, konsult f\u00F6r Polestar och vd f\u00F6r ett mobilspelsbolag. Kanske inte fixar skotern \u2014 men levererar g\u00E4rna en kall \u00F6l och ett sk\u00E4mt.",
     photo: "public/crew/jesper.png",
-    emoji: "💻"
+    emoji: "\u{1F4BB}"
   },
   {
     name: "Kjetil Kleven",
-    role: "Fd rockstjärna & affärsman",
-    bio: "Född 1966 och snart 60 — men med en fysik som trotsar åren. Fd frontfigur i rockbandet Columbus. Tog Firenor från 80 till 250 MNOK. Gift med tandläkare, pappa till 2. Håller eget anförande under resan.",
+    role: "Fd rockstj\u00E4rna & aff\u00E4rsman",
+    bio: "F\u00F6dd 1966 och snart 60 \u2014 men med en fysik som trotsar \u00E5ren. Fd frontfigur i rockbandet Columbus. Tog Firenor fr\u00E5n 80 till 250 MNOK. Gift med tandl\u00E4kare, pappa till 2. H\u00E5ller eget anf\u00F6rande under resan.",
     photo: "public/crew/kjetil.png",
-    emoji: "🎸"
+    emoji: "\u{1F3B8}"
   },
   {
-    name: "Albert Mårtenson",
+    name: "Albert M\u00E5rtenson",
     role: "Bonde, fastighetsmogul & hoppryttare",
-    bio: "Ca 35 år, lugn och jordnära. Gift med Liza, tre barn. Driver 2 700 hyresobjekt vid sidan av gårdslivet med 20 får, 7 hästar och 2 hundar. Nära VM i hoppryttning. Gourmatkock, jägare och schackspelare.",
-    emoji: "🏇"
+    bio: "Ca 35 \u00E5r, lugn och jordn\u00E4ra. Gift med Liza, tre barn. Driver 2 700 hyresobjekt vid sidan av g\u00E5rdslivet med 20 f\u00E5r, 7 h\u00E4star och 2 hundar. N\u00E4ra VM i hoppryttning. Gourmatkock, j\u00E4gare och schackspelare.",
+    emoji: "\u{1F3C7}"
   },
   {
     name: "Morten Torkelsen",
-    role: "Byggmästare, rektor & fågelhundsentusiast",
-    bio: "Fyller 61 år den 15 april — ankomstdagen! 🎂 Fd byggmästare, senare lärare och rektor. Pappa till 4, morfar till 5. Kör Harley och har kört Route 66. Pratar rakt från levern.",
-    emoji: "🏍"
+    role: "Byggm\u00E4stare, rektor & f\u00E5gelhundsentusiast",
+    bio: "Fyller 61 \u00E5r den 15 april \u2014 ankomstdagen! \u{1F382} Fd byggm\u00E4stare, senare l\u00E4rare och rektor. Pappa till 4, morfar till 5. K\u00F6r Harley och har k\u00F6rt Route 66. Pratar rakt fr\u00E5n levern.",
+    emoji: "\u{1F3CD}"
   },
   {
     name: "Eivind Haddeland",
     role: "\"The Scandinavian Terminator\"",
-    bio: "Bor sedan 5 år i Karibien där han kallas \"The Scandinavian Terminator\". Surfare och livsnjutare. Seglat Atlanten två gånger i liten segelbåt. Expert på mindfulness — håller föredrag i Pyramiden.",
+    bio: "Bor sedan 5 \u00E5r i Karibien d\u00E4r han kallas \"The Scandinavian Terminator\". Surfare och livsnjutare. Seglat Atlanten tv\u00E5 g\u00E5nger i liten segelb\u00E5t. Expert p\u00E5 mindfulness \u2014 h\u00E5ller f\u00F6redrag i Pyramiden.",
     photo: "public/crew/eivind.png",
-    emoji: "🏄"
+    emoji: "\u{1F3C4}"
   },
   {
     name: "Ingolf",
     role: "Konungen av Skagafjord",
-    bio: "Islänning av det äkta slaget. På hans granntomt dyker det upp en isbjörn vart femte år, simmandes från Grönland. Håller föredrag i Pyramiden om Islands historia — uppgång och fall.",
+    bio: "Isl\u00E4nning av det \u00E4kta slaget. P\u00E5 hans granntomt dyker det upp en isbj\u00F6rn vart femte \u00E5r, simmandes fr\u00E5n Gr\u00F6nland. H\u00E5ller f\u00F6redrag i Pyramiden om Islands historia \u2014 uppg\u00E5ng och fall.",
     photo: "public/crew/ingolf.png",
-    emoji: "🇮🇸"
+    emoji: "\u{1F1EE}\u{1F1F8}"
   },
   {
     name: "Tor Haddeland",
-    role: "Ny man på laget",
+    role: "Ny man p\u00E5 laget",
     bio: "Det senaste tillskottet till expeditionen. Mer info kommer!",
     photo: "public/crew/tor_haddeland.png",
-    emoji: "⚡"
+    emoji: "\u26A1"
   },
   {
     name: "Tor Kristian Berge",
-    role: "Lägerchef & logistikansvarig",
+    role: "L\u00E4gerchef & logistikansvarig",
     bio: "Mannen bakom Camp Bolterdalen och central i planeringen av expeditionens praktiska delar.",
-    emoji: "⛺"
+    emoji: "\u26FA"
   },
   {
     name: "Elin Willoch",
-    role: "Äventyrare",
-    bio: "Arbetar på Pentagon Freight. Mer info kommer!",
-    emoji: "✨"
+    role: "\u00C4ventyrare",
+    bio: "Arbetar p\u00E5 Pentagon Freight. Mer info kommer!",
+    emoji: "\u2728"
   },
 ];
 
 const SCHEDULE = [
   {
-    day: 1, date: "15. april 2026", title: "Ankomst till Longyearbyen 🎂 Mortens 61-årsdag!",
+    day: 1, date: "15. april 2026", title: "Ankomst till Longyearbyen \u{1F382} Mortens 61-\u00E5rsdag!",
     events: [
       { time: "10:30", name: "Landning Svalbard Airport", note: "Samlas vid bagageband" },
       { time: "12:00", name: "Incheckning & lunch", note: "Hotellet" },
-      { time: "14:00", name: "Säkerhetsgenomgång", note: "Obligatorisk — isbjörnsprotokoll" },
-      { time: "19:00", name: "Välkomstmiddag", note: "Restaurang — bokad" },
+      { time: "14:00", name: "S\u00E4kerhetsgenomg\u00E5ng", note: "Obligatorisk \u2014 isbj\u00F6rnsprotokoll" },
+      { time: "19:00", name: "V\u00E4lkomstmiddag", note: "Restaurang \u2014 bokad" },
     ]
   },
   {
-    day: 2, date: "16. april 2026", title: "Isfjorden & Snöskotertur",
+    day: 2, date: "16. april 2026", title: "Isfjorden & Sn\u00F6skotertur",
     events: [
       { time: "07:30", name: "Frukost", note: "" },
-      { time: "09:00", name: "Avresa snöskoter", note: "Hjälm + goggles medföljer" },
-      { time: "12:00", name: "Fältlunch vid Isfjorden", note: "Varm soppa" },
+      { time: "09:00", name: "Avresa sn\u00F6skoter", note: "Hj\u00E4lm + goggles medf\u00F6ljer" },
+      { time: "12:00", name: "F\u00E4ltlunch vid Isfjorden", note: "Varm soppa" },
       { time: "15:00", name: "Retur + fria timmar", note: "" },
       { time: "19:30", name: "Middag", note: "[Restaurang]" },
     ]
   },
   {
-    day: 3, date: "17. april 2026", title: "Kulturdag — Museum & Pyramiden",
+    day: 3, date: "17. april 2026", title: "Kulturdag \u2014 Museum & Pyramiden",
     events: [
-      { time: "09:00", name: "Norsk Polarinstitutet", note: "Fri entré" },
-      { time: "11:00", name: "Gruvmuseet", note: "Guide ingår" },
+      { time: "09:00", name: "Norsk Polarinstitutet", note: "Fri entr\u00E9" },
+      { time: "11:00", name: "Gruvmuseet", note: "Guide ing\u00E5r" },
       { time: "13:00", name: "Lunch i stan", note: "Fritt val" },
-      { time: "15:00", name: "Föredrag i Pyramiden", note: "Eivind: Mindfulness · Ingolf: Islands historia · Kjetil: TBA" },
+      { time: "15:00", name: "F\u00F6redrag i Pyramiden", note: "Eivind: Mindfulness \u00B7 Ingolf: Islands historia \u00B7 Kjetil: TBA" },
       { time: "19:00", name: "Gemensam middag", note: "" },
     ]
   },
@@ -1269,104 +1866,120 @@ const SCHEDULE = [
     day: 4, date: "18. april 2026", title: "Hundspann & Tundra",
     events: [
       { time: "08:00", name: "Frukost tidigt", note: "" },
-      { time: "09:30", name: "Hundspanntur", note: "4h — utrustning medföljer" },
+      { time: "09:30", name: "Hundspanntur", note: "4h \u2014 utrustning medf\u00F6ljer" },
       { time: "14:00", name: "Retur & lunch", note: "" },
-      { time: "15:00", name: "Alberts föredrag: Fastighetssatsningen", note: "Från gård till 2700 hyresobjekt" },
+      { time: "15:00", name: "Alberts f\u00F6redrag: Fastighetssatsningen", note: "Fr\u00E5n g\u00E5rd till 2700 hyresobjekt" },
       { time: "16:00", name: "Fri tid", note: "" },
-      { time: "19:00", name: "Sista gemensamma middag", note: "Avslutningsmiddag 🥂" },
+      { time: "19:00", name: "Sista gemensamma middag", note: "Avslutningsmiddag \u{1F942}" },
     ]
   },
   {
-    day: 5, date: "19. april 2026", title: "Avresa — Hem igen",
+    day: 5, date: "19. april 2026", title: "Avresa \u2014 Hem igen",
     events: [
       { time: "07:00", name: "Frukost & utcheckning", note: "Bagage klart 06:30" },
       { time: "09:30", name: "Transfer till flygplatsen", note: "" },
-      { time: "12:15", name: "Avflygning LYR", note: "Ha med passet lättillgängligt" },
+      { time: "12:15", name: "Avflygning LYR", note: "Ha med passet l\u00E4tttillg\u00E4ngligt" },
     ]
   },
 ];
 
 const PACKING = [
   {
-    cat: "🧥 Kläder — Bastlager", items: [
-      "Ullundertröja, lång arm (×2)",
-      "Ulltights / långkalsonger (×2)",
-      "Ullstrumpor, tjocka (×5)",
+    cat: "\u{1F9E5} Kl\u00E4der \u2014 Bastlager", items: [
+      "Ullundertr\u00F6ja, l\u00E5ng arm (\u00D72)",
+      "Ulltights / l\u00E5ngkalsonger (\u00D72)",
+      "Ullstrumpor, tjocka (\u00D75)",
       "Innervantar / ullvantar",
     ]
   },
   {
-    cat: "🧣 Mellanlager", items: [
-      "Fleecetröja eller dunväst",
+    cat: "\u{1F9E3} Mellanlager", items: [
+      "Fleecetr\u00F6ja eller dunv\u00E4st",
       "Tjock fleece eller Primaloft-jacka",
       "Ullbyxor / softshellbyxor",
     ]
   },
   {
-    cat: "🌬 Ytterlager", items: [
-      "Arktisk vinterjacka (vindtät)",
+    cat: "\u{1F32C} Ytterlager", items: [
+      "Arktisk vinterjacka (vindt\u00E4t)",
       "Skalbyxor / overallbyxor",
       "Yttervantarna (stora)",
-      "Mössa som täcker öronen",
+      "M\u00F6ssa som t\u00E4cker \u00F6ronen",
       "Balaclava / ansiktsmask",
-      "Halsduk / buff (×2)",
-      "Snögoogles / glaciärglasögon",
+      "Halsduk / buff (\u00D72)",
+      "Sn\u00F6googles / glaci\u00E4rglas\u00F6gon",
     ]
   },
   {
-    cat: "👢 Skor", items: [
-      "Arktiska vinterstövlar (−40°C+)",
+    cat: "\u{1F462} Skor", items: [
+      "Arktiska vinterst\u00F6vlar (\u221240\u00B0C+)",
       "Inneskor / tofflor",
-      "Gaiters (vid snövandring)",
+      "Gaiters (vid sn\u00F6vandring)",
     ]
   },
   {
-    cat: "🩺 Hälsa & Säkerhet", items: [
+    cat: "\u{1FA7A} H\u00E4lsa & S\u00E4kerhet", items: [
       "Personliga mediciner (extra)",
       "Solskydd SPF 50",
-      "Läppbalsam med SPF",
-      "Fuktighetskräm",
-      "Nässpray",
-      "Reseförsäkringshandlingar (utskrivna!)",
+      "L\u00E4ppbalsam med SPF",
+      "Fuktighetskr\u00E4m",
+      "N\u00E4sspray",
+      "Resef\u00F6rs\u00E4kringshandlingar (utskrivna!)",
     ]
   },
   {
-    cat: "📱 Teknik", items: [
-      "Kamera + vattentätt fodral",
+    cat: "\u{1F4F1} Teknik", items: [
+      "Kamera + vattent\u00E4tt fodral",
       "Extra batterier / powerbank",
       "Laddare + adapter",
       "Minneskort (extra)",
     ]
   },
   {
-    cat: "📄 Dokument", items: [
+    cat: "\u{1F4C4} Dokument", items: [
       "Pass (giltigt!)",
-      "Reseförsäkring (digital + utskrift)",
+      "Resef\u00F6rs\u00E4kring (digital + utskrift)",
       "Flygbiljetter",
       "Hotellbokning",
     ]
   },
   {
-    cat: "🎒 Övrigt", items: [
-      "Ryggsäck 20–30L",
+    cat: "\u{1F392} \u00D6vrigt", items: [
+      "Ryggs\u00E4ck 20\u201330L",
       "Termosflaska (1L+)",
       "Pannlampa + extra batterier",
       "Snacks / energibars",
-      "Solkräm SPF50",
+      "Solkr\u00E4m SPF50",
     ]
   },
 ];
 
 const CONTACTS = [
-  { label: "🚨 Nödnummer", name: "112", detail: "Räddningstjänst & Polis", type: "emergency" },
-  { label: "🏥 Sjukhus Longyearbyen", name: "Longyearbyen sykehus", detail: "+47 79 02 13 00", type: "emergency" },
-  { label: "🏔 Sysselmesteren", name: "Länsstyrelsen Svalbard", detail: "+47 79 02 43 00", type: "emergency" },
-  { label: "✈️ Flyg", name: "TBA", detail: "Bokningsref kommer", type: "" },
-  { label: "🏨 Boende", name: "TBA", detail: "Longyearbyen", type: "" },
-  { label: "⛺ Camp Bolterdalen", name: "Tor Kristian Berge", detail: "Logistik & läger", type: "" },
-  { label: "🧭 Expeditionsledare", name: "Edmund Skoie", detail: "Salteamet AS", type: "" },
-  { label: "🛡 Försäkring", name: "Ta med utskrivna handlingar!", detail: "Mobilnätet kan vara opålitligt", type: "" },
+  { label: "\u{1F6A8} N\u00F6dnummer", name: "112", detail: "R\u00E4ddningstj\u00E4nst & Polis", type: "emergency" },
+  { label: "\u{1F3E5} Sjukhus Longyearbyen", name: "Longyearbyen sykehus", detail: "+47 79 02 13 00", type: "emergency" },
+  { label: "\u{1F3D4} Sysselmesteren", name: "L\u00E4nsstyrelsen Svalbard", detail: "+47 79 02 43 00", type: "emergency" },
+  { label: "\u2708\uFE0F Flyg", name: "TBA", detail: "Bokningsref kommer", type: "" },
+  { label: "\u{1F3E8} Boende", name: "TBA", detail: "Longyearbyen", type: "" },
+  { label: "\u26FA Camp Bolterdalen", name: "Tor Kristian Berge", detail: "Logistik & l\u00E4ger", type: "" },
+  { label: "\u{1F9ED} Expeditionsledare", name: "Edmund Skoie", detail: "Salteamet AS", type: "" },
+  { label: "\u{1F6E1} F\u00F6rs\u00E4kring", name: "Ta med utskrivna handlingar!", detail: "Mobiln\u00E4tet kan vara op\u00E5litligt", type: "" },
 ];
+
+// ══ SUPABASE CONFIG ══════════════════════════════════════
+
+const SUPABASE_URL = 'https://vignpaztdgufiozqfmfn.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpZ25wYXp0ZGd1ZmlvenFmbWZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2ODgxMjcsImV4cCI6MjA5MTI2NDEyN30.hjHH-az4hoVqJua5RO5TW-a4pk9z6kceLMWs156x_Bs';
+const SUPABASE_BUCKET = 'svalbard-photos';
+
+function supabaseFetch(path, options = {}) {
+  const url = SUPABASE_URL + path;
+  const headers = {
+    'apikey': SUPABASE_ANON_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+    ...options.headers
+  };
+  return fetch(url, { ...options, headers });
+}
 
 // ══ CODE GATE ═════════════════════════════════════════════
 
@@ -1388,10 +2001,8 @@ function numPress(n) {
 
   if (entered.length === 4) {
     if (entered === CODE) {
-      // Correct — unlock
       document.getElementById('enterBtn').classList.add('unlocked');
     } else {
-      // Wrong — flash red, reset
       const dots = document.querySelectorAll('.code-dot');
       dots.forEach(d => { d.classList.add('wrong'); d.classList.remove('filled'); });
       setTimeout(() => { entered = ""; updateDots(); }, 500);
@@ -1421,6 +2032,9 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && entered === CODE) enterExpedition();
 });
 
+// Apply translations on load (including gate)
+applyTranslations();
+
 // Auto-login if session exists
 if (sessionStorage.getItem('svalbard_auth') === '1') {
   document.getElementById('gate').style.display = 'none';
@@ -1432,22 +2046,188 @@ if (sessionStorage.getItem('svalbard_auth') === '1') {
 
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  document.querySelectorAll('.nav-link').forEach(l => {
-    if (l.textContent.toLowerCase().includes(id.substring(0,3))) l.classList.add('active');
+  document.querySelectorAll('.nav-link[data-nav]').forEach(l => {
+    l.classList.toggle('active', l.getAttribute('data-nav') === id);
   });
+  document.getElementById('page-' + id).classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══ WEATHER API (YR.no) ══════════════════════════════════
+
+const YR_SYMBOL_MAP = {
+  clearsky: '\u2600\uFE0F', fair: '\u{1F324}\uFE0F', partlycloudy: '\u26C5',
+  cloudy: '\u2601\uFE0F', fog: '\u{1F32B}\uFE0F',
+  lightrainshowers: '\u{1F326}\uFE0F', rainshowers: '\u{1F326}\uFE0F', heavyrainshowers: '\u{1F327}\uFE0F',
+  lightrainshowersandthunder: '\u26C8\uFE0F', rainshowersandthunder: '\u26C8\uFE0F', heavyrainshowersandthunder: '\u26C8\uFE0F',
+  lightsleetshowers: '\u{1F328}\uFE0F', sleetshowers: '\u{1F328}\uFE0F', heavysleetshowers: '\u{1F328}\uFE0F',
+  lightsnowshowers: '\u{1F328}\uFE0F', snowshowers: '\u{1F328}\uFE0F', heavysnowshowers: '\u{1F328}\uFE0F',
+  lightrain: '\u{1F327}\uFE0F', rain: '\u{1F327}\uFE0F', heavyrain: '\u{1F327}\uFE0F',
+  lightsleet: '\u{1F328}\uFE0F', sleet: '\u{1F328}\uFE0F', heavysleet: '\u{1F328}\uFE0F',
+  lightsnow: '\u{1F328}\uFE0F', snow: '\u2744\uFE0F', heavysnow: '\u2744\uFE0F',
+  rainandthunder: '\u26C8\uFE0F', sleetandthunder: '\u26C8\uFE0F', snowandthunder: '\u26C8\uFE0F',
+  lightrainandthunder: '\u26C8\uFE0F', lightsleetandthunder: '\u26C8\uFE0F', lightsnowandthunder: '\u26C8\uFE0F',
+  heavyrainandthunder: '\u26C8\uFE0F', heavysleetandthunder: '\u26C8\uFE0F', heavysnowandthunder: '\u26C8\uFE0F',
+};
+
+function yrSymbolToEmoji(code) {
+  if (!code) return '\u2744\uFE0F';
+  const base = code.replace(/_day|_night|_polartwilight/g, '');
+  return YR_SYMBOL_MAP[base] || '\u2744\uFE0F';
+}
+
+function yrSymbolToDesc(code) {
+  if (!code) return '';
+  const base = code.replace(/_day|_night|_polartwilight/g, '');
+  const map = {
+    clearsky: 'Clear sky', fair: 'Fair', partlycloudy: 'Partly cloudy', cloudy: 'Cloudy', fog: 'Fog',
+    lightrainshowers: 'Light rain showers', rainshowers: 'Rain showers', heavyrainshowers: 'Heavy rain',
+    lightrain: 'Light rain', rain: 'Rain', heavyrain: 'Heavy rain',
+    lightsnow: 'Light snow', snow: 'Snow', heavysnow: 'Heavy snow',
+    lightsnowshowers: 'Light snow showers', snowshowers: 'Snow showers', heavysnowshowers: 'Heavy snow showers',
+    lightsleet: 'Light sleet', sleet: 'Sleet', heavysleet: 'Heavy sleet',
+    lightsleetshowers: 'Sleet showers', sleetshowers: 'Sleet showers', heavysleetshowers: 'Heavy sleet',
+  };
+  return map[base] || base.replace(/([a-z])([A-Z])/g, '$1 $2');
+}
+
+let yrData = null;
+
+async function fetchYrWeather() {
+  try {
+    const resp = await fetch('https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=78.22&lon=15.63', {
+      headers: { 'User-Agent': 'SvalbardExpedition2026/1.0 github.com/humanji' }
+    });
+    if (!resp.ok) throw new Error('YR API error');
+    yrData = await resp.json();
+    updateLiveWeatherBar();
+    renderForecast();
+  } catch (e) {
+    console.warn('YR weather fetch failed:', e);
+    setFallbackWeather();
+    renderForecastFallback();
+  }
+}
+
+function updateLiveWeatherBar() {
+  if (!yrData || !yrData.properties || !yrData.properties.timeseries || yrData.properties.timeseries.length === 0) {
+    setFallbackWeather();
+    return;
+  }
+  const now = yrData.properties.timeseries[0];
+  const inst = now.data.instant.details;
+  const symbol = now.data.next_1_hours ? now.data.next_1_hours.summary.symbol_code :
+                 now.data.next_6_hours ? now.data.next_6_hours.summary.symbol_code : null;
+
+  const tempEl = document.getElementById('wbTemp');
+  tempEl.innerHTML = '<span>\u{1F321}</span> ' + Math.round(inst.air_temperature) + '\u00B0C';
+
+  const windEl = document.getElementById('wbWind');
+  windEl.innerHTML = '<span>\u{1F4A8}</span> ' + Math.round(inst.wind_speed) + ' m/s';
+
+  const condEl = document.getElementById('wbCondition');
+  condEl.innerHTML = '<span>' + yrSymbolToEmoji(symbol) + '</span> ' + yrSymbolToDesc(symbol);
+}
+
+function setFallbackWeather() {
+  const tempEl = document.getElementById('wbTemp');
+  tempEl.innerHTML = '<span>\u{1F321}</span> \u221218\u00B0C';
+  const windEl = document.getElementById('wbWind');
+  windEl.innerHTML = '<span>\u{1F4A8}</span> 7 m/s';
+  const condEl = document.getElementById('wbCondition');
+  condEl.innerHTML = '<span>\u2744\uFE0F</span> Snow';
+}
+
+function renderForecast() {
+  if (!yrData || !yrData.properties || !yrData.properties.timeseries) {
+    renderForecastFallback();
+    return;
+  }
+
+  const ts = yrData.properties.timeseries;
+  // Group by date, focus on Apr 15-20
+  const targetDates = ['2026-04-15','2026-04-16','2026-04-17','2026-04-18','2026-04-19','2026-04-20'];
+  const dailyData = {};
+
+  for (const entry of ts) {
+    const dateStr = entry.time.substring(0, 10);
+    if (!dailyData[dateStr]) {
+      dailyData[dateStr] = { temps: [], winds: [], symbols: [], entries: [] };
+    }
+    const inst = entry.data.instant.details;
+    dailyData[dateStr].temps.push(inst.air_temperature);
+    dailyData[dateStr].winds.push(inst.wind_speed);
+    const sym = entry.data.next_6_hours ? entry.data.next_6_hours.summary.symbol_code :
+                entry.data.next_1_hours ? entry.data.next_1_hours.summary.symbol_code : null;
+    if (sym) dailyData[dateStr].symbols.push(sym);
+    dailyData[dateStr].entries.push(entry);
+  }
+
+  // If target dates have no data (API only gives ~10 days out), show whatever we have
+  let dates = targetDates.filter(d => dailyData[d]);
+  if (dates.length === 0) {
+    // Show first 5-6 available days
+    dates = Object.keys(dailyData).slice(0, 6);
+  }
+
+  if (dates.length === 0) {
+    renderForecastFallback();
+    return;
+  }
+
+  const grid = document.getElementById('forecastGrid');
+  grid.innerHTML = dates.map(d => {
+    const dd = dailyData[d];
+    const hi = Math.round(Math.max(...dd.temps));
+    const lo = Math.round(Math.min(...dd.temps));
+    const avgWind = Math.round(dd.winds.reduce((a,b) => a+b, 0) / dd.winds.length);
+    // Pick most common symbol (midday preference)
+    const midSym = dd.symbols.length > 0 ? dd.symbols[Math.floor(dd.symbols.length / 2)] : null;
+    const dateObj = new Date(d + 'T12:00:00Z');
+    const dayName = dateObj.toLocaleDateString(currentLang === 'se' ? 'sv' : currentLang === 'no' ? 'nb' : currentLang, { weekday: 'short', day: 'numeric', month: 'short' });
+
+    return `
+      <div class="forecast-card">
+        <div class="forecast-date">${dayName}</div>
+        <div class="forecast-icon">${yrSymbolToEmoji(midSym)}</div>
+        <div class="forecast-temp">${hi}\u00B0 / ${lo}\u00B0</div>
+        <div class="forecast-desc">${yrSymbolToDesc(midSym)}</div>
+        <div class="forecast-wind">\u{1F4A8} ${avgWind} m/s</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderForecastFallback() {
+  const grid = document.getElementById('forecastGrid');
+  const fallback = [
+    { date: '15 Apr', icon: '\u2744\uFE0F', hi: -12, lo: -18, desc: 'Snow', wind: 6 },
+    { date: '16 Apr', icon: '\u26C5', hi: -10, lo: -17, desc: 'Partly cloudy', wind: 8 },
+    { date: '17 Apr', icon: '\u2601\uFE0F', hi: -11, lo: -16, desc: 'Cloudy', wind: 5 },
+    { date: '18 Apr', icon: '\u2744\uFE0F', hi: -13, lo: -20, desc: 'Snow', wind: 10 },
+    { date: '19 Apr', icon: '\u2600\uFE0F', hi: -9, lo: -15, desc: 'Clear sky', wind: 4 },
+  ];
+  grid.innerHTML = fallback.map(d => `
+    <div class="forecast-card">
+      <div class="forecast-date">${d.date}</div>
+      <div class="forecast-icon">${d.icon}</div>
+      <div class="forecast-temp">${d.hi}\u00B0 / ${d.lo}\u00B0</div>
+      <div class="forecast-desc">${d.desc}</div>
+      <div class="forecast-wind">\u{1F4A8} ${d.wind} m/s</div>
+    </div>
+  `).join('');
 }
 
 // ══ INIT ═══════════════════════════════════════════════════
 
 function init() {
+  applyTranslations();
   renderCrew();
   renderSchedule();
   renderPacking();
   renderContacts();
-  renderAlbum();
+  loadPhotosFromSupabase();
+  fetchYrWeather();
 }
 
 // ══ CREW ═══════════════════════════════════════════════════
@@ -1476,7 +2256,7 @@ function renderSchedule() {
           <div class="day-date">${day.date}</div>
           <div class="day-title">${day.title}</div>
         </div>
-        <div class="day-chevron">▼</div>
+        <div class="day-chevron">\u25BC</div>
       </div>
       <div class="day-body">
         ${day.events.map(e => `
@@ -1491,7 +2271,6 @@ function renderSchedule() {
       </div>
     </div>
   `).join('');
-  // Open first day
   toggleDay(1);
 }
 
@@ -1516,7 +2295,7 @@ function renderPacking() {
           const isChecked = !!packState[key];
           return `
             <div class="pack-item ${isChecked ? 'checked' : ''}" onclick="togglePack('${key}', this)">
-              <div class="pack-cb">${isChecked ? '✓' : ''}</div>
+              <div class="pack-cb">${isChecked ? '\u2713' : ''}</div>
               <div class="pack-label">${item}</div>
             </div>
           `;
@@ -1535,8 +2314,7 @@ function togglePack(key, el) {
   localStorage.setItem('svalbard_pack', JSON.stringify(packState));
   el.classList.toggle('checked');
   const cb = el.querySelector('.pack-cb');
-  cb.textContent = packState[key] ? '✓' : '';
-  // Update progress bar
+  cb.textContent = packState[key] ? '\u2713' : '';
   const match = key.match(/^(\d+)-/);
   if (match) {
     const ci = parseInt(match[1]);
@@ -1562,47 +2340,117 @@ function renderContacts() {
   `).join('');
 }
 
-// ══ ALBUM ══════════════════════════════════════════════════
+// ══ ALBUM (Supabase) ══════════════════════════════════════
 
-let photos = JSON.parse(localStorage.getItem('svalbard_photos') || '[]');
+let photos = [];
+
+async function loadPhotosFromSupabase() {
+  try {
+    const resp = await supabaseFetch('/rest/v1/photos?select=*&order=created_at.desc', {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if (resp.ok) {
+      photos = await resp.json();
+      renderAlbum();
+      return;
+    }
+  } catch (e) {
+    console.warn('Supabase photos fetch failed, falling back to localStorage:', e);
+  }
+  // Fallback to localStorage
+  photos = JSON.parse(localStorage.getItem('svalbard_photos') || '[]');
+  renderAlbum();
+}
 
 function renderAlbum() {
   const grid = document.getElementById('albumGrid');
   if (photos.length === 0) {
-    grid.innerHTML = '<div class="album-empty">Inga bilder ännu — ladda upp de första minnena! 🏔</div>';
+    grid.innerHTML = '<div class="album-empty" data-t="album.empty">' + t('album.empty') + '</div>';
     return;
   }
-  grid.innerHTML = photos.map((p, i) => `
-    <div class="album-photo" onclick="openLightbox(${i})">
-      <img src="${p.url}" alt="${p.caption || p.uploader}">
-      <div class="album-photo-overlay">
-        <div class="album-photo-name">${p.uploader}${p.caption ? ' · ' + p.caption : ''}</div>
+  grid.innerHTML = photos.map((p, i) => {
+    const imgUrl = p.url || p.thumbnail_url || '';
+    const name = p.uploader_name || p.uploader || '';
+    const caption = p.caption || '';
+    return `
+      <div class="album-photo" onclick="openLightbox(${i})">
+        <img src="${imgUrl}" alt="${caption || name}">
+        <div class="album-photo-overlay">
+          <div class="album-photo-name">${name}${caption ? ' \u00B7 ' + caption : ''}</div>
+        </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
-function handleFiles(files) {
-  const name = document.getElementById('uploaderName').value.trim() || 'Anonym';
+async function handleFiles(files) {
+  const name = document.getElementById('uploaderName').value.trim() || 'Anonymous';
   const caption = document.getElementById('photoCaption').value.trim();
   const status = document.getElementById('uploadStatus');
-  status.textContent = 'Laddar upp...';
+  status.textContent = t('album.uploading');
 
   let done = 0;
-  Array.from(files).forEach(file => {
-    const reader = new FileReader();
-    reader.onload = e => {
-      photos.unshift({ url: e.target.result, uploader: name, caption, date: new Date().toISOString() });
-      done++;
-      if (done === files.length) {
-        localStorage.setItem('svalbard_photos', JSON.stringify(photos.slice(0, 200)));
-        status.textContent = `✓ ${done} bild${done > 1 ? 'er' : ''} uppladdad${done > 1 ? 'e' : ''}`;
-        renderAlbum();
-        setTimeout(() => status.textContent = '', 3000);
+  let supabaseWorked = false;
+
+  for (const file of Array.from(files)) {
+    try {
+      // Upload to Supabase Storage
+      const fileName = Date.now() + '_' + Math.random().toString(36).substring(2, 8) + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const storageResp = await supabaseFetch(`/storage/v1/object/${SUPABASE_BUCKET}/${fileName}`, {
+        method: 'POST',
+        headers: { 'Content-Type': file.type },
+        body: file
+      });
+
+      if (storageResp.ok) {
+        const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_BUCKET}/${fileName}`;
+
+        // Insert row in photos table
+        const insertResp = await supabaseFetch('/rest/v1/photos', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify({
+            url: publicUrl,
+            thumbnail_url: publicUrl,
+            uploader_name: name,
+            caption: caption,
+            taken_at: new Date().toISOString()
+          })
+        });
+
+        if (insertResp.ok) {
+          const newPhotos = await insertResp.json();
+          if (Array.isArray(newPhotos) && newPhotos.length > 0) {
+            photos.unshift(newPhotos[0]);
+          }
+          supabaseWorked = true;
+        }
       }
-    };
-    reader.readAsDataURL(file);
-  });
+    } catch (e) {
+      console.warn('Supabase upload failed for file, falling back:', e);
+    }
+
+    if (!supabaseWorked) {
+      // Fallback: localStorage with data URL
+      const dataUrl = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.readAsDataURL(file);
+      });
+      photos.unshift({ url: dataUrl, uploader_name: name, caption, created_at: new Date().toISOString() });
+      localStorage.setItem('svalbard_photos', JSON.stringify(photos.slice(0, 200)));
+    }
+
+    done++;
+  }
+
+  const uploadedText = done === 1 ? t('album.uploaded_one') : t('album.uploaded_many').replace('{n}', done);
+  status.textContent = '\u2713 ' + uploadedText;
+  renderAlbum();
+  setTimeout(() => status.textContent = '', 3000);
 }
 
 // Drag & drop
@@ -1617,9 +2465,13 @@ zone.addEventListener('drop', e => {
 
 function openLightbox(i) {
   const p = photos[i];
-  document.getElementById('lightboxImg').src = p.url;
+  const imgUrl = p.url || p.thumbnail_url || '';
+  const name = p.uploader_name || p.uploader || '';
+  const caption = p.caption || '';
+  const dateStr = p.created_at || p.taken_at || p.date || '';
+  document.getElementById('lightboxImg').src = imgUrl;
   document.getElementById('lightboxCaption').textContent =
-    `${p.uploader}${p.caption ? ' · ' + p.caption : ''} · ${new Date(p.date).toLocaleDateString('sv-SE')}`;
+    `${name}${caption ? ' \u00B7 ' + caption : ''}${dateStr ? ' \u00B7 ' + new Date(dateStr).toLocaleDateString() : ''}`;
   document.getElementById('lightbox').classList.add('open');
 }
 
