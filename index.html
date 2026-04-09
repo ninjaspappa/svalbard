@@ -899,6 +899,19 @@
     letter-spacing: 0.15em;
   }
 
+  /* ── Important banner ── */
+  .important-banner {
+    background: var(--danger);
+    color: #fff;
+    text-align: center;
+    padding: 0.7rem 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
   /* ── Weather widget ── */
   .weather-bar {
     background: rgba(168,216,234,0.04);
@@ -998,6 +1011,11 @@
 <!-- APP -->
 <div id="app">
 
+  <!-- Important banner -->
+  <div class="important-banner">
+    🛂 ALLE MÅ HA MED PASS TIL SVALBARD. IKKE GLEM DET GUTTER.
+  </div>
+
   <!-- Weather bar -->
   <div class="weather-bar">
     <div class="weather-item"><span>📍</span> Longyearbyen, Svalbard</div>
@@ -1030,15 +1048,15 @@
         </div>
       </div>
       <div class="hero-content">
-        <div class="hero-eyebrow">78° Nord · Mars 2026</div>
+        <div class="hero-eyebrow">78° Nord · April 2026</div>
         <h1 class="hero-title">
           Expeditionen<br>
           <span>Svalbard</span>
         </h1>
         <p class="hero-desc">
-          Tio äventyrare. En ögrupp bortom polcirkeln. Isfjordar, polarrävar, 
-          norrsken och temperaturer som testar gränserna. Välkommen till 
-          jordens vackraste ödemark.
+          Tio äventyrare från Norge, Sverige och Island. Isfjordar, snöskotrar,
+          hundspann, föredrag i Pyramiden och temperaturer som testar gränserna.
+          Välkommen till jordens vackraste ödemark.
         </p>
       </div>
       <div class="hero-stats">
@@ -1149,21 +1167,77 @@
 // ══ DATA ══════════════════════════════════════════════════
 
 const CREW = [
-  { name: "Namn 1", role: "Expeditionsledare", bio: "Fyll i bio här.", emoji: "🧭" },
-  { name: "Namn 2", role: "Fotograf", bio: "Fyll i bio här.", emoji: "📷" },
-  { name: "Namn 3", role: "Navigatör", bio: "Fyll i bio här.", emoji: "🗺" },
-  { name: "Namn 4", role: "Medicinansvarig", bio: "Fyll i bio här.", emoji: "🩺" },
-  { name: "Namn 5", role: "Logistiker", bio: "Fyll i bio här.", emoji: "📦" },
-  { name: "Namn 6", role: "Äventyrare", bio: "Fyll i bio här.", emoji: "⛏" },
-  { name: "Namn 7", role: "Äventyrare", bio: "Fyll i bio här.", emoji: "🌨" },
-  { name: "Namn 8", role: "Äventyrare", bio: "Fyll i bio här.", emoji: "🐋" },
-  { name: "Namn 9", role: "Äventyrare", bio: "Fyll i bio här.", emoji: "🦊" },
-  { name: "Namn 10", role: "Äventyrare", bio: "Fyll i bio här.", emoji: "🏔" },
+  {
+    name: "Edmund Skoie",
+    role: "Expeditionsarrangör & själen i laget",
+    bio: "Hjärnan bakom drömturen — mannen som samlade gänget, planerade rutten och håller koll på att alla är med. Driver Salteamet AS och lever efter mottot: \"Vår erfaring — din trygghet.\"",
+    photo: "public/crew/edmund.png",
+    emoji: "🧭"
+  },
+  {
+    name: "Jesper Nord",
+    role: "Digital entreprenör & skämtlevererare",
+    bio: "43 år, fyrabarnspappa och entreprenör. Driver digitalbyrå, konsult för Polestar och vd för ett mobilspelsbolag. Kanske inte fixar skotern — men levererar gärna en kall öl och ett skämt.",
+    photo: "public/crew/jesper.png",
+    emoji: "💻"
+  },
+  {
+    name: "Kjetil Kleven",
+    role: "Fd rockstjärna & affärsman",
+    bio: "Född 1966 och snart 60 — men med en fysik som trotsar åren. Fd frontfigur i rockbandet Columbus. Tog Firenor från 80 till 250 MNOK. Gift med tandläkare, pappa till 2. Håller eget anförande under resan.",
+    photo: "public/crew/kjetil.png",
+    emoji: "🎸"
+  },
+  {
+    name: "Albert Mårtenson",
+    role: "Bonde, fastighetsmogul & hoppryttare",
+    bio: "Ca 35 år, lugn och jordnära. Gift med Liza, tre barn. Driver 2 700 hyresobjekt vid sidan av gårdslivet med 20 får, 7 hästar och 2 hundar. Nära VM i hoppryttning. Gourmatkock, jägare och schackspelare.",
+    emoji: "🏇"
+  },
+  {
+    name: "Morten Torkelsen",
+    role: "Byggmästare, rektor & fågelhundsentusiast",
+    bio: "Fyller 61 år den 15 april — ankomstdagen! 🎂 Fd byggmästare, senare lärare och rektor. Pappa till 4, morfar till 5. Kör Harley och har kört Route 66. Pratar rakt från levern.",
+    emoji: "🏍"
+  },
+  {
+    name: "Eivind Haddeland",
+    role: "\"The Scandinavian Terminator\"",
+    bio: "Bor sedan 5 år i Karibien där han kallas \"The Scandinavian Terminator\". Surfare och livsnjutare. Seglat Atlanten två gånger i liten segelbåt. Expert på mindfulness — håller föredrag i Pyramiden.",
+    photo: "public/crew/eivind.png",
+    emoji: "🏄"
+  },
+  {
+    name: "Ingolf",
+    role: "Konungen av Skagafjord",
+    bio: "Islänning av det äkta slaget. På hans granntomt dyker det upp en isbjörn vart femte år, simmandes från Grönland. Håller föredrag i Pyramiden om Islands historia — uppgång och fall.",
+    photo: "public/crew/ingolf.png",
+    emoji: "🇮🇸"
+  },
+  {
+    name: "Tor Haddeland",
+    role: "Ny man på laget",
+    bio: "Det senaste tillskottet till expeditionen. Mer info kommer!",
+    photo: "public/crew/tor_haddeland.png",
+    emoji: "⚡"
+  },
+  {
+    name: "Tor Kristian Berge",
+    role: "Lägerchef & logistikansvarig",
+    bio: "Mannen bakom Camp Bolterdalen och central i planeringen av expeditionens praktiska delar.",
+    emoji: "⛺"
+  },
+  {
+    name: "Elin Willoch",
+    role: "Äventyrare",
+    bio: "Arbetar på Pentagon Freight. Mer info kommer!",
+    emoji: "✨"
+  },
 ];
 
 const SCHEDULE = [
   {
-    day: 1, date: "Dag 1 — [Datum]", title: "Ankomst till Longyearbyen",
+    day: 1, date: "15. april 2026", title: "Ankomst till Longyearbyen 🎂 Mortens 61-årsdag!",
     events: [
       { time: "10:30", name: "Landning Svalbard Airport", note: "Samlas vid bagageband" },
       { time: "12:00", name: "Incheckning & lunch", note: "Hotellet" },
@@ -1172,7 +1246,7 @@ const SCHEDULE = [
     ]
   },
   {
-    day: 2, date: "Dag 2 — [Datum]", title: "Isfjorden & Snöskotertur",
+    day: 2, date: "16. april 2026", title: "Isfjorden & Snöskotertur",
     events: [
       { time: "07:30", name: "Frukost", note: "" },
       { time: "09:00", name: "Avresa snöskoter", note: "Hjälm + goggles medföljer" },
@@ -1182,27 +1256,28 @@ const SCHEDULE = [
     ]
   },
   {
-    day: 3, date: "Dag 3 — [Datum]", title: "Kulturdag — Museum & Stad",
+    day: 3, date: "17. april 2026", title: "Kulturdag — Museum & Pyramiden",
     events: [
       { time: "09:00", name: "Norsk Polarinstitutet", note: "Fri entré" },
       { time: "11:00", name: "Gruvmuseet", note: "Guide ingår" },
       { time: "13:00", name: "Lunch i stan", note: "Fritt val" },
-      { time: "15:00", name: "Fri eftermiddag", note: "Shopping, spa, vila" },
-      { time: "19:00", name: "Gemensam middag", note: "[Restaurang]" },
+      { time: "15:00", name: "Föredrag i Pyramiden", note: "Eivind: Mindfulness · Ingolf: Islands historia · Kjetil: TBA" },
+      { time: "19:00", name: "Gemensam middag", note: "" },
     ]
   },
   {
-    day: 4, date: "Dag 4 — [Datum]", title: "Hundspann & Tundra",
+    day: 4, date: "18. april 2026", title: "Hundspann & Tundra",
     events: [
       { time: "08:00", name: "Frukost tidigt", note: "" },
       { time: "09:30", name: "Hundspanntur", note: "4h — utrustning medföljer" },
       { time: "14:00", name: "Retur & lunch", note: "" },
+      { time: "15:00", name: "Alberts föredrag: Fastighetssatsningen", note: "Från gård till 2700 hyresobjekt" },
       { time: "16:00", name: "Fri tid", note: "" },
       { time: "19:00", name: "Sista gemensamma middag", note: "Avslutningsmiddag 🥂" },
     ]
   },
   {
-    day: 5, date: "Dag 5 — [Datum]", title: "Avresa — Hem igen",
+    day: 5, date: "19. april 2026", title: "Avresa — Hem igen",
     events: [
       { time: "07:00", name: "Frukost & utcheckning", note: "Bagage klart 06:30" },
       { time: "09:30", name: "Transfer till flygplatsen", note: "" },
@@ -1286,11 +1361,11 @@ const CONTACTS = [
   { label: "🚨 Nödnummer", name: "112", detail: "Räddningstjänst & Polis", type: "emergency" },
   { label: "🏥 Sjukhus Longyearbyen", name: "Longyearbyen sykehus", detail: "+47 79 02 13 00", type: "emergency" },
   { label: "🏔 Sysselmesteren", name: "Länsstyrelsen Svalbard", detail: "+47 79 02 43 00", type: "emergency" },
-  { label: "✈️ Flyg", name: "[Flygbolag]", detail: "Bokningsref: [KOD]", type: "" },
-  { label: "🏨 Hotell", name: "[Hotellnamn]", detail: "[Adress] · +47 ...", type: "" },
-  { label: "🧭 Reseledare", name: "[Namn]", detail: "[+46 ...] · [e-post]", type: "" },
-  { label: "🛡 Försäkring", name: "[Bolag]", detail: "Polisnr: [...] · Assist: [...]", type: "" },
-  { label: "🏍 Guide — Snöskoter", name: "[Företag]", detail: "[+47 ...]", type: "" },
+  { label: "✈️ Flyg", name: "TBA", detail: "Bokningsref kommer", type: "" },
+  { label: "🏨 Boende", name: "TBA", detail: "Longyearbyen", type: "" },
+  { label: "⛺ Camp Bolterdalen", name: "Tor Kristian Berge", detail: "Logistik & läger", type: "" },
+  { label: "🧭 Expeditionsledare", name: "Edmund Skoie", detail: "Salteamet AS", type: "" },
+  { label: "🛡 Försäkring", name: "Ta med utskrivna handlingar!", detail: "Mobilnätet kan vara opålitligt", type: "" },
 ];
 
 // ══ CODE GATE ═════════════════════════════════════════════
