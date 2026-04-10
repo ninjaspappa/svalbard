@@ -543,7 +543,36 @@
     font-size: 0.8rem;
     color: var(--muted);
     line-height: 1.5;
+    text-align: left;
+    position: relative;
   }
+
+  .crew-bio.collapsed {
+    max-height: 4.5em;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%);
+            mask-image: linear-gradient(180deg, #000 60%, transparent 100%);
+  }
+
+  .crew-bio.expanded {
+    max-height: none;
+  }
+
+  .crew-read-more {
+    background: none;
+    border: none;
+    color: var(--ice-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    margin-top: 0.25rem;
+    transition: color 0.2s;
+  }
+
+  .crew-read-more:hover { color: var(--ice); }
 
   /* ── Weather Forecast ── */
   .forecast-grid {
@@ -1221,14 +1250,14 @@
           <span id="heroTitle2" data-t="hero.title2">Svalbard</span>
         </h1>
         <p class="hero-desc" data-t="hero.desc">
-          Ten adventurers from Norway, Sweden and Iceland. Ice fjords, snowmobiles,
+          Eleven adventurers from Norway, Sweden and Iceland. Ice fjords, snowmobiles,
           dog sledding, talks in Pyramiden and temperatures that push the limits.
           Welcome to the most beautiful wilderness on Earth.
         </p>
       </div>
       <div class="hero-stats">
         <div>
-          <div class="stat-val">10</div>
+          <div class="stat-val">11</div>
           <div class="stat-label" data-t="hero.stat_crew">Expedition members</div>
         </div>
         <div>
@@ -1347,12 +1376,12 @@ const T = {
       eyebrow: "78\u00B0 North \u00B7 April 2026",
       title1: "The Expedition",
       title2: "Svalbard",
-      desc: "Ten adventurers from Norway, Sweden and Iceland. Ice fjords, snowmobiles, dog sledding, talks in Pyramiden and temperatures that push the limits. Welcome to the most beautiful wilderness on Earth.",
+      desc: "Eleven adventurers from Norway, Sweden and Iceland. Ice fjords, snowmobiles, dog sledding, talks in Pyramiden and temperatures that push the limits. Welcome to the most beautiful wilderness on Earth.",
       stat_crew: "Expedition members",
       stat_temp: "Average temperature",
       stat_lat: "Latitude"
     },
-    crew: { label: "The Crew", title: "Expedition Heroes" },
+    crew: { label: "The Crew", title: "Expedition Heroes", read_more: "Read more", read_less: "Show less" },
     weather: {
       label: "Arctic Forecast",
       title: "Weather Forecast",
@@ -1404,12 +1433,12 @@ const T = {
       eyebrow: "78\u00B0 Nord \u00B7 April 2026",
       title1: "Ekspedisjonen",
       title2: "Svalbard",
-      desc: "Ti eventyrere fra Norge, Sverige og Island. Isfjorder, sn\u00F8scootere, hundekj\u00F8ring, foredrag i Pyramiden og temperaturer som tester grensene. Velkommen til verdens vakreste villmark.",
+      desc: "Elleve eventyrere fra Norge, Sverige og Island. Isfjorder, sn\u00F8scootere, hundekj\u00F8ring, foredrag i Pyramiden og temperaturer som tester grensene. Velkommen til verdens vakreste villmark.",
       stat_crew: "Ekspedisjonsmedlemmer",
       stat_temp: "Gjennomsnittstemperatur",
       stat_lat: "Breddegrad"
     },
-    crew: { label: "Mannskapet", title: "Ekspedisjonens helter" },
+    crew: { label: "Mannskapet", title: "Ekspedisjonens helter", read_more: "Les mer", read_less: "Vis mindre" },
     weather: {
       label: "Arktisk v\u00E6rmelding",
       title: "V\u00E6rvarsel",
@@ -1461,12 +1490,12 @@ const T = {
       eyebrow: "78\u00B0 Nord \u00B7 April 2026",
       title1: "Expeditionen",
       title2: "Svalbard",
-      desc: "Tio \u00E4ventyrare fr\u00E5n Norge, Sverige och Island. Isfjordar, sn\u00F6skotrar, hundspann, f\u00F6redrag i Pyramiden och temperaturer som testar gr\u00E4nserna. V\u00E4lkommen till jordens vackraste \u00F6demark.",
+      desc: "Elva \u00E4ventyrare fr\u00E5n Norge, Sverige och Island. Isfjordar, sn\u00F6skotrar, hundspann, f\u00F6redrag i Pyramiden och temperaturer som testar gr\u00E4nserna. V\u00E4lkommen till jordens vackraste \u00F6demark.",
       stat_crew: "Expeditionsmedlemmar",
       stat_temp: "Medeltemperatur",
       stat_lat: "Latitud"
     },
-    crew: { label: "Bes\u00E4ttningen", title: "Expeditionens hj\u00E4ltar" },
+    crew: { label: "Bes\u00E4ttningen", title: "Expeditionens hj\u00E4ltar", read_more: "L\u00E4s mer", read_less: "Visa mindre" },
     weather: {
       label: "Arktisk v\u00E4derprognos",
       title: "V\u00E4derprognos",
@@ -1518,12 +1547,12 @@ const T = {
       eyebrow: "78\u00B0 Nor\u00F0ur \u00B7 Apr\u00EDl 2026",
       title1: "Lei\u00F0angurinn",
       title2: "Svalbar\u00F0i",
-      desc: "\u00C1tjan \u00E6vint\u00FDrarar fr\u00E1 Noregi, Sv\u00ED\u00FEj\u00F3\u00F0 og \u00CDslandi. \u00CDsfir\u00F0ir, sn\u00F3skutlar, hundakj\u00F3r, fyrirlestrar \u00ED P\u00FDram\u00EDda og hitastig sem reyna \u00E1 marka. Velkomin \u00ED fallegasta \u00F3byggi\u00F0 \u00E1 j\u00F6r\u00F0inni.",
+      desc: "Ellefu \u00E6vint\u00FDrarar fr\u00E1 Noregi, Sv\u00ED\u00FEj\u00F3\u00F0 og \u00CDslandi. \u00CDsfir\u00F0ir, sn\u00F3skutlar, hundakj\u00F3r, fyrirlestrar \u00ED P\u00FDram\u00EDda og hitastig sem reyna \u00E1 marka. Velkomin \u00ED fallegasta \u00F3byggi\u00F0 \u00E1 j\u00F6r\u00F0inni.",
       stat_crew: "Lei\u00F0angursf\u00E9lagar",
       stat_temp: "Me\u00F0alhiti",
       stat_lat: "Breiddargr\u00E1\u00F0a"
     },
-    crew: { label: "\u00C1h\u00F6fnin", title: "Hetjur lei\u00F0angursins" },
+    crew: { label: "\u00C1h\u00F6fnin", title: "Hetjur lei\u00F0angursins", read_more: "Lesa meira", read_less: "Minna" },
     weather: {
       label: "Nor\u00F0ursl\u00F3\u00F0ave\u00F0ursp\u00E1",
       title: "Ve\u00F0ursp\u00E1",
@@ -1575,12 +1604,12 @@ const T = {
       eyebrow: "78\u00B0 Nord \u00B7 April 2026",
       title1: "Ekspeditionen",
       title2: "Svalbard",
-      desc: "Ti eventyrere fra Norge, Sverige og Island. Isfjorde, snescooterl, hundeslæde, foredrag i Pyramiden og temperaturer der tester grænser. Velkommen til verdens smukkeste vildmark.",
+      desc: "Elleve eventyrere fra Norge, Sverige og Island. Isfjorde, snescootere, hundeslæde, foredrag i Pyramiden og temperaturer der tester grænser. Velkommen til verdens smukkeste vildmark.",
       stat_crew: "Ekspeditionsmedlemmer",
       stat_temp: "Gennemsnitstemperatur",
       stat_lat: "Breddegrad"
     },
-    crew: { label: "Besætningen", title: "Ekspeditionens helte" },
+    crew: { label: "Besætningen", title: "Ekspeditionens helte", read_more: "Læs mere", read_less: "Vis mindre" },
     weather: {
       label: "Arktisk vejrudsigt",
       title: "Vejrudsigt",
@@ -1632,12 +1661,12 @@ const T = {
       eyebrow: "78\u00B0 Pohjoista \u00B7 Huhtikuu 2026",
       title1: "Retkikunta",
       title2: "Huippuvuoret",
-      desc: "Kymmenen seikkailijaa Norjasta, Ruotsista ja Islannista. J\u00E4\u00E4vuonoja, moottorikelkkoja, koiravaljakoita, luentoja Pyramideniss\u00E4 ja l\u00E4mp\u00F6tiloja jotka koettelevat rajoja. Tervetuloa maapallon kauneimpaan er\u00E4maahan.",
+      desc: "Yksitoista seikkailijaa Norjasta, Ruotsista ja Islannista. J\u00E4\u00E4vuonoja, moottorikelkkoja, koiravaljakoita, luentoja Pyramideniss\u00E4 ja l\u00E4mp\u00F6tiloja jotka koettelevat rajoja. Tervetuloa maapallon kauneimpaan er\u00E4maahan.",
       stat_crew: "Retkikunnan j\u00E4senet",
       stat_temp: "Keskim\u00E4\u00E4r\u00E4inen l\u00E4mp\u00F6tila",
       stat_lat: "Leveysaste"
     },
-    crew: { label: "Miehistö", title: "Retkikunnan sankarit" },
+    crew: { label: "Miehistö", title: "Retkikunnan sankarit", read_more: "Lue lisää", read_less: "Näytä vähemmän" },
     weather: {
       label: "Arktinen s\u00E4\u00E4ennuste",
       title: "S\u00E4\u00E4ennuste",
@@ -1766,69 +1795,79 @@ document.addEventListener('click', closeLangDropdown);
 const CREW = [
   {
     name: "Edmund Skoie",
-    role: "Expeditionsarrang\u00F6r & sj\u00E4len i laget",
-    bio: "Hj\u00E4rnan bakom dr\u00F6mturen \u2014 mannen som samlade g\u00E4nget, planerade rutten och h\u00E5ller koll p\u00E5 att alla \u00E4r med. Driver Salteamet AS och lever efter mottot: \"V\u00E5r erfaring \u2014 din trygghet.\"",
+    role: "Ekspedisjonsarrang\u00F8r & sjelen i laget",
+    bio: "Hjernen bak dr\u00F8mmeturen \u2014 mannen som samlet gjengen, planla ruten og holder styr p\u00E5 at alle er med. Driver Salteamet AS og lever etter mottoet: \"V\u00E5r erfaring \u2014 din trygghet.\"",
     photo: "public/crew/edmund.png",
     emoji: "\u{1F9ED}"
   },
   {
     name: "Jesper Nord",
-    role: "Digital entrepren\u00F6r & sk\u00E4mtlevererare",
-    bio: "43 \u00E5r, fyrabarnspappa och entrepren\u00F6r. Driver digitalbyr\u00E5, konsult f\u00F6r Polestar och vd f\u00F6r ett mobilspelsbolag. Kanske inte fixar skotern \u2014 men levererar g\u00E4rna en kall \u00F6l och ett sk\u00E4mt.",
+    role: "Digital entrepren\u00F8r & vitselev\u00E9rand\u00F8r",
+    bio: "43 \u00E5r, firebarnspappa og entrepren\u00F8r. Driver digitalbyr\u00E5, konsulent for Polestar og administrerende direkt\u00F8r for et mobilspillselskap. Fikser kanskje ikke scooteren \u2014 men leverer gjerne en kald \u00F8l og en vits.",
     photo: "public/crew/jesper.png",
     emoji: "\u{1F4BB}"
   },
   {
     name: "Kjetil Kleven",
-    role: "Fd rockstj\u00E4rna & aff\u00E4rsman",
-    bio: "F\u00F6dd 1966 och snart 60 \u2014 men med en fysik som trotsar \u00E5ren. Fd frontfigur i rockbandet Columbus. Tog Firenor fr\u00E5n 80 till 250 MNOK. Gift med tandl\u00E4kare, pappa till 2. H\u00E5ller eget anf\u00F6rande under resan.",
+    role: "Tidligere rockestjerne & forretningsmann",
+    bio: "F\u00F8dt 1966 og snart 60 \u2014 men med en fysikk som trosser \u00E5rene. Tidligere frontfigur i rockebandet Columbus. Tok Firenor fra 80 til 250 MNOK. Gift med tannlege, pappa til 2. Holder eget foredrag under turen.",
     photo: "public/crew/kjetil.png",
     emoji: "\u{1F3B8}"
   },
   {
-    name: "Albert M\u00E5rtenson",
-    role: "Bonde, fastighetsmogul & hoppryttare",
-    bio: "Ca 35 \u00E5r, lugn och jordn\u00E4ra. Gift med Liza, tre barn. Driver 2 700 hyresobjekt vid sidan av g\u00E5rdslivet med 20 f\u00E5r, 7 h\u00E4star och 2 hundar. N\u00E4ra VM i hoppryttning. Gourmatkock, j\u00E4gare och schackspelare.",
+    name: "Albert M\u00E5rtensen",
+    role: "Bonde, fastighetsmogul & sprangrytter",
+    bio: "H\u00F8y og fin kille fra Sverige, ca 35 \u00E5r. Gift med sin vakre Liza, 3 barn. Veldig lugn, snakker ikke h\u00F8yt om seg selv. God lytter og liker seg best med ei \u00F8l i h\u00E5nden tenkende p\u00E5 sin hustru. Like stor bonde som Edmund \u2014 20 sp\u00E6lsau, 7 hester og 2 hunder. Glad i sedler og liker ikke bankkort. Har bare 2700 fastigheter han hyrer ut, s\u00E5 han m\u00E5 v\u00E6re bonde p\u00E5 deltid. Sprangrytter p\u00E5 svensk toppniv\u00E5 \u2014 har hoppet 2 meter over hinder oppe p\u00E5 hesten. Kom nesten til WM. Har jakt og sjakk som hobby, skyter det meste \u2014 mye villsvin. Kjent gourmetkokk. F\u00E5r 20 min i baren der han forteller om sin vellykkede satsing p\u00E5 leiligheter.",
+    photo: "public/crew/albert.jpg",
     emoji: "\u{1F3C7}"
   },
   {
     name: "Morten Torkelsen",
-    role: "Byggm\u00E4stare, rektor & f\u00E5gelhundsentusiast",
-    bio: "Fyller 61 \u00E5r den 15 april \u2014 ankomstdagen! \u{1F382} Fd byggm\u00E4stare, senare l\u00E4rare och rektor. Pappa till 4, morfar till 5. K\u00F6r Harley och har k\u00F6rt Route 66. Pratar rakt fr\u00E5n levern.",
+    role: "Byggmester, rektor & fuglehundsentusiast",
+    bio: "Fyller 61 \u00E5r den 15. april \u2014 ankomstdagen! \u{1F382} Tidligere byggmester, senere l\u00E6rer og rektor. Pappa til 4, morfar til 5. Kj\u00F8rer Harley og har kj\u00F8rt Route 66. Snakker rett fra levra.",
+    photo: "public/crew/morten.jpg",
     emoji: "\u{1F3CD}"
   },
   {
     name: "Eivind Haddeland",
     role: "\"The Scandinavian Terminator\"",
-    bio: "Bor sedan 5 \u00E5r i Karibien d\u00E4r han kallas \"The Scandinavian Terminator\". Surfare och livsnjutare. Seglat Atlanten tv\u00E5 g\u00E5nger i liten segelb\u00E5t. Expert p\u00E5 mindfulness \u2014 h\u00E5ller f\u00F6redrag i Pyramiden.",
+    bio: "Bor siden 5 \u00E5r i Karibien der han kalles \"The Scandinavian Terminator\". Surfer og livsnyter. Seilt Atlanterhavet to ganger i liten seilb\u00E5t. Ekspert p\u00E5 mindfulness \u2014 holder foredrag i Pyramiden.",
     photo: "public/crew/eivind.png",
     emoji: "\u{1F3C4}"
   },
   {
     name: "Ingolf",
-    role: "Konungen av Skagafjord",
-    bio: "Isl\u00E4nning av det \u00E4kta slaget. P\u00E5 hans granntomt dyker det upp en isbj\u00F6rn vart femte \u00E5r, simmandes fr\u00E5n Gr\u00F6nland. H\u00E5ller f\u00F6redrag i Pyramiden om Islands historia \u2014 uppg\u00E5ng och fall.",
+    role: "Kongen av Skagafjord",
+    bio: "Islending av det ekte slaget. P\u00E5 nabotomten hans dukker det opp en isbj\u00F8rn hvert femte \u00E5r, sv\u00F8mmende fra Gr\u00F8nland. Holder foredrag i Pyramiden om Islands historie \u2014 oppgang og fall.",
     photo: "public/crew/ingolf.png",
     emoji: "\u{1F1EE}\u{1F1F8}"
   },
   {
     name: "Tor Haddeland",
-    role: "Ny man p\u00E5 laget",
-    bio: "Det senaste tillskottet till expeditionen. Mer info kommer!",
+    role: "Hagedesigner & utfordringsjeger",
+    bio: "En munter kar som elsker utfordringer. Om scooteren din stopper eller beltet g\u00E5r av p\u00E5 Svalbard, rop p\u00E5 ham \u2014 han fylles av livslyst og glede i m\u00F8te med slike utfordringer. F\u00E5r vi valget mellom en merket l\u00F8ype eller en ufremkommelig bakvei opp til toppen av et fjell, vil han gjerne kj\u00F8re f\u00F8rst i det siste alternativet. Tor er i 50-\u00E5rene, st\u00F8dig, munter og trives best n\u00E5r folk har det godt rundt seg. Bor i Danmark der han designer hager for de rike av de rike \u2014 de som t\u00F8r tenke utenfor boksen og har et par millioner \u00E5 bruke p\u00E5 et gr\u00F8nt kunstverk rundt huset. Lidenskapen ellers er veibygging og hogst p\u00E5 egen g\u00E5rd i Haddelands-bygda i H\u00E5landsheia. Istedenfor \u00E5 ringe en kar med hogstmaskin for \u00E5 ta ut t\u00F8mmeret, ringte han heller en kar med en hogstmaskin til salgs... Det er Tor. 3 flotte barn og en super samboer i \u00C5rhus.",
     photo: "public/crew/tor_haddeland.png",
-    emoji: "\u26A1"
+    emoji: "\u{1F33F}"
+  },
+  {
+    name: "Kenneth Rafaelsen",
+    role: "Tidligere politileder & Varodd-sjef",
+    bio: "En bra mann. St\u00F8dig og rolig, snakker p\u00E5 innpust og utpust \u2014 g\u00E5r i ett. 52 \u00E5r, gift og har 2 s\u00F8nner. Oppvokst i Mandal med r\u00F8tter helt opp i Kirkenes. Ivrig lokalpolitiker for AP, har holdt p\u00E5 i en mannsalder. Hatt lederjobb i politiet i 25 \u00E5r, sluttet for ett \u00E5r siden. N\u00E5 leder i Varodd, stor bedrift som hjelper skadde folk tilbake i jobb \u2014 en virkelig viktig jobb. Har sin gode sosialistiske tanke godt forankret i hjertet, vil det beste for alle. Stor utfordring \u00E5 v\u00E6re p\u00E5 tur der han ikke er sjefen \u2014 her er han menig mann, og det m\u00E5 vi alle hjelpe ham med. Tor Kristian har lov til \u00E5 dukke ham om han pr\u00F8ver \u00E5 ta roret.",
+    photo: "public/crew/kenneth.png",
+    emoji: "\u{1F393}"
+  },
+  {
+    name: "Trond J\u00E5bekk",
+    role: "Jordb\u00E6rkongen fra Mandal",
+    bio: "Jordb\u00E6rkongen fra Mandal. 48 \u00E5r, gift med sin vakre Marit, 2 voksne barn. Bestefar til ei lita tulle. Trond har jobbet med veldig mange ting i livet. Det han er aller best til er \u00E5 produsere vanvittige mengder gode jordb\u00E6r \u2014 er blitt jordb\u00E6rkongen i Mandal og blir snart S\u00F8rlandets st\u00F8rste p\u00E5 b\u00E6r. Har startet ny jobb i disse dager i Egeland R\u00F8r. Trond skyter alltid mest og st\u00F8rst p\u00E5 v\u00E5re utallige jaktturer \u2014 tiurene hans veier alltid opp mot 6 kg. Har f\u00E5tt laget spesialryggsekk for \u00E5 kunne b\u00E6re alt han skyter p\u00E5 en dag. Veldig blid fyr og fin \u00E5 ha med p\u00E5 tur. God til \u00E5 le og lage liv. Kan ogs\u00E5 bli hissig om en arbeider ikke gj\u00F8r som sjefen (Trond) sier. Trond og jeg har v\u00E6rt p\u00E5 Svalbard f\u00F8r i 2022 \u2014 Trond har g\u00E5tt hele veien p\u00E5 ski fra Agardbukta til Isfjord Radio. 6 dager og 16 mil. Vi var der ca 1. mai, ble 25-30 minus og iskaldt noen dager. En skikkelig harding, sover nok ute uten telt. Trives og h\u00F8res i baren.",
+    photo: "public/crew/trond.png",
+    emoji: "\u{1F353}"
   },
   {
     name: "Tor Kristian Berge",
-    role: "L\u00E4gerchef & logistikansvarig",
-    bio: "Mannen bakom Camp Bolterdalen och central i planeringen av expeditionens praktiska delar.",
+    role: "Leirsjef & logistikkansvarlig",
+    bio: "Mannen bak Camp Bolterdalen og sentral i planleggingen av ekspedisjonens praktiske deler. Presentasjon kommer.",
     emoji: "\u26FA"
-  },
-  {
-    name: "Elin Willoch",
-    role: "\u00C4ventyrare",
-    bio: "Arbetar p\u00E5 Pentagon Freight. Mer info kommer!",
-    emoji: "\u2728"
   },
 ];
 
@@ -2225,14 +2264,35 @@ function init() {
 
 function renderCrew() {
   const grid = document.getElementById('crewGrid');
-  grid.innerHTML = CREW.map(p => `
+  const tr = T[currentLang] || T.en;
+  const readMore = (tr.crew && tr.crew.read_more) || 'Read more';
+  const readLess = (tr.crew && tr.crew.read_less) || 'Show less';
+  grid.innerHTML = CREW.map((p, i) => {
+    const isLong = p.bio && p.bio.length > 140;
+    return `
     <div class="crew-card">
       <div class="crew-avatar">${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : p.emoji}</div>
       <div class="crew-name">${p.name}</div>
       <div class="crew-role">${p.role}</div>
-      <div class="crew-bio">${p.bio}</div>
+      <div class="crew-bio ${isLong ? 'collapsed' : ''}" id="bio-${i}">${p.bio}</div>
+      ${isLong ? `<button class="crew-read-more" onclick="toggleBio(${i}, this)" data-more="${readMore}" data-less="${readLess}">${readMore} \u2193</button>` : ''}
     </div>
-  `).join('');
+  `;
+  }).join('');
+}
+
+function toggleBio(i, btn) {
+  const bio = document.getElementById('bio-' + i);
+  const isCollapsed = bio.classList.contains('collapsed');
+  if (isCollapsed) {
+    bio.classList.remove('collapsed');
+    bio.classList.add('expanded');
+    btn.innerHTML = btn.dataset.less + ' \u2191';
+  } else {
+    bio.classList.add('collapsed');
+    bio.classList.remove('expanded');
+    btn.innerHTML = btn.dataset.more + ' \u2193';
+  }
 }
 
 // ══ SCHEDULE ═══════════════════════════════════════════════
