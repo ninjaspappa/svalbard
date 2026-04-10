@@ -1141,6 +1141,80 @@
     line-height: 1.6;
   }
 
+  /* ── News Ticker ── */
+  .news-ticker {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, rgba(232,160,69,0.12) 0%, rgba(232,160,69,0.05) 100%);
+    border-top: 1px solid rgba(232,160,69,0.3);
+    border-bottom: 1px solid rgba(232,160,69,0.3);
+    height: 44px;
+    display: flex;
+    align-items: center;
+    margin: 0 0 2rem;
+  }
+
+  .news-ticker::before {
+    content: 'BREAKING';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    z-index: 2;
+    background: var(--amber);
+    color: var(--deep);
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    box-shadow: 4px 0 12px rgba(232,160,69,0.25);
+  }
+
+  .news-ticker::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 60px;
+    background: linear-gradient(90deg, transparent, var(--deep));
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .news-ticker-track {
+    display: flex;
+    gap: 4rem;
+    padding-left: 130px;
+    white-space: nowrap;
+    animation: ticker-scroll 35s linear infinite;
+    will-change: transform;
+  }
+
+  .news-ticker:hover .news-ticker-track {
+    animation-play-state: paused;
+  }
+
+  .news-ticker-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--frost);
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .news-ticker-item .dot {
+    color: var(--amber);
+    font-size: 1.2rem;
+    line-height: 0;
+  }
+
+  @keyframes ticker-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
   @media (max-width: 600px) {
     nav { padding: 0 1rem; }
     .nav-links { gap: 0 }
@@ -1271,6 +1345,11 @@
       </div>
     </div>
 
+    <!-- News ticker -->
+    <div class="news-ticker" aria-label="News ticker">
+      <div class="news-ticker-track" id="newsTickerTrack"></div>
+    </div>
+
     <section>
       <div class="section-header">
         <div class="section-label" data-t="crew.label">The Crew</div>
@@ -1381,6 +1460,13 @@ const T = {
       stat_temp: "Average temperature",
       stat_lat: "Latitude"
     },
+    ticker: { items: [
+      "\u{1F4E2} DAY 2 IN PYRAMIDEN \u2014 EXTRA EXTRA! Edmund's talk on the Norwegian Polar Hero",
+      "\u{1F382} APRIL 15 \u2014 Morten turns 61 on arrival day",
+      "\u{1F3C6} ALBERT'S 20-MIN BAR TALK \u2014 The successful apartment venture",
+      "\u{1F43B}\u200D\u2744\uFE0F POLAR BEAR PROTOCOL \u2014 Never leave town without an armed guide",
+      "\u{1F6C2} DON'T FORGET YOUR PASSPORT \u2014 Required for Svalbard"
+    ]},
     crew: { label: "The Crew", title: "Expedition Heroes", read_more: "Read more", read_less: "Show less" },
     weather: {
       label: "Arctic Forecast",
@@ -1438,6 +1524,13 @@ const T = {
       stat_temp: "Gjennomsnittstemperatur",
       stat_lat: "Breddegrad"
     },
+    ticker: { items: [
+      "\u{1F4E2} DAG 2 I PYRAMIDEN \u2014 EKSTRA EKSTRA! P\u00E5dreg med Edmund om Den norske polarhelten",
+      "\u{1F382} 15. APRIL \u2014 Morten fyller 61 \u00E5r p\u00E5 ankomstdagen",
+      "\u{1F3C6} ALBERTS 20-MIN BARPRAT \u2014 Den vellykkede leilighetssatsingen",
+      "\u{1F43B}\u200D\u2744\uFE0F ISBJ\u00D8RNPROTOKOLL \u2014 Forlat aldri byen uten bev\u00E6pnet guide",
+      "\u{1F6C2} IKKE GLEM PASSET \u2014 P\u00E5krevd for Svalbard"
+    ]},
     crew: { label: "Mannskapet", title: "Ekspedisjonens helter", read_more: "Les mer", read_less: "Vis mindre" },
     weather: {
       label: "Arktisk v\u00E6rmelding",
@@ -1495,6 +1588,13 @@ const T = {
       stat_temp: "Medeltemperatur",
       stat_lat: "Latitud"
     },
+    ticker: { items: [
+      "\u{1F4E2} DAG 2 I PYRAMIDEN \u2014 EXTRA EXTRA! P\u00E5drag med Edmund om Den norska polarhj\u00E4lten",
+      "\u{1F382} 15 APRIL \u2014 Morten fyller 61 \u00E5r p\u00E5 ankomstdagen",
+      "\u{1F3C6} ALBERTS 20-MIN BARPRAT \u2014 Den lyckade l\u00E4genhetssatsningen",
+      "\u{1F43B}\u200D\u2744\uFE0F ISBJ\u00D6RNSPROTOKOLL \u2014 L\u00E4mna aldrig stan utan v\u00E4pnad guide",
+      "\u{1F6C2} GL\u00D6M INTE PASSET \u2014 Kr\u00E4vs f\u00F6r Svalbard"
+    ]},
     crew: { label: "Bes\u00E4ttningen", title: "Expeditionens hj\u00E4ltar", read_more: "L\u00E4s mer", read_less: "Visa mindre" },
     weather: {
       label: "Arktisk v\u00E4derprognos",
@@ -1552,6 +1652,13 @@ const T = {
       stat_temp: "Me\u00F0alhiti",
       stat_lat: "Breiddargr\u00E1\u00F0a"
     },
+    ticker: { items: [
+      "\u{1F4E2} DAGUR 2 \u00CD P\u00DDRAM\u00CDDA \u2014 AUKA AUKA! Erindi Edmunds um Norska p\u00F3lhetjuna",
+      "\u{1F382} 15. APR\u00CDL \u2014 Morten ver\u00F0ur 61 \u00E1rs \u00E1 komudaginn",
+      "\u{1F3C6} 20 M\u00CDN\u00DATU BARSPJALL ALBERTS \u2014 \u00CDb\u00FA\u00F0af\u00E1r sem heppna\u00F0ist",
+      "\u{1F43B}\u200D\u2744\uFE0F \u00CDSBJARNARREGLUR \u2014 Fari\u00F0 aldrei \u00FAr b\u00E6num \u00E1n vopna\u00F0s lei\u00F0s\u00F6gumanns",
+      "\u{1F6C2} GLEYMDU EKKI VEGABR\u00C9FINU \u2014 \u00C1skili\u00F0 fyrir Svalbar\u00F0a"
+    ]},
     crew: { label: "\u00C1h\u00F6fnin", title: "Hetjur lei\u00F0angursins", read_more: "Lesa meira", read_less: "Minna" },
     weather: {
       label: "Nor\u00F0ursl\u00F3\u00F0ave\u00F0ursp\u00E1",
@@ -1609,6 +1716,13 @@ const T = {
       stat_temp: "Gennemsnitstemperatur",
       stat_lat: "Breddegrad"
     },
+    ticker: { items: [
+      "\u{1F4E2} DAG 2 I PYRAMIDEN \u2014 EKSTRA EKSTRA! Edmunds foredrag om Den norske polarhelt",
+      "\u{1F382} 15. APRIL \u2014 Morten fylder 61 \u00E5r p\u00E5 ankomstdagen",
+      "\u{1F3C6} ALBERTS 20-MIN BARSNAK \u2014 Den succesfulde lejlighedssatsning",
+      "\u{1F43B}\u200D\u2744\uFE0F ISBJ\u00D8RNEPROTOKOL \u2014 Forlad aldrig byen uden bev\u00E6bnet guide",
+      "\u{1F6C2} GLEM IKKE PASSET \u2014 P\u00E5kr\u00E6vet for Svalbard"
+    ]},
     crew: { label: "Besætningen", title: "Ekspeditionens helte", read_more: "Læs mere", read_less: "Vis mindre" },
     weather: {
       label: "Arktisk vejrudsigt",
@@ -1666,6 +1780,13 @@ const T = {
       stat_temp: "Keskim\u00E4\u00E4r\u00E4inen l\u00E4mp\u00F6tila",
       stat_lat: "Leveysaste"
     },
+    ticker: { items: [
+      "\u{1F4E2} P\u00C4IV\u00C4 2 PYRAMIDENISS\u00C4 \u2014 EXTRA EXTRA! Edmundin esitelm\u00E4 Norjan napasankarista",
+      "\u{1F382} 15. HUHTIKUUTA \u2014 Morten t\u00E4ytt\u00E4\u00E4 61 vuotta saapumisp\u00E4iv\u00E4n\u00E4",
+      "\u{1F3C6} ALBERTIN 20 MIN BAARIJUTTU \u2014 Menestynyt huoneistohankinta",
+      "\u{1F43B}\u200D\u2744\uFE0F J\u00C4\u00C4KARHUOHJE \u2014 \u00C4l\u00E4 koskaan poistu kaupungista ilman aseistettua opasta",
+      "\u{1F6C2} \u00C4L\u00C4 UNOHDA PASSIASI \u2014 Vaadittu Huippuvuorille"
+    ]},
     crew: { label: "Miehistö", title: "Retkikunnan sankarit", read_more: "Lue lisää", read_less: "Näytä vähemmän" },
     weather: {
       label: "Arktinen s\u00E4\u00E4ennuste",
@@ -1770,6 +1891,7 @@ function setLang(lang) {
   applyTranslations();
   // Re-render dynamic content if app is visible
   if (document.getElementById('app').style.display !== 'none') {
+    renderTicker();
     renderCrew();
     renderSchedule();
     renderPacking();
@@ -2252,12 +2374,25 @@ function renderForecastFallback() {
 
 function init() {
   applyTranslations();
+  renderTicker();
   renderCrew();
   renderSchedule();
   renderPacking();
   renderContacts();
   loadPhotosFromSupabase();
   fetchYrWeather();
+}
+
+// ══ NEWS TICKER ════════════════════════════════════════════
+
+function renderTicker() {
+  const track = document.getElementById('newsTickerTrack');
+  if (!track) return;
+  const tr = T[currentLang] || T.en;
+  const items = (tr.ticker && tr.ticker.items) || T.en.ticker.items;
+  // Duplicate items so the loop is seamless
+  const html = items.map(txt => `<span class="news-ticker-item"><span class="dot">\u25CF</span>${txt}</span>`).join('');
+  track.innerHTML = html + html;
 }
 
 // ══ CREW ═══════════════════════════════════════════════════
