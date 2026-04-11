@@ -2016,6 +2016,7 @@ const CREW = [
     name: "Tor Kristian Berge",
     role: "V\u00E5r guide & leirsjef",
     bio: "S\u00F8nn av v\u00E5r kj\u00E6re l\u00E6rer Harry Berge. Harry var god b\u00E5de p\u00E5 s\u00F8ndagsskolen og i skolen \u2014 han glemte bare \u00E5 l\u00E6re s\u00F8nnen sin om Jesus og den allmektige gud. Guiden v\u00E5r er ca 50 \u00E5r, vokst opp p\u00E5 Berge i Mandal. 2 barn og bor i Porsgrunn. Frontfigur i jævelrockbandet Camp Addy. Denne karen har gjort mye forskjellig og har v\u00E6rt mer eller mindre p\u00E5 Svalbard de siste 10\u201315 \u00E5rene. Jeg har v\u00E6rt med han p\u00E5 tur 2 ganger \u00E0 5 dager \u2014 solid og myndig fyr. Kan mye om Svalbard og kjenner terrenget som sin egen bukselomme. Tor Kristian kan streve litt med hodet, noe han er \u00E5pen om. N\u00E5r han er med oss er han trygg som fanden sj\u00F8l. Kan fare opp litt om vi ikke gj\u00F8r som sjefen sier, men det g\u00E5r over p\u00E5 3 minutt. Det er et stort ansvar \u00E5 guide der oppe og et stort kontrollorgan \u2014 alt m\u00E5 v\u00E6re p\u00E5 plass. Alt i alt den beste mannen vi kan f\u00E5 til \u00E5 lede oss ute i felten. Hans \u00F8nske er at vi alle skal kose oss maks og f\u00E5 maks ut av turen \u2014 dette vektlegger han veldig mye, men alltid safety first.",
+    photo: "public/crew/tor_kristian.png",
     emoji: "\u{1F3B8}"
   },
 ];
@@ -2230,6 +2231,11 @@ document.addEventListener('keydown', e => {
 // Apply translations on load (including gate)
 applyTranslations();
 
+// Initialize state (must come before init() — hoisting only hoists declaration, not value)
+var packState = JSON.parse(localStorage.getItem('svalbard_pack') || '{}');
+var photos = [];
+var yrData = null;
+
 // Auto-login if session exists
 if (sessionStorage.getItem('svalbard_auth') === '1') {
   document.getElementById('gate').style.display = 'none';
@@ -2285,8 +2291,6 @@ function yrSymbolToDesc(code) {
   };
   return map[base] || base.replace(/([a-z])([A-Z])/g, '$1 $2');
 }
-
-var yrData = null;
 
 async function fetchYrWeather() {
   try {
@@ -2537,8 +2541,6 @@ function toggleDay(n) {
 
 // ══ PACKING ════════════════════════════════════════════════
 
-var packState = JSON.parse(localStorage.getItem('svalbard_pack') || '{}');
-
 function renderPacking() {
   const grid = document.getElementById('packGrid');
   grid.innerHTML = PACKING.map((cat, ci) => {
@@ -2598,8 +2600,6 @@ function renderContacts() {
 }
 
 // ══ ALBUM (Supabase) ══════════════════════════════════════
-
-var photos = [];
 
 async function loadPhotosFromSupabase() {
   try {
