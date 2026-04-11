@@ -1243,7 +1243,6 @@
     .hero-content { padding: 2rem; }
     .hero-stats { display: none; }
     section { padding: 3rem 1rem; }
-    .lang-current-code { display: none; }
   }
 </style>
 </head>
@@ -1322,7 +1321,7 @@
           <button class="lang-option" onclick="setLang('se')">&#x1F1F8;&#x1F1EA; Svenska</button>
           <button class="lang-option" onclick="setLang('is')">&#x1F1EE;&#x1F1F8; &Iacute;slenska</button>
           <button class="lang-option" onclick="setLang('da')">&#x1F1E9;&#x1F1F0; Dansk</button>
-          <button class="lang-option" onclick="setLang('fi')">&#x1F1EB;&#x1F1EE; Suomi</button>
+          <button class="lang-option" onclick="setLang('it')">&#x1F1EE;&#x1F1F9; Italiano</button>
         </div>
       </div>
     </div>
@@ -1789,74 +1788,74 @@ const T = {
       enter: "Velkommen ombord \u2192"
     }
   },
-  fi: {
-    banner: "\u{1F6C2} KAIKILLA ON OLTAVA PASSI MUKANA HUIPPUVUORILLE. \u00C4L\u00C4 UNOHDA SIT\u00C4!",
-    nav: { home: "Koti", schedule: "Ohjelma", packing: "Pakkaus", contacts: "Yhteystiedot", album: "Albumi" },
+  it: {
+    banner: "\u{1F6C2} TUTTI DEVONO PORTARE IL PASSAPORTO ALLE SVALBARD. NON DIMENTICATELO!",
+    nav: { home: "Home", schedule: "Programma", packing: "Bagaglio", contacts: "Contatti", album: "Album" },
     hero: {
-      eyebrow: "78\u00B0 Pohjoista \u00B7 Huhtikuu 2026",
-      title1: "Retkikunta",
-      title2: "Huippuvuoret",
-      desc: "Kaksitoista seikkailijaa Norjasta, Ruotsista ja Islannista. J\u00E4\u00E4vuonoja, moottorikelkkoja, koiravaljakoita, luentoja Pyramideniss\u00E4 ja l\u00E4mp\u00F6tiloja jotka koettelevat rajoja. Tervetuloa maapallon kauneimpaan er\u00E4maahan.",
-      stat_crew: "Retkikunnan j\u00E4senet",
-      stat_temp: "Keskim\u00E4\u00E4r\u00E4inen l\u00E4mp\u00F6tila",
-      stat_lat: "Leveysaste"
+      eyebrow: "78\u00B0 Nord \u00B7 Aprile 2026",
+      title1: "La Spedizione",
+      title2: "Svalbard",
+      desc: "Dodici avventurieri da Norvegia, Svezia e Islanda. Fiordi ghiacciati, motoslitte, slitte trainate da cani, conferenze a Pyramiden e temperature che mettono alla prova i limiti. Benvenuti nella wilderness pi\u00F9 bella della Terra.",
+      stat_crew: "Membri della spedizione",
+      stat_temp: "Temperatura media",
+      stat_lat: "Latitudine"
     },
     ticker: { items: [
-      "\u{1F4E2} P\u00C4IV\u00C4 2 PYRAMIDENISS\u00C4 \u2014 EXTRA EXTRA! Edmundin esitelm\u00E4 Norjan napasankarista",
-      "\u{1F382} 15. HUHTIKUUTA \u2014 Morten t\u00E4ytt\u00E4\u00E4 61 vuotta saapumisp\u00E4iv\u00E4n\u00E4",
-      "\u{1F3C6} ALBERTIN 20 MIN BAARIJUTTU \u2014 Menestynyt huoneistohankinta",
-      "\u{1F43B}\u200D\u2744\uFE0F J\u00C4\u00C4KARHUOHJE \u2014 \u00C4l\u00E4 koskaan poistu kaupungista ilman aseistettua opasta",
-      "\u{1F6C2} \u00C4L\u00C4 UNOHDA PASSIASI \u2014 Vaadittu Huippuvuorille"
+      "\u{1F4E2} GIORNO 2 A PYRAMIDEN \u2014 EXTRA EXTRA! Conferenza di Edmund sull'eroe polare norvegese",
+      "\u{1F382} 15 APRILE \u2014 Morten compie 61 anni il giorno dell'arrivo",
+      "\u{1F3C6} CHIACCHIERATA AL BAR DI ALBERT \u2014 20 minuti sull'impresa immobiliare di successo",
+      "\u{1F43B}\u200D\u2744\uFE0F PROTOCOLLO ORSO POLARE \u2014 Mai lasciare la citt\u00E0 senza una guida armata",
+      "\u{1F6C2} NON DIMENTICARE IL PASSAPORTO \u2014 Obbligatorio per le Svalbard"
     ]},
-    crew: { label: "Miehistö", title: "Retkikunnan sankarit", read_more: "Lue lisää", read_less: "Näytä vähemmän" },
+    crew: { label: "L'Equipaggio", title: "Eroi della spedizione", read_more: "Leggi di pi\u00F9", read_less: "Mostra meno" },
     weather: {
-      label: "Arktinen s\u00E4\u00E4ennuste",
-      title: "S\u00E4\u00E4 Pyramideniss\u00E4",
-      source_html: 'L\u00E4hde: <a href="https://www.yr.no/en/forecast/daily-table/lat=78.6557/lon=16.3324" target="_blank" rel="noopener">YR.no / MET Norja</a>',
-      wind: "Tuuli",
-      temp: "L\u00E4mp\u00F6",
-      loading: "Ladataan...",
-      loading_full: "Haetaan s\u00E4\u00E4tietoja YR.no:sta...",
-      bear_warning: "J\u00E4\u00E4karhuvaara \u2014 \u00E4l\u00E4 koskaan poistu kaupungista yksin",
-      daylight: "p\u00E4iv\u00E4nvaloa",
-      error: "S\u00E4\u00E4tiedot eiv\u00E4t saatavilla"
+      label: "Previsioni artiche",
+      title: "Meteo a Pyramiden",
+      source_html: 'Fonte: <a href="https://www.yr.no/en/forecast/daily-table/lat=78.6557/lon=16.3324" target="_blank" rel="noopener">YR.no / MET Norvegia</a>',
+      wind: "Vento",
+      temp: "Temp",
+      loading: "Caricamento...",
+      loading_full: "Caricamento dati meteo da YR.no...",
+      bear_warning: "Rischio orsi polari \u2014 non lasciare la citt\u00E0 da soli",
+      daylight: "ore di luce",
+      error: "Dati meteo non disponibili"
     },
     schedule: {
-      label: "P\u00E4iv\u00E4ohjelma",
-      title: "Ohjelma & Retket",
-      bear_warning: '\u{1F43B}\u200D\u2744\uFE0F <strong>J\u00E4\u00E4karhuvaara:</strong> Kaikki ulkoilma-aktiviteetit Longyearbyenin ulkopuolella vaativat aseistetun oppaan. \u00C4l\u00E4 koskaan poistu kaupungista ilman opasta \u2014 se on Norjan laki.'
+      label: "Programma giornaliero",
+      title: "Programma & Escursioni",
+      bear_warning: '\u{1F43B}\u200D\u2744\uFE0F <strong>Rischio orsi polari:</strong> Tutte le attivit\u00E0 all\'aperto fuori Longyearbyen richiedono una guida armata. Non lasciare mai la citt\u00E0 senza una guida \u2014 \u00E8 legge norvegese.'
     },
     packing: {
-      label: "Varusteet",
-      title: "Pakkauslista",
-      layer_tip: '\u{1F4A1} <strong>Kerrospukeutuminen on kaikki kaikessa.</strong> Kolme kerrosta villaa ja fleece\u00E4 pit\u00E4\u00E4 sinut l\u00E4mpim\u00E4mp\u00E4n\u00E4 kuin yksi paksu takki. Puuvilla on vaarallista \u2014 se ei erist\u00E4 m\u00E4rk\u00E4n\u00E4.'
+      label: "Attrezzatura",
+      title: "Lista bagaglio",
+      layer_tip: '\u{1F4A1} <strong>Il principio degli strati \u00E8 tutto.</strong> Tre strati di lana e pile ti tengono pi\u00F9 caldo di una giacca pesante. Il cotone \u00E8 pericoloso \u2014 non isola quando \u00E8 umido.'
     },
-    contacts: { label: "T\u00E4rke\u00E4t tiedot", title: "Yhteystiedot" },
+    contacts: { label: "Info importanti", title: "Contatti" },
     album: {
-      label: "Muistot",
-      title: "Kuvia matkalta",
-      upload_title: "Jaa kuvasi",
-      upload_sub: "Ved\u00E4 ja pudota kuvia t\u00E4h\u00E4n, tai napsauta valitaksesi",
-      name_placeholder: "Nimesi",
-      caption_placeholder: "Kuvateksti (valinnainen)",
-      choose_btn: "Valitse kuvat",
-      empty: "Ei viel\u00E4 kuvia \u2014 lataa ensimm\u00E4iset muistot! \u{1F3D4}",
-      uploading: "Ladataan...",
-      uploaded_one: "1 kuva ladattu",
-      uploaded_many: "{n} kuvaa ladattu"
+      label: "Ricordi",
+      title: "Foto del viaggio",
+      upload_title: "Condividi le tue foto",
+      upload_sub: "Trascina e rilascia le foto qui, o clicca per selezionare",
+      name_placeholder: "Il tuo nome",
+      caption_placeholder: "Didascalia (opzionale)",
+      choose_btn: "Scegli foto",
+      empty: "Ancora nessuna foto \u2014 carica i primi ricordi! \u{1F3D4}",
+      uploading: "Caricamento...",
+      uploaded_one: "1 foto caricata",
+      uploaded_many: "{n} foto caricate"
     },
-    footer: "\u2744 HUIPPUVUORET 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 KAIKKI LAIVAAN \u2744",
+    footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 TUTTI A BORDO \u2744",
     gate: {
-      title: "Huippuvuoret 2026",
-      sub: "78\u00B0N \u00B7 Retkikunta",
-      prompt: "Sy\u00F6t\u00E4 koodi liitty\u00E4ksesi retkikuntaan",
-      enter: "Tervetuloa laivaan \u2192"
+      title: "Svalbard 2026",
+      sub: "78\u00B0N \u00B7 La Spedizione",
+      prompt: "Inserisci il codice per unirti alla spedizione",
+      enter: "Benvenuto a bordo \u2192"
     }
   }
 };
 
-const LANG_FLAGS = { en: "\u{1F1EC}\u{1F1E7}", no: "\u{1F1F3}\u{1F1F4}", se: "\u{1F1F8}\u{1F1EA}", is: "\u{1F1EE}\u{1F1F8}", da: "\u{1F1E9}\u{1F1F0}", fi: "\u{1F1EB}\u{1F1EE}" };
-const LANG_CODES = { en: "EN", no: "NO", se: "SE", is: "IS", da: "DA", fi: "FI" };
+const LANG_FLAGS = { en: "\u{1F1EC}\u{1F1E7}", no: "\u{1F1F3}\u{1F1F4}", se: "\u{1F1F8}\u{1F1EA}", is: "\u{1F1EE}\u{1F1F8}", da: "\u{1F1E9}\u{1F1F0}", it: "\u{1F1EE}\u{1F1F9}" };
+const LANG_CODES = { en: "EN", no: "NO", se: "SE", is: "IS", da: "DA", it: "IT" };
 
 let currentLang = localStorage.getItem('svalbard_lang') || 'en';
 
@@ -1953,7 +1952,7 @@ const CREW = [
   {
     name: "Kjetil Kleven",
     role: "Tidligere rockestjerne & forretningsmann",
-    bio: "F\u00F8dt 1966 og snart 60 \u2014 men med en fysikk som trosser \u00E5rene. Tidligere frontfigur i rockebandet Columbus. Tok Firenor fra 80 til 250 MNOK. Gift med tannlege, pappa til 2. Holder eget foredrag under turen.",
+    bio: "Hva bra ting kan vi skrive om han? Liker seg p\u00E5 Savannen og lurer p\u00E5 \u00E5 kj\u00F8pe en sebra. F\u00F8dt i 1966, vokste opp i Askeveien p\u00E5 Ime. Gikk 8 \u00E5r i min klasse \u2014 var nok ett av de glupe hodene i klassen. Kj\u00F8rte p\u00E5 med rockemusikk med det kjente bandet Columbus fra Mandal i unge \u00E5r. Er ofte delaktig i kulturlivet i Mandal og har ofte fantastisk gode innlegg mot sprengning av Sodevika i Mandal \u2014 st\u00E5 p\u00E5 der Kjetil! Var frontfigur i bandet og dro de fleste damene. N\u00E5 er han snart 60 og har gr\u00E5net litt, men har fantastisk fysikk. Gift med flott tannlegedame og har 2 voksne barn. Bor i Mandal og jobber for tiden som konsulent. Kjetil har v\u00E6rt bedriftsleder i mange \u00E5r \u2014 siste bragden var \u00E5 dra Firenor fra 80 mill til 250 mill i omsetning. Dyktig fyr. Har stor omtanke for andre mennesker. Ligger langt til venstre i Venstre. Digger ho Thorsvik fordi hun er s\u00E5 vakker (jeg er enig). Gleder meg til \u00E5 h\u00F8re p\u00E5 n\u00E5r Kjetil skal ha sine 20 min i Pyramiden \u2014 temaet er hvordan bli den beste bedriftslederen. Dette kan han, for han vet dette av erfaring han selv har bygget i sitt kloke hode.",
     photo: "public/crew/kjetil.png",
     emoji: "\u{1F3B8}"
   },
@@ -2062,9 +2061,20 @@ const SCHEDULE = [
     ]
   },
   {
-    day: 5, date: "19. april 2026", title: "Hjemreise",
+    day: 5, date: "19. april 2026 (s\u00F8ndag)", title: "70 mil tilbake til Longyearbyen \u{1F6F7}",
     events: [
-      { time: "", name: "Retur til Longyearbyen", note: "Detaljer kommer" },
+      { time: "morgen", name: "Opp fra en varm natt i teltet", note: "Svart kaffi og start p\u00E5 turen mot vest" },
+      { time: "dag", name: "Ned mot Agardbukta og over til Svea", note: "Runder ut av Kaldebukta og over mot byen \u2014 samme trasé som noen av oss har g\u00E5tt p\u00E5 ski f\u00F8r" },
+      { time: "ettermiddag", name: "Ankomst Longyearbyen etter 70 mil", note: "Vi hopper glade og lykkelige av hesten \u{1F389}" },
+      { time: "20:00", name: "Bestilt bord i byen", note: "Hval, reinsdyr og ishavsr\u00F8ye p\u00E5 menyen \u{1F37D}\uFE0F" },
+      { time: "kveld", name: "Legendariske puben KB", note: "Alltid mye flotte folk der \u{1F37A}" },
+    ]
+  },
+  {
+    day: 6, date: "20. april 2026", title: "Hjemreise",
+    events: [
+      { time: "", name: "Frukost & utsjekking", note: "Klargj\u00F8re bagasjen" },
+      { time: "", name: "Transfer til flyplassen", note: "" },
       { time: "", name: "Avreise LYR", note: "Ha passet lett tilgjengelig \u{1F6C2}" },
     ]
   },
