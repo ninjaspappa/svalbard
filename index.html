@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Svalbard 2026 — The Expedition</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐻‍❄️%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -485,8 +486,18 @@
   /* ── Crew ── */
   .crew-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.75rem;
+  }
+
+  @media (max-width: 900px) {
+    .crew-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 650px) {
+    .crew-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  }
+  @media (max-width: 420px) {
+    .crew-grid { grid-template-columns: 1fr; }
   }
 
   .crew-card {
@@ -1924,10 +1935,10 @@ const CREW = [
   },
   {
     name: "Jesper Nord",
-    role: "Digital entrepren\u00F8r & vitselev\u00E9rand\u00F8r",
-    bio: "43 \u00E5r, firebarnspappa og entrepren\u00F8r. Driver digitalbyr\u00E5, konsulent for Polestar og administrerende direkt\u00F8r for et mobilspillselskap. Fikser kanskje ikke scooteren \u2014 men leverer gjerne en kald \u00F8l og en vits.",
+    role: "Digital entrepren\u00F6r & AI-n\u00F6rd",
+    bio: "En h\u00E4rlig svensk ung gutt. En dr\u00F6m att ha med p\u00E5 resa! Han \u00E4lskar att prata \u2014 framf\u00F6rallt om sig sj\u00E4lv. S\u00E4ger alltid JA till \u00E4ventyr och har en sl\u00E4ng av ADHD s\u00E5 han sitter aldrig still. Med sin erfarenhet som bartender i flera \u00E5r \u00E4r han en j\u00E4kel p\u00E5 att blanda och dricka drinkar! Fyller 40 \u00E5r i \u00E5r och sa sj\u00E4lvklart JA n\u00E4r det f\u00F6reslogs att detta m\u00E5ste firas med att t\u00E4lta p\u00E5 Svalbard! Hemma bor han p\u00E5 sin g\u00E5rd s\u00F6der om G\u00F6teborg med sin vackra fru Anna och fyra d\u00F6ttrar. D\u00E4r lever de g\u00E5rdsdr\u00F6mmen med h\u00F6ns, grisar och ett par ponnyer. Jespers stora hobby \u00E4r att dricka \u00F6l och snickra \u2014 med en \u00F6l i handen kan han snickra dygnet runt. Har byggt 4 altaner, 3 verandatak, en pool, en Airbnb-l\u00E4genhet och ett helt stall. Parallellt jobbar han som IT-konsult p\u00E5 Polestar. M\u00E5ste vara riktigt duktig, f\u00F6r jag tror han \u00E4r den enda som \u00E4r kvar efter alla nedsk\u00E4rningar. Hans andra jobb \u00E4r som b\u00F6rs-vd p\u00E5 ett mindre spelbolag \u2014 d\u00E4r vet jag inte hur framg\u00E5ngsrik han \u00E4r, f\u00F6r jag ligger \u221299% sedan jag investerade d\u00E4r. Ut\u00F6ver detta spelar han \u00E4ven padel 4 g\u00E5nger i veckan och h\u00E4vdar att han har ett tredje jobb. Hur han hinner med allt l\u00E5ter sm\u00E5tt otroligt, men Jesper \u00E4r en otrolig person!",
     photo: "public/crew/jesper.png",
-    emoji: "\u{1F4BB}"
+    emoji: "\u{1F916}"
   },
   {
     name: "Kjetil Kleven",
@@ -1946,21 +1957,21 @@ const CREW = [
   {
     name: "Morten Torkelsen",
     role: "Byggmester, rektor & fuglehundsentusiast",
-    bio: "Fyller 61 \u00E5r den 15. april \u2014 ankomstdagen! \u{1F382} Tidligere byggmester, senere l\u00E6rer og rektor. Pappa til 4, morfar til 5. Kj\u00F8rer Harley og har kj\u00F8rt Route 66. Snakker rett fra levra.",
+    bio: "Jobber i Kristiansand p\u00E5 Fagoppl\u00E6ring S\u00F8r med l\u00E6rlinger som felt. Bor p\u00E5 Haddeland Bratt mellom Mandal og Vigeland. Fyller 61 \u00E5r den 15. april \u2014 dagen vi ankommer Svalbard. Det m\u00E5 vi huske! \u{1F382} Ekte pissemaur fra Tasta i Stavanger. Har v\u00E6rt byggmester med eget firma og bygget mange hus. Ble senere l\u00E6rer og rektor i skolen. 4 barn, 5 barnebarn. Kj\u00F8rer motorsykkel Harley og har ogs\u00E5 kj\u00F8rt Route 66 i USA. Masse metall i kneet s\u00E5 det er mulig han f\u00E5r problemer i sikkerhetskontrollen. Har ogs\u00E5 flere fuglehunder som er sv\u00E6rt lydige. Snakker rett fra levra og er direkte, men det f\u00E5r vi t\u00E5le. Ellers er han rolig kar. Letteste personen \u00E5 f\u00E5 med p\u00E5 turen.",
     photo: "public/crew/morten.jpg",
     emoji: "\u{1F3CD}"
   },
   {
     name: "Eivind Haddeland",
     role: "\"The Scandinavian Terminator\"",
-    bio: "Bor siden 5 \u00E5r i Karibien der han kalles \"The Scandinavian Terminator\". Surfer og livsnyter. Seilt Atlanterhavet to ganger i liten seilb\u00E5t. Ekspert p\u00E5 mindfulness \u2014 holder foredrag i Pyramiden.",
+    bio: "Har kallenavnet \"The Scandinavian Terminator\" i Karibien der han bor. Veldig h\u00F8flig kar og spiser alltid opp maten sin \u2014 og andres. Kan ikke f\u00E5 nok mat. Har bodd 5 \u00E5r i Karibien, livsnyter og koser seg, og er hjemme i Mandal hver sommer. Surfing er hans store hobby. Besteg Karibiens h\u00F8yeste fjell p\u00E5 3200 meter sammen med Edmund i 2023. Singel, men har 2 voksne barn \u2014 en merkelig frivillig singel type, damene st\u00E5r i k\u00F8 men han vil ikke ha dem i hus. Eier masse leiligheter og hus i Oslo og Kristiansand, det er hans levebr\u00F8d \u2014 v\u00E6rt smart og satset tidlig. Har jobbet ett \u00E5r i Australia som sauegjeter. Ekspert p\u00E5 mindfulness \u2014 holder et spennende foredrag i Pyramiden og tar oss inn i den mystiske verden og forteller hva dette er for noe. Vi gir han 20 minutter der.",
     photo: "public/crew/eivind.png",
     emoji: "\u{1F3C4}"
   },
   {
-    name: "Ingolf",
+    name: "Ingolfur Helgason",
     role: "Kongen av Skagafjord",
-    bio: "Islending av det ekte slaget. P\u00E5 nabotomten hans dukker det opp en isbj\u00F8rn hvert femte \u00E5r, sv\u00F8mmende fra Gr\u00F8nland. Holder foredrag i Pyramiden om Islands historie \u2014 oppgang og fall.",
+    bio: "1969-modell, hardf\u00F8r og myk mann fra Island. Trives i baren. Snakker bra norsk \u2014 \"No fer vi!\" sier han. Har tre flotte barn: Ingunn, Bj\u00F8rg og Traustur. Vakker, nydelig kone Unndur \u2014 beste dama til \u00E5 lage mat i hele Skagafj\u00F8r\u00F0ur. Bor p\u00E5 en stor fin g\u00E5rd som heter Dyrfinnastadir med ca 200 hester, 50 sauer, 30 okser og 3 hunder. Kj\u00F8kkenet p\u00E5 g\u00E5rden fungerer som en kaf\u00E9 \u2014 det er folk der hele dagen. Familien er utrolig gjestfri og har alltid tid til ei \u00F8l eller en kaffe. Tror nok noen av dere fra turen ender opp en dag ved kj\u00F8kkenbordet til Unndur n\u00E5r dere reiser til vakre Nord-Island. Ingolf rir aldri med hjelm, har krysset de st\u00F8rste breelvene ridende i iskaldt vann. F\u00E5tt noen gode smeller i hodet, men hjelm er bare tull og for kjerringer sier han. Blir spennende p\u00E5 turen om han kommer til \u00E5 bruke hjelm. Har skutt 200\u2013300 hester men ingen isbj\u00F8rn \u2014 ca hvert 5. \u00E5r kommer det en isbj\u00F8rn sv\u00F8mmende fra Gr\u00F8nland til nabog\u00E5rden. Den rekker \u00E5 v\u00E6re p\u00E5 Island noen timer f\u00F8r den blir skutt.",
     photo: "public/crew/ingolf.png",
     emoji: "\u{1F1EE}\u{1F1F8}"
   },
@@ -1994,9 +2005,9 @@ const CREW = [
   },
   {
     name: "Tor Kristian Berge",
-    role: "Leirsjef & logistikkansvarlig",
-    bio: "Mannen bak Camp Bolterdalen og sentral i planleggingen av ekspedisjonens praktiske deler. Presentasjon kommer.",
-    emoji: "\u26FA"
+    role: "V\u00E5r guide & leirsjef",
+    bio: "S\u00F8nn av v\u00E5r kj\u00E6re l\u00E6rer Harry Berge. Harry var god b\u00E5de p\u00E5 s\u00F8ndagsskolen og i skolen \u2014 han glemte bare \u00E5 l\u00E6re s\u00F8nnen sin om Jesus og den allmektige gud. Guiden v\u00E5r er ca 50 \u00E5r, vokst opp p\u00E5 Berge i Mandal. 2 barn og bor i Porsgrunn. Frontfigur i jævelrockbandet Camp Addy. Denne karen har gjort mye forskjellig og har v\u00E6rt mer eller mindre p\u00E5 Svalbard de siste 10\u201315 \u00E5rene. Jeg har v\u00E6rt med han p\u00E5 tur 2 ganger \u00E0 5 dager \u2014 solid og myndig fyr. Kan mye om Svalbard og kjenner terrenget som sin egen bukselomme. Tor Kristian kan streve litt med hodet, noe han er \u00E5pen om. N\u00E5r han er med oss er han trygg som fanden sj\u00F8l. Kan fare opp litt om vi ikke gj\u00F8r som sjefen sier, men det g\u00E5r over p\u00E5 3 minutt. Det er et stort ansvar \u00E5 guide der oppe og et stort kontrollorgan \u2014 alt m\u00E5 v\u00E6re p\u00E5 plass. Alt i alt den beste mannen vi kan f\u00E5 til \u00E5 lede oss ute i felten. Hans \u00F8nske er at vi alle skal kose oss maks og f\u00E5 maks ut av turen \u2014 dette vektlegger han veldig mye, men alltid safety first.",
+    emoji: "\u{1F3B8}"
   },
 ];
 
