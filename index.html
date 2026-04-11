@@ -506,13 +506,23 @@
     border-radius: 8px;
     padding: 1.5rem 1rem;
     text-align: center;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
     cursor: default;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .crew-card.expandable {
+    cursor: pointer;
   }
 
   .crew-card:hover {
     border-color: var(--ice-dim);
     transform: translateY(-4px);
+  }
+
+  .crew-card.open {
+    border-color: var(--ice-dim);
+    background: rgba(168,216,234,0.06);
   }
 
   .crew-avatar {
@@ -2428,28 +2438,56 @@ function renderCrew() {
   grid.innerHTML = CREW.map((p, i) => {
     const isLong = p.bio && p.bio.length > 140;
     return `
-    <div class="crew-card">
+    <div class="crew-card ${isLong ? 'expandable' : ''}" ${isLong ? `onclick="toggleBio(${i}, event)"` : ''} id="card-${i}">
       <div class="crew-avatar">${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : p.emoji}</div>
       <div class="crew-name">${p.name}</div>
       <div class="crew-role">${p.role}</div>
       <div class="crew-bio ${isLong ? 'collapsed' : ''}" id="bio-${i}">${p.bio}</div>
-      ${isLong ? `<button class="crew-read-more" onclick="toggleBio(${i}, this)" data-more="${readMore}" data-less="${readLess}">${readMore} \u2193</button>` : ''}
+      ${isLong ? `<button class="crew-read-more" id="readmore-${i}" data-more="${readMore}" data-less="${readLess}">${readMore} \u2193</button>` : ''}
     </div>
   `;
   }).join('');
 }
 
-function toggleBio(i, btn) {
+function isMobile() {
+  return window.matchMedia('(max-width: 650px)').matches;
+}
+
+function collapseCard(i) {
   const bio = document.getElementById('bio-' + i);
+  const card = document.getElementById('card-' + i);
+  const btn = document.getElementById('readmore-' + i);
+  if (!bio || !card) return;
+  bio.classList.add('collapsed');
+  bio.classList.remove('expanded');
+  card.classList.remove('open');
+  if (btn) btn.innerHTML = btn.dataset.more + ' \u2193';
+}
+
+function expandCard(i) {
+  const bio = document.getElementById('bio-' + i);
+  const card = document.getElementById('card-' + i);
+  const btn = document.getElementById('readmore-' + i);
+  if (!bio || !card) return;
+  bio.classList.remove('collapsed');
+  bio.classList.add('expanded');
+  card.classList.add('open');
+  if (btn) btn.innerHTML = btn.dataset.less + ' \u2191';
+}
+
+function toggleBio(i, ev) {
+  if (ev) ev.stopPropagation();
+  const bio = document.getElementById('bio-' + i);
+  if (!bio) return;
   const isCollapsed = bio.classList.contains('collapsed');
   if (isCollapsed) {
-    bio.classList.remove('collapsed');
-    bio.classList.add('expanded');
-    btn.innerHTML = btn.dataset.less + ' \u2191';
+    // On mobile, close all others first
+    if (isMobile()) {
+      CREW.forEach((_, j) => { if (j !== i) collapseCard(j); });
+    }
+    expandCard(i);
   } else {
-    bio.classList.add('collapsed');
-    bio.classList.remove('expanded');
-    btn.innerHTML = btn.dataset.more + ' \u2193';
+    collapseCard(i);
   }
 }
 
