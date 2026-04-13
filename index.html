@@ -1558,9 +1558,9 @@
           <div class="stat-val">12</div>
           <div class="stat-label" data-t="hero.stat_crew">Expedition members</div>
         </div>
-        <div>
-          <div class="stat-val">&minus;20&deg;</div>
-          <div class="stat-label" data-t="hero.stat_temp">Average temperature</div>
+        <div style="cursor:pointer" onclick="showPage('album')" title="📸">
+          <div class="stat-val" id="heroTemp">&minus;20&deg;</div>
+          <div class="stat-label" data-t="hero.stat_temp">Pyramiden now</div>
         </div>
         <div>
           <div class="stat-val">78&deg;N</div>
@@ -1695,7 +1695,7 @@ const T = {
       title2: "Svalbard",
       desc: "Twelve adventurers from Norway, Sweden and Iceland. Ice fjords, snowmobiles, dog sledding, talks in Pyramiden and temperatures that push the limits. Welcome to the most beautiful wilderness on Earth.",
       stat_crew: "Expedition members",
-      stat_temp: "Average temperature",
+      stat_temp: "Pyramiden now",
       stat_lat: "Latitude"
     },
     ticker: { items: [
@@ -1760,7 +1760,7 @@ const T = {
       title2: "Svalbard",
       desc: "Tolv eventyrere fra Norge, Sverige og Island. Isfjorder, sn\u00F8scootere, hundekj\u00F8ring, foredrag i Pyramiden og temperaturer som tester grensene. Velkommen til verdens vakreste villmark.",
       stat_crew: "Ekspedisjonsmedlemmer",
-      stat_temp: "Gjennomsnittstemperatur",
+      stat_temp: "Pyramiden nå",
       stat_lat: "Breddegrad"
     },
     ticker: { items: [
@@ -1825,7 +1825,7 @@ const T = {
       title2: "Svalbard",
       desc: "Tolv \u00E4ventyrare fr\u00E5n Norge, Sverige och Island. Isfjordar, sn\u00F6skotrar, hundspann, f\u00F6redrag i Pyramiden och temperaturer som testar gr\u00E4nserna. V\u00E4lkommen till jordens vackraste \u00F6demark.",
       stat_crew: "Expeditionsmedlemmar",
-      stat_temp: "Medeltemperatur",
+      stat_temp: "Pyramiden nu",
       stat_lat: "Latitud"
     },
     ticker: { items: [
@@ -1955,7 +1955,7 @@ const T = {
       title2: "Svalbard",
       desc: "Tolv eventyrere fra Norge, Sverige og Island. Isfjorde, snescootere, hundeslæde, foredrag i Pyramiden og temperaturer der tester grænser. Velkommen til verdens smukkeste vildmark.",
       stat_crew: "Ekspeditionsmedlemmer",
-      stat_temp: "Gennemsnitstemperatur",
+      stat_temp: "Pyramiden nu",
       stat_lat: "Breddegrad"
     },
     ticker: { items: [
@@ -2020,7 +2020,7 @@ const T = {
       title2: "Svalbard",
       desc: "Dodici avventurieri da Norvegia, Svezia e Islanda. Fiordi ghiacciati, motoslitte, slitte trainate da cani, conferenze a Pyramiden e temperature che mettono alla prova i limiti. Benvenuti nella wilderness pi\u00F9 bella della Terra.",
       stat_crew: "Membri della spedizione",
-      stat_temp: "Temperatura media",
+      stat_temp: "Pyramiden ora",
       stat_lat: "Latitudine"
     },
     ticker: { items: [
@@ -3351,6 +3351,10 @@ function updateLiveWeatherBar() {
   const tempEl = document.getElementById('wbTemp');
   tempEl.innerHTML = '<span>\u{1F321}</span> ' + Math.round(inst.air_temperature) + '\u00B0C';
 
+  // Update hero KPI with live Pyramiden temp
+  const heroTemp = document.getElementById('heroTemp');
+  if (heroTemp) heroTemp.textContent = Math.round(inst.air_temperature) + '\u00B0';
+
   const windEl = document.getElementById('wbWind');
   windEl.innerHTML = '<span>\u{1F4A8}</span> ' + Math.round(inst.wind_speed) + ' m/s';
 
@@ -3832,5 +3836,6 @@ function closeLightbox() {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
