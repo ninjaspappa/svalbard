@@ -1039,8 +1039,11 @@
   }
 
   .album-card-name {
-    color: var(--frost);
-    margin-bottom: 0.15rem;
+    color: var(--ice-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
   }
 
   .album-card-caption {
@@ -1230,6 +1233,15 @@
   }
 
   .album-btn-secondary:hover { background: rgba(168,216,234,0.08); }
+
+  .album-btn-delete {
+    background: rgba(201,64,64,0.15);
+    color: var(--danger);
+    border: 1px solid rgba(201,64,64,0.3) !important;
+    font-size: 0.75rem;
+  }
+
+  .album-btn-delete:hover { background: rgba(201,64,64,0.3); }
 
   .album-toast {
     position: fixed;
@@ -1910,6 +1922,7 @@
       <button class="album-modal-close" onclick="closeEditModal()">&times;</button>
       <div class="album-modal-title" data-t="album.edit_title">Edit photo details</div>
       <input type="hidden" id="editPhotoId">
+      <input class="album-modal-field" id="editName" type="text" data-placeholder-t="album.name_placeholder">
       <div class="album-modal-row">
         <span class="album-modal-label" data-t="album.date_label">Date</span>
         <input class="album-modal-field" id="editDate" type="date" style="margin-bottom:0;flex:1">
@@ -1918,6 +1931,7 @@
       <textarea class="album-modal-field" id="editCaption" maxlength="144" placeholder="" data-placeholder-t="album.caption_placeholder" oninput="updateEditCharCount()"></textarea>
       <div class="album-char-count" id="editCharCount">0 / 144</div>
       <div class="album-modal-actions">
+        <button class="album-btn-delete" onclick="deletePhoto()" style="margin-right:auto">&#x1F5D1; Delete</button>
         <button class="album-btn-secondary" onclick="closeEditModal()" data-t="album.cancel_btn">Cancel</button>
         <button class="album-btn-primary" id="editSubmitBtn" onclick="submitEdit()" data-t="album.save_btn">Save</button>
       </div>
@@ -4267,9 +4281,9 @@ function buildDayAccordion(title, subtitle, countText, bucket, id) {
       <img class="album-card-img" src="${imgUrl}" alt="${caption || name}" onclick="openLightbox(${p._idx})" loading="lazy">
       <button class="album-card-edit" onclick="openEditModal('${p.id}')" title="Edit">&#9998;</button>
       <div class="album-card-info">
-        <div class="album-card-name">${escHtml(name)}</div>
         ${caption ? '<div class="album-card-caption">' + escHtml(caption) + '</div>' : ''}
         ${metaStr ? '<div class="album-card-meta">' + escHtml(metaStr) + '</div>' : ''}
+        ${name ? '<div class="album-card-name">\u{1F4F7} ' + escHtml(name) + '</div>' : ''}
       </div>
     </div>`;
   }).join('');
@@ -4469,6 +4483,7 @@ function openEditModal(photoId) {
   if (!photo) return;
 
   document.getElementById('editPhotoId').value = photoId;
+  document.getElementById('editName').value = photo.uploader_name || '';
   document.getElementById('editDate').value = (photo.photo_date || photo.taken_at || '').substring(0, 10);
   document.getElementById('editLocation').value = photo.location_name || '';
   document.getElementById('editCaption').value = photo.caption || '';
@@ -4487,8 +4502,41 @@ function updateEditCharCount() {
   document.getElementById('editCharCount').textContent = v.length + ' / 144';
 }
 
+async function deletePhoto() {
+  const photoId = document.getElementById('editPhotoId').value;
+  if (!photoId) return;
+  if (!confirm('Delete this photo permanently?')) return;
+
+  try {
+    // Find the photo to get its storage path
+    const photo = photos.find(p => p.id === photoId);
+
+    // Delete from photos table
+    await supabaseFetch('/rest/v1/photos?id=eq.' + photoId, { method: 'DELETE' });
+
+    // Try to delete from storage too
+    if (photo && photo.url) {
+      const path = photo.url.split('/svalbard-photos/')[1];
+      if (path) {
+        await supabaseFetch('/storage/v1/object/svalbard-photos/' + path, { method: 'DELETE' });
+      }
+    }
+
+    closeEditModal();
+    showAlbumToast('Deleted \u2713');
+    await loadPhotosFromSupabase();
+  } catch (e) {
+    console.error('Delete failed:', e);
+    // Remove locally anyway
+    photos = photos.filter(p => p.id !== photoId);
+    closeEditModal();
+    renderAlbum();
+  }
+}
+
 async function submitEdit() {
   const photoId = document.getElementById('editPhotoId').value;
+  const uploaderName = document.getElementById('editName').value.trim() || null;
   const photoDate = document.getElementById('editDate').value || null;
   const locationName = document.getElementById('editLocation').value.trim() || null;
   const caption = document.getElementById('editCaption').value.trim() || null;
@@ -4497,7 +4545,7 @@ async function submitEdit() {
   btn.disabled = true;
 
   try {
-    await updatePhotoMetadata(photoId, { photo_date: photoDate, location_name: locationName, caption });
+    await updatePhotoMetadata(photoId, { uploader_name: uploaderName, photo_date: photoDate, location_name: locationName, caption });
     closeEditModal();
     showAlbumToast(t('album.save_btn') + ' \u2713');
     await loadPhotosFromSupabase();
