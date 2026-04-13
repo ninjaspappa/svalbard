@@ -1673,9 +1673,45 @@
   }
 
   @media (max-width: 600px) {
-    nav { padding: 0 1rem; }
-    .nav-links { gap: 0 }
-    .nav-link { padding: 0.5rem 0.4rem; font-size: 0.6rem; }
+    /* Nav: stack vertically */
+    nav {
+      padding: 0.75rem 1rem;
+      flex-direction: column;
+      align-items: flex-start;
+      height: auto;
+      gap: 0.5rem;
+    }
+
+    .nav-brand {
+      font-size: 1.2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      width: 100%;
+    }
+
+    .nav-link {
+      font-size: 0.75rem;
+      padding: 0.5rem 0.65rem;
+      letter-spacing: 0.08em;
+    }
+
+    .lang-switcher {
+      position: absolute;
+      top: 0.75rem;
+      right: 1rem;
+    }
+
+    /* Smaller passport banner */
+    .important-banner {
+      font-size: 0.6rem;
+      padding: 0.45rem 0.75rem;
+      letter-spacing: 0.1em;
+    }
+
     .hero-content { padding: 2rem; }
     .hero-stats { display: none; }
     section { padding: 3rem 1rem; }
