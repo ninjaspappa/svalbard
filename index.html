@@ -3880,6 +3880,28 @@ function renderTicker() {
 
 // ══ CREW ═══════════════════════════════════════════════════
 
+function formatBio(text) {
+  if (!text || text.length < 120) return text;
+  // Split into sentences
+  const sentences = text.match(/[^.!?]+[.!?]+[\s"]*/g) || [text];
+  if (sentences.length <= 2) return text;
+  // Group into paragraphs of 2-3 sentences
+  const paras = [];
+  let current = '';
+  let count = 0;
+  for (const s of sentences) {
+    current += s;
+    count++;
+    if (count >= 2 && current.length > 80) {
+      paras.push(current.trim());
+      current = '';
+      count = 0;
+    }
+  }
+  if (current.trim()) paras.push(current.trim());
+  return paras.map(p => '<p style="margin:0 0 0.5em">' + p + '</p>').join('');
+}
+
 function renderCrew() {
   const grid = document.getElementById('crewGrid');
   const tr = T[currentLang] || T.en;
@@ -3890,12 +3912,13 @@ function renderCrew() {
     const role = localized.role != null ? localized.role : p.role;
     const bio = localized.bio != null ? localized.bio : p.bio;
     const isLong = bio && bio.length > 140;
+    const bioHtml = formatBio(bio);
     return `
     <div class="crew-card ${isLong ? 'expandable' : ''}" ${isLong ? `onclick="toggleBio(${i}, event)"` : ''} id="card-${i}">
       <div class="crew-avatar">${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : p.emoji}</div>
       <div class="crew-name">${p.name}</div>
       <div class="crew-role">${role}</div>
-      <div class="crew-bio ${isLong ? 'collapsed' : ''}" id="bio-${i}">${bio}</div>
+      <div class="crew-bio ${isLong ? 'collapsed' : ''}" id="bio-${i}">${bioHtml}</div>
       ${isLong ? `<button class="crew-read-more" id="readmore-${i}" data-more="${readMore}" data-less="${readLess}">${readMore} \u2193</button>` : ''}
     </div>
   `;
