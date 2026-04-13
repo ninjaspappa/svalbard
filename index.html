@@ -988,6 +988,16 @@
     white-space: nowrap;
   }
 
+  .album-day-empty {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 1.5rem 0;
+    text-align: center;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
   .album-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1975,7 +1985,7 @@ const T = {
       upload_title: "Share your photos",
       name_placeholder: "Your name",
       caption_placeholder: "Caption (optional)",
-      empty: "No photos yet \u2014 upload the first memories! \u{1F3D4}",
+      no_photos_yet: "No photos yet — the adventure continues!", empty: "No photos yet \u2014 upload the first memories! \u{1F3D4}",
       uploading: "Uploading...",
       uploaded_one: "1 photo uploaded",
       uploaded_many: "{n} photos uploaded",
@@ -2052,7 +2062,7 @@ const T = {
       upload_title: "Del bildene dine",
       name_placeholder: "Ditt navn",
       caption_placeholder: "Bildetekst (valgfritt)",
-      empty: "Ingen bilder enn\u00E5 \u2014 last opp de f\u00F8rste minnene! \u{1F3D4}",
+      no_photos_yet: "Ingen bilder ennå — eventyret fortsetter!", empty: "Ingen bilder enn\u00E5 \u2014 last opp de f\u00F8rste minnene! \u{1F3D4}",
       uploading: "Laster opp...",
       uploaded_one: "1 bilde lastet opp",
       uploaded_many: "{n} bilder lastet opp",
@@ -2206,7 +2216,7 @@ const T = {
       upload_title: "Deildu myndunum \u00FE\u00EDnum",
       name_placeholder: "Nafi\u00F0 \u00FEitt",
       caption_placeholder: "Myndatexti (valfrj\u00E1lst)",
-      empty: "Engar myndir enn \u2014 hla\u00F0i\u00F0 upp fyrstu minningunum! \u{1F3D4}",
+      no_photos_yet: "Engar myndir enn — ævintýrið heldur áfram!", empty: "Engar myndir enn \u2014 hla\u00F0i\u00F0 upp fyrstu minningunum! \u{1F3D4}",
       uploading: "Hle\u00F0ur upp...",
       uploaded_one: "1 mynd hla\u00F0i\u00F0 upp",
       uploaded_many: "{n} myndir hla\u00F0nar upp",
@@ -2283,7 +2293,7 @@ const T = {
       upload_title: "Del dine billeder",
       name_placeholder: "Dit navn",
       caption_placeholder: "Billedtekst (valgfrit)",
-      empty: "Ingen billeder endnu \u2014 upload de f\u00F8rste minder! \u{1F3D4}",
+      no_photos_yet: "Ingen billeder endnu — eventyret fortsætter!", empty: "Ingen billeder endnu \u2014 upload de f\u00F8rste minder! \u{1F3D4}",
       uploading: "Uploader...",
       uploaded_one: "1 billede uploadet",
       uploaded_many: "{n} billeder uploadet",
@@ -2360,7 +2370,7 @@ const T = {
       upload_title: "Condividi le tue foto",
       name_placeholder: "Il tuo nome",
       caption_placeholder: "Didascalia (opzionale)",
-      empty: "Ancora nessuna foto \u2014 carica i primi ricordi! \u{1F3D4}",
+      no_photos_yet: "Ancora nessuna foto — l'avventura continua!", empty: "Ancora nessuna foto \u2014 carica i primi ricordi! \u{1F3D4}",
       uploading: "Caricamento...",
       uploaded_one: "1 foto caricata",
       uploaded_many: "{n} foto caricate",
@@ -4189,12 +4199,13 @@ async function loadPhotosFromSupabase() {
 }
 
 // ── Render album as day-based accordions ──
+function getDayLabel(dayNum) {
+  // Day 1 = April 15. Today (April 14) would be Day -1
+  return t('album.day_prefix') + ' ' + dayNum;
+}
+
 function renderAlbum() {
   const container = document.getElementById('albumDayContainer');
-  if (photos.length === 0) {
-    container.innerHTML = '<div class="album-empty" data-t="album.empty">' + t('album.empty') + '</div>';
-    return;
-  }
 
   // Group photos by day
   const dayBuckets = {};
@@ -4213,12 +4224,14 @@ function renderAlbum() {
 
   let html = '';
 
+  // Always show ALL days — even empty ones
   ALBUM_DAYS.forEach(dayInfo => {
     const bucket = dayBuckets[dayInfo.date];
-    if (bucket.length === 0) return;
-    const countText = bucket.length === 1 ? t('album.photo_count_one') : t('album.photos_count').replace('{n}', bucket.length);
+    const countText = bucket.length === 0
+      ? ''
+      : bucket.length === 1 ? t('album.photo_count_one') : t('album.photos_count').replace('{n}', bucket.length);
     html += buildDayAccordion(
-      t('album.day_prefix') + ' ' + dayInfo.day,
+      getDayLabel(dayInfo.day),
       formatDateNice(dayInfo.date),
       countText,
       bucket,
@@ -4226,16 +4239,15 @@ function renderAlbum() {
     );
   });
 
-  if (unsorted.length > 0) {
-    const countText = unsorted.length === 1 ? t('album.photo_count_one') : t('album.photos_count').replace('{n}', unsorted.length);
-    html += buildDayAccordion(
-      t('album.unsorted'),
-      '',
-      countText,
-      unsorted,
-      'album-day-unsorted'
-    );
-  }
+  // Unsorted section
+  const unsortedCount = unsorted.length === 0 ? '' : unsorted.length === 1 ? t('album.photo_count_one') : t('album.photos_count').replace('{n}', unsorted.length);
+  html += buildDayAccordion(
+    t('album.unsorted') || 'Unsorted',
+    '',
+    unsortedCount,
+    unsorted,
+    'album-day-unsorted'
+  );
 
   container.innerHTML = html;
 }
@@ -4262,6 +4274,10 @@ function buildDayAccordion(title, subtitle, countText, bucket, id) {
     </div>`;
   }).join('');
 
+  const emptyMsg = bucket.length === 0
+    ? '<div class="album-day-empty">\u2744\uFE0F ' + (t('album.no_photos_yet') || 'No photos yet \u2014 the adventure continues!') + '</div>'
+    : '';
+
   return `<div class="day-block open" id="${id}">
     <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
       <div class="day-info">
@@ -4272,7 +4288,7 @@ function buildDayAccordion(title, subtitle, countText, bucket, id) {
       <span class="day-chevron">\u25BC</span>
     </div>
     <div class="day-body">
-      <div class="album-grid">${cards}</div>
+      ${bucket.length > 0 ? '<div class="album-grid">' + cards + '</div>' : emptyMsg}
     </div>
   </div>`;
 }
@@ -4315,17 +4331,26 @@ async function onAlbumFileSelected(files) {
   }
   document.getElementById('uploadDate').value = detectedDate;
 
+  // Calculate which expedition day this date corresponds to
+  function getExpDayLabel(dateStr) {
+    const base = new Date('2026-04-15'); // Day 1
+    const d = new Date(dateStr);
+    const diff = Math.round((d - base) / 86400000) + 1;
+    return (t('album.day_prefix') || 'Day') + ' ' + diff;
+  }
+
   // Detected info display
   const infoLines = [];
-  if (exif.date) infoLines.push(t('album.detected_date') + ': ' + exif.date);
+  const dayLabel = getExpDayLabel(detectedDate);
+  infoLines.push(dayLabel + ' (' + detectedDate + ')');
   if (exif.lat !== null && exif.lon !== null) {
     infoLines.push(t('album.detected_gps') + ': ' + exif.lat.toFixed(4) + ', ' + exif.lon.toFixed(4));
     document.getElementById('uploadLocation').value = exif.lat.toFixed(4) + ', ' + exif.lon.toFixed(4);
   } else {
     document.getElementById('uploadLocation').value = '';
   }
-  document.getElementById('uploadDetectedInfo').textContent = infoLines.join(' | ') || '';
-  document.getElementById('uploadDetectedInfo').style.display = infoLines.length ? 'block' : 'none';
+  document.getElementById('uploadDetectedInfo').textContent = infoLines.join(' \u00B7 ');
+  document.getElementById('uploadDetectedInfo').style.display = 'block';
 
   // Pre-fill name from localStorage
   const savedName = localStorage.getItem('svalbard_uploader_name') || '';
