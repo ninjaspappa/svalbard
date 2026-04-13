@@ -1899,8 +1899,8 @@
       <img class="album-modal-preview" id="uploadPreviewImg" src="" alt="">
       <div class="album-modal-detected" id="uploadDetectedInfo"></div>
       <input class="album-modal-field" id="uploadName" type="text" data-placeholder-t="album.name_placeholder">
-      <textarea class="album-modal-field" id="uploadCaption" maxlength="144" placeholder="" data-placeholder-t="album.caption_placeholder" oninput="updateUploadCharCount()"></textarea>
-      <div class="album-char-count" id="uploadCharCount">0 / 144</div>
+      <textarea class="album-modal-field" id="uploadCaption" maxlength="500" placeholder="" data-placeholder-t="album.caption_placeholder" oninput="updateUploadCharCount()"></textarea>
+      <div class="album-char-count" id="uploadCharCount">0 / 500</div>
       <div class="album-modal-row">
         <span class="album-modal-label" data-t="album.date_label">Date</span>
         <input class="album-modal-field" id="uploadDate" type="date" style="margin-bottom:0;flex:1">
@@ -1928,8 +1928,8 @@
         <input class="album-modal-field" id="editDate" type="date" style="margin-bottom:0;flex:1">
       </div>
       <input class="album-modal-field" id="editLocation" type="text" data-placeholder-t="album.location_placeholder">
-      <textarea class="album-modal-field" id="editCaption" maxlength="144" placeholder="" data-placeholder-t="album.caption_placeholder" oninput="updateEditCharCount()"></textarea>
-      <div class="album-char-count" id="editCharCount">0 / 144</div>
+      <textarea class="album-modal-field" id="editCaption" maxlength="500" placeholder="" data-placeholder-t="album.caption_placeholder" oninput="updateEditCharCount()"></textarea>
+      <div class="album-char-count" id="editCharCount">0 / 500</div>
       <div class="album-modal-actions">
         <button class="album-btn-delete" onclick="deletePhoto()" style="margin-right:auto">&#x1F5D1; Delete</button>
         <button class="album-btn-secondary" onclick="closeEditModal()" data-t="album.cancel_btn">Cancel</button>
@@ -4370,7 +4370,7 @@ async function onAlbumFileSelected(files) {
   const savedName = localStorage.getItem('svalbard_uploader_name') || '';
   document.getElementById('uploadName').value = savedName;
   document.getElementById('uploadCaption').value = '';
-  document.getElementById('uploadCharCount').textContent = '0 / 144';
+  document.getElementById('uploadCharCount').textContent = '0 / 500';
 
   // Apply translation placeholders
   applyTranslations();
@@ -4386,7 +4386,7 @@ function closeUploadModal() {
 
 function updateUploadCharCount() {
   const v = document.getElementById('uploadCaption').value;
-  document.getElementById('uploadCharCount').textContent = v.length + ' / 144';
+  document.getElementById('uploadCharCount').textContent = v.length + ' / 500';
 }
 
 async function submitUpload() {
@@ -4499,7 +4499,7 @@ function closeEditModal() {
 
 function updateEditCharCount() {
   const v = document.getElementById('editCaption').value;
-  document.getElementById('editCharCount').textContent = v.length + ' / 144';
+  document.getElementById('editCharCount').textContent = v.length + ' / 500';
 }
 
 async function deletePhoto() {
