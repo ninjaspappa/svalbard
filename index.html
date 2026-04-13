@@ -925,37 +925,13 @@
   }
 
   /* ── Album ── */
-  .album-upload-zone {
-    border: 2px dashed var(--border);
-    border-radius: 8px;
-    padding: 3rem 2rem;
-    text-align: center;
-    margin-bottom: 2.5rem;
-    transition: border-color 0.2s, background 0.2s;
-    cursor: pointer;
-  }
-
-  .album-upload-zone:hover, .album-upload-zone.drag {
-    border-color: var(--ice-dim);
-    background: rgba(168,216,234,0.03);
-  }
-
-  .upload-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-
-  .upload-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    color: var(--frost);
-    margin-bottom: 0.5rem;
-  }
-
-  .upload-sub {
-    font-size: 0.8rem;
-    color: var(--muted);
+  .album-top-bar {
+    display: flex;
+    justify-content: flex-end;
     margin-bottom: 1.5rem;
   }
 
-  .upload-btn {
+  .album-upload-btn {
     background: var(--ice-dim);
     color: var(--deep);
     border: none;
@@ -968,74 +944,128 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  .upload-btn:hover { background: var(--ice); }
+  .album-upload-btn:hover { background: var(--ice); }
 
-  .upload-fields {
-    display: flex;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
+  .album-fab {
+    display: none;
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--ice-dim);
+    color: var(--deep);
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 90;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    transition: background 0.2s, transform 0.2s;
+    align-items: center;
+    justify-content: center;
   }
 
-  .upload-field {
-    flex: 1;
-    min-width: 160px;
-    background: rgba(168,216,234,0.06);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 0.625rem 0.75rem;
-    color: var(--frost);
+  .album-fab:hover { background: var(--ice); transform: scale(1.05); }
+
+  @media (max-width: 600px) {
+    .album-fab { display: flex; }
+  }
+
+  .album-day-count {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.8rem;
-    outline: none;
+    font-size: 0.65rem;
+    color: var(--muted);
+    background: rgba(168,216,234,0.08);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    margin-left: auto;
+    white-space: nowrap;
   }
-
-  .upload-field:focus { border-color: var(--ice-dim); }
-  .upload-field::placeholder { color: var(--muted); }
 
   .album-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    padding-top: 0.5rem;
   }
 
-  .album-photo {
-    aspect-ratio: 1;
+  @media (max-width: 900px) {
+    .album-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .album-grid { grid-template-columns: 1fr; }
+  }
+
+  .album-card {
     border-radius: 6px;
     overflow: hidden;
-    cursor: pointer;
     position: relative;
     background: var(--card);
     border: 1px solid var(--border);
   }
 
-  .album-photo img {
-    width: 100%; height: 100%;
+  .album-card-img {
+    width: 100%;
+    aspect-ratio: 1;
     object-fit: cover;
+    display: block;
+    cursor: pointer;
     transition: transform 0.3s;
   }
 
-  .album-photo:hover img { transform: scale(1.05); }
+  .album-card:hover .album-card-img { transform: scale(1.05); }
 
-  .album-photo-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(6,14,28,0.8), transparent);
+  .album-card-info {
+    padding: 0.5rem 0.65rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+  }
+
+  .album-card-name {
+    color: var(--frost);
+    margin-bottom: 0.15rem;
+  }
+
+  .album-card-caption {
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .album-card-meta {
+    font-size: 0.6rem;
+    color: var(--ice-dim);
+  }
+
+  .album-card-edit {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(6,14,28,0.7);
+    border: 1px solid var(--border);
+    color: var(--frost);
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
     transition: opacity 0.2s;
-    display: flex;
-    align-items: flex-end;
-    padding: 0.75rem;
   }
 
-  .album-photo:hover .album-photo-overlay { opacity: 1; }
-
-  .album-photo-name {
-    font-size: 0.75rem;
-    color: var(--frost);
-    font-family: 'IBM Plex Mono', monospace;
-  }
+  .album-card:hover .album-card-edit { opacity: 1; }
 
   .album-empty {
     text-align: center;
@@ -1044,6 +1074,171 @@
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.8rem;
   }
+
+  /* ── Album Modals ── */
+  .album-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6,14,28,0.92);
+    z-index: 600;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .album-modal-overlay.open { display: flex; }
+
+  .album-modal {
+    background: var(--arctic);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    max-width: 420px;
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .album-modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--frost);
+    margin-bottom: 1.25rem;
+  }
+
+  .album-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
+
+  .album-modal-close:hover { color: var(--frost); }
+
+  .album-modal-preview {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    background: rgba(0,0,0,0.2);
+  }
+
+  .album-modal-field {
+    width: 100%;
+    background: rgba(168,216,234,0.06);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.625rem 0.75rem;
+    color: var(--frost);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    outline: none;
+    margin-bottom: 0.75rem;
+  }
+
+  .album-modal-field:focus { border-color: var(--ice-dim); }
+  .album-modal-field::placeholder { color: var(--muted); }
+
+  textarea.album-modal-field {
+    resize: vertical;
+    min-height: 60px;
+  }
+
+  .album-modal-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .album-modal-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    min-width: 70px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .album-modal-detected {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ice-dim);
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0.65rem;
+    background: rgba(168,216,234,0.04);
+    border-radius: 4px;
+  }
+
+  .album-char-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-align: right;
+    margin-top: -0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .album-modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .album-modal-actions button {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+  }
+
+  .album-btn-primary {
+    background: var(--ice-dim);
+    color: var(--deep);
+  }
+
+  .album-btn-primary:hover { background: var(--ice); }
+
+  .album-btn-secondary {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border) !important;
+  }
+
+  .album-btn-secondary:hover { background: rgba(168,216,234,0.08); }
+
+  .album-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--ice-dim);
+    color: var(--deep);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    z-index: 700;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  .album-toast.show { transform: translateX(-50%) translateY(0); }
 
   /* ── Lightbox ── */
   .lightbox {
@@ -1660,24 +1855,67 @@
         <h2 class="section-title" data-t="album.title">Photos from the trip</h2>
       </div>
 
-      <div class="album-upload-zone" id="uploadZone">
-        <div class="upload-icon">&#x1F4F7;</div>
-        <div class="upload-title" data-t="album.upload_title">Share your photos</div>
-        <div class="upload-sub" data-t="album.upload_sub">Drag and drop images here, or click to choose</div>
-        <div class="upload-fields">
-          <input class="upload-field" id="uploaderName" type="text" data-placeholder-t="album.name_placeholder">
-          <input class="upload-field" id="photoCaption" type="text" data-placeholder-t="album.caption_placeholder">
-        </div>
-        <input type="file" id="fileInput" accept="image/*" multiple style="display:none" onchange="handleFiles(this.files)">
-        <button class="upload-btn" onclick="document.getElementById('fileInput').click()" data-t="album.choose_btn">Choose images</button>
-        <div id="uploadStatus" style="margin-top:1rem; font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--muted)"></div>
+      <div class="album-top-bar">
+        <button class="album-upload-btn" onclick="openUploadPicker()">&#x1F4F7; <span data-t="album.upload_btn">Upload photos</span></button>
       </div>
+      <input type="file" id="albumFileInput" accept="image/*" style="display:none" onchange="onAlbumFileSelected(this.files)">
 
-      <div class="album-grid" id="albumGrid">
+      <div id="albumDayContainer">
         <div class="album-empty" data-t="album.empty">No photos yet &mdash; upload the first memories! &#x1F3D4;</div>
       </div>
     </section>
+
+    <!-- Floating upload button on mobile -->
+    <button class="album-fab" onclick="openUploadPicker()" aria-label="Upload photo">&#x1F4F7;</button>
   </div>
+
+  <!-- Upload Preview Modal -->
+  <div class="album-modal-overlay" id="uploadModal">
+    <div class="album-modal">
+      <button class="album-modal-close" onclick="closeUploadModal()">&times;</button>
+      <div class="album-modal-title" data-t="album.upload_title">Share your photos</div>
+      <img class="album-modal-preview" id="uploadPreviewImg" src="" alt="">
+      <div class="album-modal-detected" id="uploadDetectedInfo"></div>
+      <input class="album-modal-field" id="uploadName" type="text" data-placeholder-t="album.name_placeholder">
+      <textarea class="album-modal-field" id="uploadCaption" maxlength="144" placeholder="" data-placeholder-t="album.caption_placeholder" oninput="updateUploadCharCount()"></textarea>
+      <div class="album-char-count" id="uploadCharCount">0 / 144</div>
+      <div class="album-modal-row">
+        <span class="album-modal-label" data-t="album.date_label">Date</span>
+        <input class="album-modal-field" id="uploadDate" type="date" style="margin-bottom:0;flex:1">
+      </div>
+      <div class="album-modal-row">
+        <span class="album-modal-label" data-t="album.location_label">Location</span>
+        <input class="album-modal-field" id="uploadLocation" type="text" style="margin-bottom:0;flex:1" data-placeholder-t="album.location_placeholder">
+      </div>
+      <div class="album-modal-actions">
+        <button class="album-btn-secondary" onclick="closeUploadModal()" data-t="album.cancel_btn">Cancel</button>
+        <button class="album-btn-primary" id="uploadSubmitBtn" onclick="submitUpload()" data-t="album.upload_submit">Upload</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Photo Modal -->
+  <div class="album-modal-overlay" id="editModal">
+    <div class="album-modal">
+      <button class="album-modal-close" onclick="closeEditModal()">&times;</button>
+      <div class="album-modal-title" data-t="album.edit_title">Edit photo details</div>
+      <input type="hidden" id="editPhotoId">
+      <div class="album-modal-row">
+        <span class="album-modal-label" data-t="album.date_label">Date</span>
+        <input class="album-modal-field" id="editDate" type="date" style="margin-bottom:0;flex:1">
+      </div>
+      <input class="album-modal-field" id="editLocation" type="text" data-placeholder-t="album.location_placeholder">
+      <textarea class="album-modal-field" id="editCaption" maxlength="144" placeholder="" data-placeholder-t="album.caption_placeholder" oninput="updateEditCharCount()"></textarea>
+      <div class="album-char-count" id="editCharCount">0 / 144</div>
+      <div class="album-modal-actions">
+        <button class="album-btn-secondary" onclick="closeEditModal()" data-t="album.cancel_btn">Cancel</button>
+        <button class="album-btn-primary" id="editSubmitBtn" onclick="submitEdit()" data-t="album.save_btn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="album-toast" id="albumToast"></div>
 
   <footer id="siteFooter" data-t="footer"></footer>
 </div>
@@ -1733,15 +1971,27 @@ const T = {
     album: {
       label: "Memories",
       title: "Photos from the trip",
+      upload_btn: "Upload photos",
       upload_title: "Share your photos",
-      upload_sub: "Drag and drop images here, or click to choose",
       name_placeholder: "Your name",
       caption_placeholder: "Caption (optional)",
-      choose_btn: "Choose images",
       empty: "No photos yet \u2014 upload the first memories! \u{1F3D4}",
       uploading: "Uploading...",
       uploaded_one: "1 photo uploaded",
-      uploaded_many: "{n} photos uploaded"
+      uploaded_many: "{n} photos uploaded",
+      date_label: "Date",
+      location_label: "Location",
+      location_placeholder: "Location name",
+      cancel_btn: "Cancel",
+      upload_submit: "Upload",
+      save_btn: "Save",
+      edit_title: "Edit photo details",
+      detected_date: "Detected date",
+      detected_gps: "Detected GPS",
+      unsorted: "Unsorted",
+      photos_count: "{n} photos",
+      photo_count_one: "1 photo",
+      day_prefix: "Day"
     },
     footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 ALL ABOARD \u2744",
     gate: {
@@ -1798,15 +2048,27 @@ const T = {
     album: {
       label: "Minner",
       title: "Bilder fra turen",
+      upload_btn: "Last opp bilder",
       upload_title: "Del bildene dine",
-      upload_sub: "Dra og slipp bilder her, eller klikk for \u00E5 velge",
       name_placeholder: "Ditt navn",
       caption_placeholder: "Bildetekst (valgfritt)",
-      choose_btn: "Velg bilder",
       empty: "Ingen bilder enn\u00E5 \u2014 last opp de f\u00F8rste minnene! \u{1F3D4}",
       uploading: "Laster opp...",
       uploaded_one: "1 bilde lastet opp",
-      uploaded_many: "{n} bilder lastet opp"
+      uploaded_many: "{n} bilder lastet opp",
+      date_label: "Dato",
+      location_label: "Sted",
+      location_placeholder: "Stedsnavn",
+      cancel_btn: "Avbryt",
+      upload_submit: "Last opp",
+      save_btn: "Lagre",
+      edit_title: "Rediger bildedetaljer",
+      detected_date: "Oppdaget dato",
+      detected_gps: "Oppdaget GPS",
+      unsorted: "Usortert",
+      photos_count: "{n} bilder",
+      photo_count_one: "1 bilde",
+      day_prefix: "Dag"
     },
     footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 ALLE MANN OMBORD \u2744",
     gate: {
@@ -1863,15 +2125,27 @@ const T = {
     album: {
       label: "Minnesalbum",
       title: "Bilder fr\u00E5n resan",
+      upload_btn: "Ladda upp bilder",
       upload_title: "Dela dina bilder",
-      upload_sub: "Dra och sl\u00E4pp bilder h\u00E4r, eller klicka f\u00F6r att v\u00E4lja",
       name_placeholder: "Ditt namn",
       caption_placeholder: "Bildtext (valfri)",
-      choose_btn: "V\u00E4lj bilder",
       empty: "Inga bilder \u00E4nnu \u2014 ladda upp de f\u00F6rsta minnena! \u{1F3D4}",
       uploading: "Laddar upp...",
       uploaded_one: "1 bild uppladdad",
-      uploaded_many: "{n} bilder uppladdade"
+      uploaded_many: "{n} bilder uppladdade",
+      date_label: "Datum",
+      location_label: "Plats",
+      location_placeholder: "Platsnamn",
+      cancel_btn: "Avbryt",
+      upload_submit: "Ladda upp",
+      save_btn: "Spara",
+      edit_title: "Redigera bilddetaljer",
+      detected_date: "Uppt\u00E4ckt datum",
+      detected_gps: "Uppt\u00E4ckt GPS",
+      unsorted: "Osorterat",
+      photos_count: "{n} bilder",
+      photo_count_one: "1 bild",
+      day_prefix: "Dag"
     },
     footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 ALLE MAN OMBORD \u2744",
     gate: {
@@ -1928,15 +2202,27 @@ const T = {
     album: {
       label: "Minningar",
       title: "Myndir fr\u00E1 fer\u00F0inni",
+      upload_btn: "Hla\u00F0a upp myndum",
       upload_title: "Deildu myndunum \u00FE\u00EDnum",
-      upload_sub: "Draga og sleppa myndum h\u00E9r, e\u00F0a smella til a\u00F0 velja",
       name_placeholder: "Nafi\u00F0 \u00FEitt",
       caption_placeholder: "Myndatexti (valfrj\u00E1lst)",
-      choose_btn: "Velja myndir",
       empty: "Engar myndir enn \u2014 hla\u00F0i\u00F0 upp fyrstu minningunum! \u{1F3D4}",
       uploading: "Hle\u00F0ur upp...",
       uploaded_one: "1 mynd hla\u00F0i\u00F0 upp",
-      uploaded_many: "{n} myndir hla\u00F0nar upp"
+      uploaded_many: "{n} myndir hla\u00F0nar upp",
+      date_label: "Dagsetning",
+      location_label: "Sta\u00F0ur",
+      location_placeholder: "Sta\u00F0arheiti",
+      cancel_btn: "H\u00E6tta vi\u00F0",
+      upload_submit: "Hla\u00F0a upp",
+      save_btn: "Vista",
+      edit_title: "Breyta mynduppl\u00FDsingum",
+      detected_date: "Fundin dagsetning",
+      detected_gps: "Fundnar hnitsetningar",
+      unsorted: "\u00D3ra\u00F0a\u00F0",
+      photos_count: "{n} myndir",
+      photo_count_one: "1 mynd",
+      day_prefix: "Dagur"
     },
     footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 ALLIR UM BOR\u00D0 \u2744",
     gate: {
@@ -1993,15 +2279,27 @@ const T = {
     album: {
       label: "Minder",
       title: "Billeder fra turen",
+      upload_btn: "Upload billeder",
       upload_title: "Del dine billeder",
-      upload_sub: "Træk og slip billeder her, eller klik for at vælge",
       name_placeholder: "Dit navn",
       caption_placeholder: "Billedtekst (valgfrit)",
-      choose_btn: "Vælg billeder",
-      empty: "Ingen billeder endnu \u2014 upload de første minder! \u{1F3D4}",
+      empty: "Ingen billeder endnu \u2014 upload de f\u00F8rste minder! \u{1F3D4}",
       uploading: "Uploader...",
       uploaded_one: "1 billede uploadet",
-      uploaded_many: "{n} billeder uploadet"
+      uploaded_many: "{n} billeder uploadet",
+      date_label: "Dato",
+      location_label: "Sted",
+      location_placeholder: "Stednavn",
+      cancel_btn: "Annuller",
+      upload_submit: "Upload",
+      save_btn: "Gem",
+      edit_title: "Rediger billeddetaljer",
+      detected_date: "Fundet dato",
+      detected_gps: "Fundet GPS",
+      unsorted: "Usorteret",
+      photos_count: "{n} billeder",
+      photo_count_one: "1 billede",
+      day_prefix: "Dag"
     },
     footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 ALLE MAND OMBORD \u2744",
     gate: {
@@ -2058,15 +2356,27 @@ const T = {
     album: {
       label: "Ricordi",
       title: "Foto del viaggio",
+      upload_btn: "Carica foto",
       upload_title: "Condividi le tue foto",
-      upload_sub: "Trascina e rilascia le foto qui, o clicca per selezionare",
       name_placeholder: "Il tuo nome",
       caption_placeholder: "Didascalia (opzionale)",
-      choose_btn: "Scegli foto",
       empty: "Ancora nessuna foto \u2014 carica i primi ricordi! \u{1F3D4}",
       uploading: "Caricamento...",
       uploaded_one: "1 foto caricata",
-      uploaded_many: "{n} foto caricate"
+      uploaded_many: "{n} foto caricate",
+      date_label: "Data",
+      location_label: "Luogo",
+      location_placeholder: "Nome del luogo",
+      cancel_btn: "Annulla",
+      upload_submit: "Carica",
+      save_btn: "Salva",
+      edit_title: "Modifica dettagli foto",
+      detected_date: "Data rilevata",
+      detected_gps: "GPS rilevato",
+      unsorted: "Non ordinato",
+      photos_count: "{n} foto",
+      photo_count_one: "1 foto",
+      day_prefix: "Giorno"
     },
     footer: "\u2744 SVALBARD 2026 \u00B7 HUMANJI.SE \u00B7 78\u00B0N \u00B7 TUTTI A BORDO \u2744",
     gate: {
@@ -3697,11 +4007,173 @@ function renderContacts() {
   }).join('');
 }
 
-// ══ ALBUM (Supabase) ══════════════════════════════════════
+// ══ ALBUM (Supabase + Day Accordions) ═══════════════════════
 
+// ── Minimal EXIF parser (JPEG only) ──
+function readExifData(file) {
+  return new Promise(resolve => {
+    if (!file || !file.type || !file.type.match(/image\/jpe?g/i)) {
+      resolve({ date: null, lat: null, lon: null });
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const view = new DataView(e.target.result);
+        if (view.getUint16(0) !== 0xFFD8) { resolve({ date: null, lat: null, lon: null }); return; }
+        let offset = 2;
+        while (offset < view.byteLength - 1) {
+          const marker = view.getUint16(offset);
+          if (marker === 0xFFE1) {
+            const exif = parseExifBlock(view, offset + 4);
+            resolve(exif);
+            return;
+          }
+          if ((marker & 0xFF00) !== 0xFF00) break;
+          offset += 2 + view.getUint16(offset + 2);
+        }
+        resolve({ date: null, lat: null, lon: null });
+      } catch (ex) {
+        resolve({ date: null, lat: null, lon: null });
+      }
+    };
+    reader.readAsArrayBuffer(file.slice(0, 128 * 1024));
+  });
+}
+
+function parseExifBlock(view, start) {
+  const result = { date: null, lat: null, lon: null };
+  if (getStringFromBuffer(view, start, 4) !== 'Exif') return result;
+  const tiffStart = start + 6;
+  const le = view.getUint16(tiffStart) === 0x4949;
+  const g16 = (o) => view.getUint16(tiffStart + o, le);
+  const g32 = (o) => view.getUint32(tiffStart + o, le);
+
+  function readIFD(ifdOffset) {
+    const tags = {};
+    try {
+      const count = g16(ifdOffset);
+      for (let i = 0; i < count; i++) {
+        const entryOff = ifdOffset + 2 + i * 12;
+        const tag = g16(entryOff);
+        const type = g16(entryOff + 2);
+        const numVal = g32(entryOff + 4);
+        const valOff = entryOff + 8;
+        tags[tag] = { type, count: numVal, valOff, rawVal: g32(entryOff + 8) };
+      }
+    } catch(e) {}
+    return tags;
+  }
+
+  function readString(tag) {
+    if (!tag) return '';
+    const off = tag.count > 4 ? tag.rawVal : (tag.valOff - 0);
+    const realOff = tag.count > 4 ? tag.rawVal : (tag.valOff - tiffStart + tiffStart);
+    try {
+      return getStringFromBuffer(view, tiffStart + (tag.count > 4 ? tag.rawVal : tag.valOff - ifd0Off + ifd0Off) , tag.count).replace(/\0/g, '').trim();
+    } catch(e) { return ''; }
+  }
+
+  function readRational(offset) {
+    try {
+      const num = view.getUint32(tiffStart + offset, le);
+      const den = view.getUint32(tiffStart + offset + 4, le);
+      return den ? num / den : 0;
+    } catch(e) { return 0; }
+  }
+
+  function readGPSCoord(tag) {
+    if (!tag || tag.count < 3) return null;
+    const off = tag.rawVal;
+    const d = readRational(off);
+    const m = readRational(off + 8);
+    const s = readRational(off + 16);
+    return d + m / 60 + s / 3600;
+  }
+
+  try {
+    var ifd0Off = g32(4);
+    const ifd0 = readIFD(ifd0Off);
+
+    // Look for ExifIFD pointer (tag 0x8769)
+    if (ifd0[0x8769]) {
+      const exifIFD = readIFD(ifd0[0x8769].rawVal);
+      // DateTimeOriginal (0x9003)
+      if (exifIFD[0x9003]) {
+        const dateTag = exifIFD[0x9003];
+        const off = dateTag.rawVal;
+        try {
+          const s = getStringFromBuffer(view, tiffStart + off, 19);
+          if (s && s.length >= 10) {
+            result.date = s.substring(0, 10).replace(/:/g, '-');
+          }
+        } catch(e) {}
+      }
+    }
+
+    // Look for GPSIFD pointer (tag 0x8825)
+    if (ifd0[0x8825]) {
+      const gpsIFD = readIFD(ifd0[0x8825].rawVal);
+      let latRef = 'N', lonRef = 'E';
+      // GPSLatitudeRef (0x0001)
+      if (gpsIFD[0x0001]) {
+        try {
+          const b = view.getUint8(tiffStart + gpsIFD[0x0001].valOff);
+          if (b === 83) latRef = 'S';
+        } catch(e) {}
+      }
+      // GPSLongitudeRef (0x0003)
+      if (gpsIFD[0x0003]) {
+        try {
+          const b = view.getUint8(tiffStart + gpsIFD[0x0003].valOff);
+          if (b === 87) lonRef = 'W';
+        } catch(e) {}
+      }
+      const lat = readGPSCoord(gpsIFD[0x0002]);
+      const lon = readGPSCoord(gpsIFD[0x0004]);
+      if (lat !== null && lat !== 0) result.lat = latRef === 'S' ? -lat : lat;
+      if (lon !== null && lon !== 0) result.lon = lonRef === 'W' ? -lon : lon;
+    }
+  } catch(e) {}
+  return result;
+}
+
+function getStringFromBuffer(view, offset, length) {
+  let s = '';
+  for (let i = 0; i < length && (offset + i) < view.byteLength; i++) {
+    s += String.fromCharCode(view.getUint8(offset + i));
+  }
+  return s;
+}
+
+// ── Day mapping for the trip ──
+const ALBUM_DAYS = [
+  { day: 1, date: '2026-04-15' },
+  { day: 2, date: '2026-04-16' },
+  { day: 3, date: '2026-04-17' },
+  { day: 4, date: '2026-04-18' },
+  { day: 5, date: '2026-04-19' },
+  { day: 6, date: '2026-04-20' }
+];
+
+function getAlbumDayForDate(dateStr) {
+  if (!dateStr) return null;
+  const d = dateStr.substring(0, 10);
+  return ALBUM_DAYS.find(day => day.date === d) || null;
+}
+
+function formatDateNice(dateStr) {
+  if (!dateStr) return '';
+  try {
+    const d = new Date(dateStr + 'T12:00:00');
+    return d.toLocaleDateString(currentLang === 'no' ? 'nb-NO' : currentLang === 'se' ? 'sv-SE' : currentLang === 'is' ? 'is-IS' : currentLang === 'da' ? 'da-DK' : currentLang === 'it' ? 'it-IT' : 'en-GB', { weekday: 'long', month: 'long', day: 'numeric' });
+  } catch(e) { return dateStr; }
+}
+
+// ── Load photos from Supabase ──
 async function loadPhotosFromSupabase() {
   try {
-    const resp = await supabaseFetch('/rest/v1/photos?select=*&order=created_at.desc', {
+    const resp = await supabaseFetch('/rest/v1/photos?select=*&order=photo_date.asc,created_at.desc', {
       headers: { 'Content-Type': 'application/json' }
     });
     if (resp.ok) {
@@ -3712,121 +4184,350 @@ async function loadPhotosFromSupabase() {
   } catch (e) {
     console.warn('Supabase photos fetch failed, falling back to localStorage:', e);
   }
-  // Fallback to localStorage
   photos = JSON.parse(localStorage.getItem('svalbard_photos') || '[]');
   renderAlbum();
 }
 
+// ── Render album as day-based accordions ──
 function renderAlbum() {
-  const grid = document.getElementById('albumGrid');
+  const container = document.getElementById('albumDayContainer');
   if (photos.length === 0) {
-    grid.innerHTML = '<div class="album-empty" data-t="album.empty">' + t('album.empty') + '</div>';
+    container.innerHTML = '<div class="album-empty" data-t="album.empty">' + t('album.empty') + '</div>';
     return;
   }
-  grid.innerHTML = photos.map((p, i) => {
-    const imgUrl = p.url || p.thumbnail_url || '';
-    const name = p.uploader_name || p.uploader || '';
-    const caption = p.caption || '';
-    return `
-      <div class="album-photo" onclick="openLightbox(${i})">
-        <img src="${imgUrl}" alt="${caption || name}">
-        <div class="album-photo-overlay">
-          <div class="album-photo-name">${name}${caption ? ' \u00B7 ' + caption : ''}</div>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
 
-async function handleFiles(files) {
-  const name = document.getElementById('uploaderName').value.trim() || 'Anonymous';
-  const caption = document.getElementById('photoCaption').value.trim();
-  const status = document.getElementById('uploadStatus');
-  status.textContent = t('album.uploading');
+  // Group photos by day
+  const dayBuckets = {};
+  ALBUM_DAYS.forEach(d => { dayBuckets[d.date] = []; });
+  const unsorted = [];
 
-  let done = 0;
-  let supabaseWorked = false;
-
-  for (const file of Array.from(files)) {
-    try {
-      // Upload to Supabase Storage
-      const fileName = Date.now() + '_' + Math.random().toString(36).substring(2, 8) + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-      const storageResp = await supabaseFetch(`/storage/v1/object/${SUPABASE_BUCKET}/${fileName}`, {
-        method: 'POST',
-        headers: { 'Content-Type': file.type },
-        body: file
-      });
-
-      if (storageResp.ok) {
-        const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_BUCKET}/${fileName}`;
-
-        // Insert row in photos table
-        const insertResp = await supabaseFetch('/rest/v1/photos', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
-          },
-          body: JSON.stringify({
-            url: publicUrl,
-            thumbnail_url: publicUrl,
-            uploader_name: name,
-            caption: caption,
-            taken_at: new Date().toISOString()
-          })
-        });
-
-        if (insertResp.ok) {
-          const newPhotos = await insertResp.json();
-          if (Array.isArray(newPhotos) && newPhotos.length > 0) {
-            photos.unshift(newPhotos[0]);
-          }
-          supabaseWorked = true;
-        }
-      }
-    } catch (e) {
-      console.warn('Supabase upload failed for file, falling back:', e);
+  photos.forEach((p, idx) => {
+    const photoDate = p.photo_date || p.taken_at || null;
+    const dayKey = photoDate ? photoDate.substring(0, 10) : null;
+    if (dayKey && dayBuckets[dayKey] !== undefined) {
+      dayBuckets[dayKey].push({ ...p, _idx: idx });
+    } else {
+      unsorted.push({ ...p, _idx: idx });
     }
+  });
 
-    if (!supabaseWorked) {
-      // Fallback: localStorage with data URL
-      const dataUrl = await new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = e => resolve(e.target.result);
-        reader.readAsDataURL(file);
-      });
-      photos.unshift({ url: dataUrl, uploader_name: name, caption, created_at: new Date().toISOString() });
-      localStorage.setItem('svalbard_photos', JSON.stringify(photos.slice(0, 200)));
-    }
+  let html = '';
 
-    done++;
+  ALBUM_DAYS.forEach(dayInfo => {
+    const bucket = dayBuckets[dayInfo.date];
+    if (bucket.length === 0) return;
+    const countText = bucket.length === 1 ? t('album.photo_count_one') : t('album.photos_count').replace('{n}', bucket.length);
+    html += buildDayAccordion(
+      t('album.day_prefix') + ' ' + dayInfo.day,
+      formatDateNice(dayInfo.date),
+      countText,
+      bucket,
+      'album-day-' + dayInfo.day
+    );
+  });
+
+  if (unsorted.length > 0) {
+    const countText = unsorted.length === 1 ? t('album.photo_count_one') : t('album.photos_count').replace('{n}', unsorted.length);
+    html += buildDayAccordion(
+      t('album.unsorted'),
+      '',
+      countText,
+      unsorted,
+      'album-day-unsorted'
+    );
   }
 
-  const uploadedText = done === 1 ? t('album.uploaded_one') : t('album.uploaded_many').replace('{n}', done);
-  status.textContent = '\u2713 ' + uploadedText;
-  renderAlbum();
-  setTimeout(() => status.textContent = '', 3000);
+  container.innerHTML = html;
 }
 
-// Drag & drop
-const zone = document.getElementById('uploadZone');
-zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
-zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
-zone.addEventListener('drop', e => {
-  e.preventDefault();
-  zone.classList.remove('drag');
-  handleFiles(e.dataTransfer.files);
-});
+function buildDayAccordion(title, subtitle, countText, bucket, id) {
+  const cards = bucket.map(p => {
+    const imgUrl = p.thumbnail_url || p.url || '';
+    const name = p.uploader_name || '';
+    const caption = p.caption || '';
+    const pDate = p.photo_date || p.taken_at || '';
+    const loc = p.location_name || '';
+    const metaParts = [];
+    if (loc) metaParts.push(loc);
+    if (pDate) metaParts.push(pDate.substring(0, 10));
+    const metaStr = metaParts.join(' \u00B7 ');
+    return `<div class="album-card">
+      <img class="album-card-img" src="${imgUrl}" alt="${caption || name}" onclick="openLightbox(${p._idx})" loading="lazy">
+      <button class="album-card-edit" onclick="openEditModal('${p.id}')" title="Edit">&#9998;</button>
+      <div class="album-card-info">
+        <div class="album-card-name">${escHtml(name)}</div>
+        ${caption ? '<div class="album-card-caption">' + escHtml(caption) + '</div>' : ''}
+        ${metaStr ? '<div class="album-card-meta">' + escHtml(metaStr) + '</div>' : ''}
+      </div>
+    </div>`;
+  }).join('');
 
+  return `<div class="day-block open" id="${id}">
+    <div class="day-header" onclick="this.parentElement.classList.toggle('open')">
+      <div class="day-info">
+        <div class="day-date">${subtitle}</div>
+        <div class="day-title">${title}</div>
+      </div>
+      <span class="album-day-count">${countText}</span>
+      <span class="day-chevron">\u25BC</span>
+    </div>
+    <div class="day-body">
+      <div class="album-grid">${cards}</div>
+    </div>
+  </div>`;
+}
+
+function escHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ── Upload flow ──
+var pendingUploadFile = null;
+var pendingExifData = null;
+
+function openUploadPicker() {
+  document.getElementById('albumFileInput').value = '';
+  document.getElementById('albumFileInput').click();
+}
+
+async function onAlbumFileSelected(files) {
+  if (!files || files.length === 0) return;
+  const file = files[0];
+  pendingUploadFile = file;
+
+  // Read EXIF
+  const exif = await readExifData(file);
+  pendingExifData = exif;
+
+  // Show preview
+  const previewImg = document.getElementById('uploadPreviewImg');
+  const objectUrl = URL.createObjectURL(file);
+  previewImg.src = objectUrl;
+
+  // Determine date: EXIF > file.lastModified > today
+  let detectedDate = '';
+  if (exif.date) {
+    detectedDate = exif.date;
+  } else if (file.lastModified) {
+    detectedDate = new Date(file.lastModified).toISOString().substring(0, 10);
+  } else {
+    detectedDate = new Date().toISOString().substring(0, 10);
+  }
+  document.getElementById('uploadDate').value = detectedDate;
+
+  // Detected info display
+  const infoLines = [];
+  if (exif.date) infoLines.push(t('album.detected_date') + ': ' + exif.date);
+  if (exif.lat !== null && exif.lon !== null) {
+    infoLines.push(t('album.detected_gps') + ': ' + exif.lat.toFixed(4) + ', ' + exif.lon.toFixed(4));
+    document.getElementById('uploadLocation').value = exif.lat.toFixed(4) + ', ' + exif.lon.toFixed(4);
+  } else {
+    document.getElementById('uploadLocation').value = '';
+  }
+  document.getElementById('uploadDetectedInfo').textContent = infoLines.join(' | ') || '';
+  document.getElementById('uploadDetectedInfo').style.display = infoLines.length ? 'block' : 'none';
+
+  // Pre-fill name from localStorage
+  const savedName = localStorage.getItem('svalbard_uploader_name') || '';
+  document.getElementById('uploadName').value = savedName;
+  document.getElementById('uploadCaption').value = '';
+  document.getElementById('uploadCharCount').textContent = '0 / 144';
+
+  // Apply translation placeholders
+  applyTranslations();
+
+  document.getElementById('uploadModal').classList.add('open');
+}
+
+function closeUploadModal() {
+  document.getElementById('uploadModal').classList.remove('open');
+  pendingUploadFile = null;
+  pendingExifData = null;
+}
+
+function updateUploadCharCount() {
+  const v = document.getElementById('uploadCaption').value;
+  document.getElementById('uploadCharCount').textContent = v.length + ' / 144';
+}
+
+async function submitUpload() {
+  if (!pendingUploadFile) return;
+  const file = pendingUploadFile;
+  const name = document.getElementById('uploadName').value.trim() || 'Anonymous';
+  const caption = document.getElementById('uploadCaption').value.trim();
+  const photoDate = document.getElementById('uploadDate').value || null;
+  const locationName = document.getElementById('uploadLocation').value.trim() || null;
+  const lat = (pendingExifData && pendingExifData.lat) || null;
+  const lon = (pendingExifData && pendingExifData.lon) || null;
+
+  // Save name for next time
+  localStorage.setItem('svalbard_uploader_name', name);
+
+  const btn = document.getElementById('uploadSubmitBtn');
+  btn.textContent = t('album.uploading');
+  btn.disabled = true;
+
+  try {
+    await uploadToSupabase(file, { name, caption, photoDate, locationName, lat, lon });
+    closeUploadModal();
+    showAlbumToast(t('album.uploaded_one'));
+    await loadPhotosFromSupabase();
+  } catch (e) {
+    console.error('Upload failed:', e);
+    // Fallback to localStorage
+    const dataUrl = await new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = ev => resolve(ev.target.result);
+      reader.readAsDataURL(file);
+    });
+    photos.unshift({
+      id: 'local_' + Date.now(),
+      url: dataUrl,
+      uploader_name: name,
+      caption,
+      photo_date: photoDate,
+      location_name: locationName,
+      created_at: new Date().toISOString()
+    });
+    localStorage.setItem('svalbard_photos', JSON.stringify(photos.slice(0, 200)));
+    closeUploadModal();
+    showAlbumToast(t('album.uploaded_one'));
+    renderAlbum();
+  } finally {
+    btn.textContent = t('album.upload_submit');
+    btn.disabled = false;
+  }
+}
+
+async function uploadToSupabase(file, meta) {
+  const datePath = meta.photoDate || new Date().toISOString().substring(0, 10);
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const fileName = datePath + '/' + Date.now() + '_' + Math.random().toString(36).substring(2, 8) + '_' + safeName;
+
+  const storageResp = await supabaseFetch('/storage/v1/object/' + SUPABASE_BUCKET + '/' + fileName, {
+    method: 'POST',
+    headers: { 'Content-Type': file.type },
+    body: file
+  });
+
+  if (!storageResp.ok) throw new Error('Storage upload failed: ' + storageResp.status);
+
+  const publicUrl = SUPABASE_URL + '/storage/v1/object/public/' + SUPABASE_BUCKET + '/' + fileName;
+
+  const row = {
+    url: publicUrl,
+    thumbnail_url: publicUrl,
+    uploader_name: meta.name,
+    caption: meta.caption || null,
+    photo_date: meta.photoDate || null,
+    location_name: meta.locationName || null,
+    latitude: meta.lat || null,
+    longitude: meta.lon || null
+  };
+
+  const insertResp = await supabaseFetch('/rest/v1/photos', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
+    },
+    body: JSON.stringify(row)
+  });
+
+  if (!insertResp.ok) throw new Error('Insert failed: ' + insertResp.status);
+  return await insertResp.json();
+}
+
+// ── Edit flow ──
+function openEditModal(photoId) {
+  const photo = photos.find(p => p.id === photoId);
+  if (!photo) return;
+
+  document.getElementById('editPhotoId').value = photoId;
+  document.getElementById('editDate').value = (photo.photo_date || photo.taken_at || '').substring(0, 10);
+  document.getElementById('editLocation').value = photo.location_name || '';
+  document.getElementById('editCaption').value = photo.caption || '';
+  updateEditCharCount();
+
+  applyTranslations();
+  document.getElementById('editModal').classList.add('open');
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('open');
+}
+
+function updateEditCharCount() {
+  const v = document.getElementById('editCaption').value;
+  document.getElementById('editCharCount').textContent = v.length + ' / 144';
+}
+
+async function submitEdit() {
+  const photoId = document.getElementById('editPhotoId').value;
+  const photoDate = document.getElementById('editDate').value || null;
+  const locationName = document.getElementById('editLocation').value.trim() || null;
+  const caption = document.getElementById('editCaption').value.trim() || null;
+
+  const btn = document.getElementById('editSubmitBtn');
+  btn.disabled = true;
+
+  try {
+    await updatePhotoMetadata(photoId, { photo_date: photoDate, location_name: locationName, caption });
+    closeEditModal();
+    showAlbumToast(t('album.save_btn') + ' \u2713');
+    await loadPhotosFromSupabase();
+  } catch (e) {
+    console.error('Edit failed:', e);
+    // Update locally
+    const idx = photos.findIndex(p => p.id === photoId);
+    if (idx !== -1) {
+      if (photoDate) photos[idx].photo_date = photoDate;
+      if (locationName !== null) photos[idx].location_name = locationName;
+      if (caption !== null) photos[idx].caption = caption;
+    }
+    closeEditModal();
+    renderAlbum();
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function updatePhotoMetadata(photoId, updates) {
+  const resp = await supabaseFetch('/rest/v1/photos?id=eq.' + photoId, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
+    },
+    body: JSON.stringify(updates)
+  });
+  if (!resp.ok) throw new Error('PATCH failed: ' + resp.status);
+  return await resp.json();
+}
+
+// ── Toast ──
+function showAlbumToast(msg) {
+  const el = document.getElementById('albumToast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// ── Lightbox ──
 function openLightbox(i) {
   const p = photos[i];
+  if (!p) return;
   const imgUrl = p.url || p.thumbnail_url || '';
-  const name = p.uploader_name || p.uploader || '';
+  const name = p.uploader_name || '';
   const caption = p.caption || '';
-  const dateStr = p.created_at || p.taken_at || p.date || '';
+  const dateStr = p.photo_date || p.taken_at || p.created_at || '';
+  const loc = p.location_name || '';
+  const parts = [name];
+  if (caption) parts.push(caption);
+  if (loc) parts.push(loc);
+  if (dateStr) parts.push(new Date(dateStr).toLocaleDateString());
   document.getElementById('lightboxImg').src = imgUrl;
-  document.getElementById('lightboxCaption').textContent =
-    `${name}${caption ? ' \u00B7 ' + caption : ''}${dateStr ? ' \u00B7 ' + new Date(dateStr).toLocaleDateString() : ''}`;
+  document.getElementById('lightboxCaption').textContent = parts.join(' \u00B7 ');
   document.getElementById('lightbox').classList.add('open');
 }
 
@@ -3834,7 +4535,13 @@ function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeLightbox();
+    closeUploadModal();
+    closeEditModal();
+  }
+});
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
