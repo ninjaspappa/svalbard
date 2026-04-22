@@ -983,6 +983,29 @@
   .album-size-warning strong { color: var(--amber); }
   .album-size-warning.error strong { color: var(--danger); }
 
+  /* Compression progress */
+  .album-compress-bar-wrap {
+    background: rgba(168,216,234,0.08);
+    border-radius: 4px;
+    margin: 0.5rem 0 0.25rem;
+    overflow: hidden;
+    display: none;
+  }
+  .album-compress-bar {
+    height: 6px;
+    background: linear-gradient(90deg, var(--ice), var(--frost));
+    width: 0%;
+    transition: width 0.25s ease;
+    border-radius: 4px;
+  }
+  .album-compress-label {
+    font-size: 0.74rem;
+    color: var(--muted);
+    margin: 0.2rem 0 0.6rem;
+    display: none;
+    text-align: center;
+  }
+
   /* Video preview */
   #uploadPreviewVideo, #editPreviewVideo {
     display: none;
@@ -2086,6 +2109,8 @@
       <img class="album-modal-preview" id="uploadPreviewImg" src="" alt="">
       <video id="uploadPreviewVideo" controls muted playsinline></video>
       <div class="album-size-warning" id="uploadSizeWarning"></div>
+      <div class="album-compress-bar-wrap" id="compressBarWrap"><div class="album-compress-bar" id="compressBar"></div></div>
+      <div class="album-compress-label" id="compressLabel"></div>
       <div class="album-modal-detected" id="uploadDetectedInfo"></div>
       <input class="album-modal-field" id="uploadName" type="text" data-placeholder-t="album.name_placeholder">
       <textarea class="album-modal-field" id="uploadCaption" maxlength="500" placeholder="" data-placeholder-t="album.caption_placeholder" oninput="updateUploadCharCount()"></textarea>
@@ -2191,8 +2216,10 @@ const T = {
       upload_video_btn: "Upload video",
       upload_video_title: "Share your video",
       video_too_large_title: "File too large",
-      video_too_large: "Your file is {size} MB. You need to cut at least {pct}% of the video length (max 50 MB).",
-      video_large_tip: "Your video is {size} MB — upload may take a while on mobile networks.",
+      video_too_large_input: "File is {size} MB — too large (max 500 MB). Please trim the video first.",
+      video_will_compress: "Video is {size} MB — will be compressed before upload.",
+      compressing: "Compressing\u2026",
+      compressing_pct: "Compressing\u2026 {pct}%",
       name_placeholder: "Your name",
       caption_placeholder: "Caption (optional)",
       no_photos_yet: "No photos yet — the adventure continues!", empty: "No photos yet \u2014 upload the first memories! \u{1F3D4}",
@@ -2273,8 +2300,10 @@ const T = {
       upload_video_btn: "Last opp video",
       upload_video_title: "Del videoen din",
       video_too_large_title: "Filen er for stor",
-      video_too_large: "Filen din er {size} MB. Du må klippe minst {pct}% av videoens lengde (maks 50 MB).",
-      video_large_tip: "Videoen din er {size} MB — opplasting kan ta tid på mobilnettverk.",
+      video_too_large_input: "Filen er {size} MB — for stor (maks 500 MB). Klipp videoen f\u00f8rst.",
+      video_will_compress: "Videoen er {size} MB — vil bli komprimert f\u00f8r opplasting.",
+      compressing: "Komprimerer\u2026",
+      compressing_pct: "Komprimerer\u2026 {pct}%",
       name_placeholder: "Ditt navn",
       caption_placeholder: "Bildetekst (valgfritt)",
       no_photos_yet: "Ingen bilder ennå — eventyret fortsetter!", empty: "Ingen bilder enn\u00E5 \u2014 last opp de f\u00F8rste minnene! \u{1F3D4}",
@@ -2355,8 +2384,10 @@ const T = {
       upload_video_btn: "Ladda upp video",
       upload_video_title: "Dela din video",
       video_too_large_title: "Filen är för stor",
-      video_too_large: "Din fil är {size} MB. Du behöver klippa minst {pct}% av videons längd (max 50 MB).",
-      video_large_tip: "Din video är {size} MB — uppladdningen kan ta tid på mobilnät.",
+      video_too_large_input: "Filen är {size} MB — för stor (max 500 MB). Klipp videon först.",
+      video_will_compress: "Video är {size} MB — komprimeras innan uppladdning.",
+      compressing: "Komprimerar\u2026",
+      compressing_pct: "Komprimerar\u2026 {pct}%",
       name_placeholder: "Ditt namn",
       caption_placeholder: "Bildtext (valfri)",
       empty: "Inga bilder \u00E4nnu \u2014 ladda upp de f\u00F6rsta minnena! \u{1F3D4}",
@@ -2445,6 +2476,12 @@ const T = {
       location_placeholder: "Sta\u00F0arheiti",
       cancel_btn: "H\u00E6tta vi\u00F0",
       upload_submit: "Hla\u00F0a upp",
+      upload_video_btn: "Hla\u00F0a upp myndb\u00E1ndi",
+      video_too_large_title: "Skr\u00E1 of st\u00F3r",
+      video_too_large_input: "Skr\u00E1in er {size} MB \u2014 of st\u00F3r (h\u00E1m. 500 MB). Klipptu myndb\u00E1ndi\u00F0 fyrst.",
+      video_will_compress: "Myndb\u00E1ndi\u00F0 er {size} MB \u2014 ver\u00F0ur \u00FEj\u00E1ppast fyrir upphle\u00F0slu.",
+      compressing: "Þjappar\u2026",
+      compressing_pct: "Þjappar\u2026 {pct}%",
       save_btn: "Vista",
       edit_title: "Breyta mynduppl\u00FDsingum",
       detected_date: "Fundin dagsetning",
@@ -2514,8 +2551,10 @@ const T = {
       upload_video_btn: "Upload video",
       upload_video_title: "Del din video",
       video_too_large_title: "Filen er for stor",
-      video_too_large: "Din fil er {size} MB. Du skal klippe mindst {pct}% af videoens længde (maks 50 MB).",
-      video_large_tip: "Din video er {size} MB — upload kan tage tid på mobilnetværk.",
+      video_too_large_input: "Filen er {size} MB — for stor (maks 500 MB). Klip videoen f\u00f8rst.",
+      video_will_compress: "Video er {size} MB — komprimeres inden upload.",
+      compressing: "Komprimerer\u2026",
+      compressing_pct: "Komprimerer\u2026 {pct}%",
       name_placeholder: "Dit navn",
       caption_placeholder: "Billedtekst (valgfrit)",
       no_photos_yet: "Ingen billeder endnu — eventyret fortsætter!", empty: "Ingen billeder endnu \u2014 upload de f\u00F8rste minder! \u{1F3D4}",
@@ -2596,8 +2635,10 @@ const T = {
       upload_video_btn: "Carica video",
       upload_video_title: "Condividi il tuo video",
       video_too_large_title: "File troppo grande",
-      video_too_large: "Il tuo file è di {size} MB. Devi tagliare almeno {pct}% della lunghezza del video (massimo 50 MB).",
-      video_large_tip: "Il tuo video è di {size} MB — il caricamento potrebbe richiedere tempo su rete mobile.",
+      video_too_large_input: "Il file è {size} MB — troppo grande (max 500 MB). Taglia il video prima.",
+      video_will_compress: "Video è {size} MB — verrà compresso prima del caricamento.",
+      compressing: "Compressione\u2026",
+      compressing_pct: "Compressione\u2026 {pct}%",
       name_placeholder: "Il tuo nome",
       caption_placeholder: "Didascalia (opzionale)",
       no_photos_yet: "Ancora nessuna foto — l'avventura continua!", empty: "Ancora nessuna foto \u2014 carica i primi ricordi! \u{1F3D4}",
@@ -4564,7 +4605,9 @@ var pendingUploadFile = null;
 var pendingExifData = null;
 var pendingMediaType = 'photo';  // 'photo' or 'video'
 var pendingPreviewUrl = null;    // object URL to revoke on close
-const MAX_VIDEO_MB = 50;          // Supabase Free tier limit
+const MAX_VIDEO_INPUT_MB = 500;   // max accepted input size
+const MAX_VIDEO_OUTPUT_MB = 45;   // target output after compression
+const COMPRESS_THRESHOLD_MB = 40; // skip compression below this
 
 function openUploadPicker(type) {
   pendingMediaType = type === 'video' ? 'video' : 'photo';
@@ -4618,19 +4661,17 @@ async function onAlbumFileSelected(files, type) {
   submitBtn.disabled = false;
   if (pendingMediaType === 'video') {
     const sizeMB = file.size / 1024 / 1024;
-    if (sizeMB > MAX_VIDEO_MB) {
-      // e.g. 130 MB → need to cut (130-50)/130 = 62%
-      const pct = Math.ceil((sizeMB - MAX_VIDEO_MB) / sizeMB * 100);
+    if (sizeMB > MAX_VIDEO_INPUT_MB) {
       warning.className = 'album-size-warning error';
       warning.innerHTML = '\u26A0\uFE0F <strong>' + (t('album.video_too_large_title') || 'File too large') + '</strong><br>' +
-        (t('album.video_too_large') || 'Your file is {size} MB. You need to cut at least {pct}% of the video length (max 50 MB).')
-          .replace('{size}', sizeMB.toFixed(1)).replace('{pct}', pct);
+        (t('album.video_too_large_input') || 'File is too large (max 500 MB). Please trim the video first.')
+          .replace('{size}', sizeMB.toFixed(1));
       warning.style.display = 'block';
       submitBtn.disabled = true;
-    } else if (sizeMB > MAX_VIDEO_MB * 0.8) {
+    } else if (sizeMB > COMPRESS_THRESHOLD_MB) {
       warning.className = 'album-size-warning';
       warning.innerHTML = '\u2139\uFE0F ' +
-        (t('album.video_large_tip') || 'Your video is {size} MB — upload may take a while.')
+        (t('album.video_will_compress') || 'Video is {size} MB — will be compressed before upload.')
           .replace('{size}', sizeMB.toFixed(1));
       warning.style.display = 'block';
     }
@@ -4709,20 +4750,42 @@ async function submitUpload() {
   const lat = (pendingExifData && pendingExifData.lat) || null;
   const lon = (pendingExifData && pendingExifData.lon) || null;
 
-  // Size guard for video
-  if (mediaType === 'video' && file.size / 1024 / 1024 > MAX_VIDEO_MB) {
-    return;
-  }
+  // Hard guard — should already be disabled in UI
+  if (mediaType === 'video' && file.size / 1024 / 1024 > MAX_VIDEO_INPUT_MB) return;
 
   // Save name for next time
   localStorage.setItem('svalbard_uploader_name', name);
 
   const btn = document.getElementById('uploadSubmitBtn');
-  btn.textContent = t('album.uploading');
   btn.disabled = true;
 
+  // Compress if needed
+  let fileToUpload = file;
+  if (mediaType === 'video' && file.size / 1024 / 1024 > COMPRESS_THRESHOLD_MB) {
+    const barWrap = document.getElementById('compressBarWrap');
+    const bar = document.getElementById('compressBar');
+    const label = document.getElementById('compressLabel');
+    barWrap.style.display = 'block';
+    label.style.display = 'block';
+    btn.textContent = t('album.compressing') || 'Compressing\u2026';
+    const previewVid = document.getElementById('uploadPreviewVideo');
+    const dur = (previewVid.duration && isFinite(previewVid.duration)) ? previewVid.duration : 60;
+    try {
+      fileToUpload = await compressVideo(file, dur, (p) => {
+        bar.style.width = (p * 100).toFixed(0) + '%';
+        label.textContent = (t('album.compressing_pct') || 'Compressing\u2026 {pct}%').replace('{pct}', (p * 100).toFixed(0));
+      });
+    } finally {
+      barWrap.style.display = 'none';
+      label.style.display = 'none';
+      bar.style.width = '0%';
+    }
+  }
+
+  btn.textContent = t('album.uploading');
+
   try {
-    await uploadToSupabase(file, { name, caption, photoDate, locationName, lat, lon, mediaType });
+    await uploadToSupabase(fileToUpload, { name, caption, photoDate, locationName, lat, lon, mediaType });
     closeUploadModal();
     showAlbumToast(t('album.uploaded_one'));
     await loadPhotosFromSupabase();
@@ -4800,6 +4863,33 @@ async function uploadToSupabase(file, meta) {
 
   if (!insertResp.ok) throw new Error('Insert failed: ' + insertResp.status);
   return await insertResp.json();
+}
+
+async function compressVideo(file, durationSec, onProgress) {
+  const { FFmpeg } = await import('https://esm.sh/@ffmpeg/ffmpeg@0.12.10');
+  const { fetchFile, toBlobURL } = await import('https://esm.sh/@ffmpeg/util@0.12.1');
+  const ffmpeg = new FFmpeg();
+  ffmpeg.on('progress', ({ progress }) => onProgress(Math.min(progress, 1)));
+  const base = 'https://unpkg.com/@ffmpeg/core-st@0.12.6/dist/esm';
+  await ffmpeg.load({
+    coreURL: await toBlobURL(base + '/ffmpeg-core.js', 'text/javascript'),
+    wasmURL: await toBlobURL(base + '/ffmpeg-core.wasm', 'application/wasm'),
+  });
+  const audioBudget = 128 * durationSec;
+  const videoBudget = (MAX_VIDEO_OUTPUT_MB * 8192 - audioBudget) / durationSec;
+  const vbr = Math.max(300, Math.floor(videoBudget));
+  await ffmpeg.writeFile('input', await fetchFile(file));
+  await ffmpeg.exec([
+    '-i', 'input',
+    '-vcodec', 'libx264', '-b:v', vbr + 'k',
+    '-maxrate', Math.floor(vbr * 1.5) + 'k',
+    '-bufsize', Math.floor(vbr * 3) + 'k',
+    '-acodec', 'aac', '-b:a', '128k',
+    '-movflags', '+faststart',
+    'output.mp4'
+  ]);
+  const data = await ffmpeg.readFile('output.mp4');
+  return new File([data.buffer], 'compressed.mp4', { type: 'video/mp4' });
 }
 
 // ── Edit flow ──
