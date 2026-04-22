@@ -231,7 +231,8 @@
   .nav-link {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.7rem;
-    color: var(--muted);
+    color: var(--frost);
+    opacity: 0.85;
     background: none;
     border: none;
     cursor: pointer;
@@ -244,6 +245,7 @@
 
   .nav-link:hover, .nav-link.active {
     color: var(--ice);
+    opacity: 1;
     background: rgba(168,216,234,0.08);
   }
 
@@ -928,6 +930,8 @@
   .album-top-bar {
     display: flex;
     justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: wrap;
     margin-bottom: 1.5rem;
   }
 
@@ -950,6 +954,72 @@
   }
 
   .album-upload-btn:hover { background: var(--ice); }
+
+  .album-upload-btn-video {
+    background: rgba(232,160,69,0.15);
+    color: var(--amber);
+    border: 1px solid rgba(232,160,69,0.4);
+  }
+  .album-upload-btn-video:hover {
+    background: rgba(232,160,69,0.28);
+    color: var(--frost);
+  }
+
+  /* Size warning box in upload modal */
+  .album-size-warning {
+    background: rgba(232,160,69,0.08);
+    border-left: 3px solid var(--amber);
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0 1rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text);
+    border-radius: 0 4px 4px 0;
+  }
+  .album-size-warning.error {
+    background: rgba(201,64,64,0.08);
+    border-color: var(--danger);
+  }
+  .album-size-warning strong { color: var(--amber); }
+  .album-size-warning.error strong { color: var(--danger); }
+
+  /* Video preview */
+  #uploadPreviewVideo, #editPreviewVideo {
+    display: none;
+    width: 100%;
+    max-height: 260px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    background: #000;
+  }
+
+  /* Video badge on album cards */
+  .album-card-video-badge {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: rgba(6,14,28,0.75);
+    backdrop-filter: blur(4px);
+    color: var(--frost);
+    padding: 0.25rem 0.55rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  /* Lightbox video */
+  .lightbox-video {
+    display: none;
+    max-width: 95vw;
+    max-height: 85vh;
+    border-radius: 4px;
+    background: #000;
+  }
 
   .album-fab {
     display: none;
@@ -1709,8 +1779,8 @@
     }
 
     .nav-link {
-      font-size: 0.75rem;
-      padding: 0.5rem 0.65rem;
+      font-size: 0.9rem;
+      padding: 0.6rem 0.8rem;
       letter-spacing: 0.08em;
     }
 
@@ -1726,6 +1796,54 @@
       padding: 0.45rem 0.75rem;
       letter-spacing: 0.1em;
     }
+
+    /* Hero +25% */
+    .hero-eyebrow { font-size: 0.85rem; }
+    .hero-desc { font-size: 1.15rem; line-height: 1.6; }
+
+    /* Sections +25% */
+    .section-label { font-size: 0.8rem; }
+
+    /* Crew +25% */
+    .crew-name { font-size: 1.2rem; }
+    .crew-role { font-size: 0.75rem; }
+    .crew-bio { font-size: 1rem; line-height: 1.55; }
+    .crew-read-more { font-size: 0.8rem; }
+
+    /* Schedule +25% */
+    .day-title { font-size: 1.35rem; }
+    .day-date { font-size: 0.8rem; }
+    .event-name { font-size: 1rem; }
+    .event-note { font-size: 0.95rem; }
+    .event-time { font-size: 0.9rem; }
+
+    /* Packing +25% */
+    .pack-label { font-size: 1rem; }
+    .pack-cat-title { font-size: 0.88rem; }
+
+    /* Contacts +25% */
+    .contact-label { font-size: 0.78rem; }
+    .contact-name { font-size: 1.35rem; }
+    .contact-detail { font-size: 1rem; }
+
+    /* Stories +25% */
+    .story-title { font-size: 1.4rem; }
+    .story-excerpt { font-size: 1rem; line-height: 1.55; }
+    .story-category { font-size: 0.72rem; }
+    .story-source { font-size: 0.85rem; }
+
+    /* Album +25% */
+    .album-card-caption { font-size: 0.95rem; }
+    .album-card-meta { font-size: 0.78rem; }
+    .album-card-name { font-size: 0.78rem; }
+    .album-day-count { font-size: 0.8rem; }
+
+    /* Weather bar / ticker +25% */
+    .weather-item { font-size: 0.82rem; }
+    .news-ticker-item { font-size: 1rem; }
+
+    /* Footer +25% */
+    footer { font-size: 0.8rem; }
 
     .hero-content { padding: 2rem; }
     .hero-stats { display: none; }
@@ -1767,9 +1885,10 @@
 </div>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
   <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
   <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  <video class="lightbox-video" id="lightboxVideo" controls playsinline></video>
   <div class="lightbox-caption" id="lightboxCaption"></div>
 </div>
 
@@ -1944,17 +2063,19 @@
       </div>
 
       <div class="album-top-bar">
-        <button class="album-upload-btn" onclick="openUploadPicker()">&#x1F4F7; <span data-t="album.upload_btn">Upload photos</span></button>
+        <button class="album-upload-btn" onclick="openUploadPicker('photo')">&#x1F4F7; <span data-t="album.upload_btn">Upload photos</span></button>
+        <button class="album-upload-btn album-upload-btn-video" onclick="openUploadPicker('video')">&#x1F3A5; <span data-t="album.upload_video_btn">Upload video</span></button>
       </div>
-      <input type="file" id="albumFileInput" accept="image/*" style="display:none" onchange="onAlbumFileSelected(this.files)">
+      <input type="file" id="albumFileInput" accept="image/*" style="display:none" onchange="onAlbumFileSelected(this.files, 'photo')">
+      <input type="file" id="albumVideoInput" accept="video/*" style="display:none" onchange="onAlbumFileSelected(this.files, 'video')">
 
       <div id="albumDayContainer">
         <div class="album-empty" data-t="album.empty">No photos yet &mdash; upload the first memories! &#x1F3D4;</div>
       </div>
     </section>
 
-    <!-- Floating upload button on mobile -->
-    <button class="album-fab" onclick="openUploadPicker()" aria-label="Upload photo">&#x1F4F7;</button>
+    <!-- Floating upload button on mobile (photos only — video via top-bar) -->
+    <button class="album-fab" onclick="openUploadPicker('photo')" aria-label="Upload photo">&#x1F4F7;</button>
   </div>
 
   <!-- Upload Preview Modal -->
@@ -1963,6 +2084,8 @@
       <button class="album-modal-close" onclick="closeUploadModal()">&times;</button>
       <div class="album-modal-title" data-t="album.upload_title">Share your photos</div>
       <img class="album-modal-preview" id="uploadPreviewImg" src="" alt="">
+      <video id="uploadPreviewVideo" controls muted playsinline></video>
+      <div class="album-size-warning" id="uploadSizeWarning"></div>
       <div class="album-modal-detected" id="uploadDetectedInfo"></div>
       <input class="album-modal-field" id="uploadName" type="text" data-placeholder-t="album.name_placeholder">
       <textarea class="album-modal-field" id="uploadCaption" maxlength="500" placeholder="" data-placeholder-t="album.caption_placeholder" oninput="updateUploadCharCount()"></textarea>
@@ -1989,6 +2112,7 @@
       <div class="album-modal-title" data-t="album.edit_title">Edit photo details</div>
       <input type="hidden" id="editPhotoId">
       <img class="album-modal-preview" id="editPreviewImg" src="" alt="" style="max-height:200px;border-radius:6px;margin-bottom:1rem">
+      <video id="editPreviewVideo" controls muted playsinline></video>
       <input class="album-modal-field" id="editName" type="text" data-placeholder-t="album.name_placeholder">
       <div class="album-modal-row">
         <span class="album-modal-label" data-t="album.date_label">Date</span>
@@ -2064,6 +2188,11 @@ const T = {
       title: "Photos from the trip",
       upload_btn: "Upload photos",
       upload_title: "Share your photos",
+      upload_video_btn: "Upload video",
+      upload_video_title: "Share your video",
+      video_too_large_title: "File too large",
+      video_too_large: "Your file is {size} MB. You need to cut at least {pct}% of the video length (max 50 MB).",
+      video_large_tip: "Your video is {size} MB — upload may take a while on mobile networks.",
       name_placeholder: "Your name",
       caption_placeholder: "Caption (optional)",
       no_photos_yet: "No photos yet — the adventure continues!", empty: "No photos yet \u2014 upload the first memories! \u{1F3D4}",
@@ -2141,6 +2270,11 @@ const T = {
       title: "Bilder fra turen",
       upload_btn: "Last opp bilder",
       upload_title: "Del bildene dine",
+      upload_video_btn: "Last opp video",
+      upload_video_title: "Del videoen din",
+      video_too_large_title: "Filen er for stor",
+      video_too_large: "Filen din er {size} MB. Du må klippe minst {pct}% av videoens lengde (maks 50 MB).",
+      video_large_tip: "Videoen din er {size} MB — opplasting kan ta tid på mobilnettverk.",
       name_placeholder: "Ditt navn",
       caption_placeholder: "Bildetekst (valgfritt)",
       no_photos_yet: "Ingen bilder ennå — eventyret fortsetter!", empty: "Ingen bilder enn\u00E5 \u2014 last opp de f\u00F8rste minnene! \u{1F3D4}",
@@ -2218,6 +2352,11 @@ const T = {
       title: "Bilder fr\u00E5n resan",
       upload_btn: "Ladda upp bilder",
       upload_title: "Dela dina bilder",
+      upload_video_btn: "Ladda upp video",
+      upload_video_title: "Dela din video",
+      video_too_large_title: "Filen är för stor",
+      video_too_large: "Din fil är {size} MB. Du behöver klippa minst {pct}% av videons längd (max 50 MB).",
+      video_large_tip: "Din video är {size} MB — uppladdningen kan ta tid på mobilnät.",
       name_placeholder: "Ditt namn",
       caption_placeholder: "Bildtext (valfri)",
       empty: "Inga bilder \u00E4nnu \u2014 ladda upp de f\u00F6rsta minnena! \u{1F3D4}",
@@ -2372,6 +2511,11 @@ const T = {
       title: "Billeder fra turen",
       upload_btn: "Upload billeder",
       upload_title: "Del dine billeder",
+      upload_video_btn: "Upload video",
+      upload_video_title: "Del din video",
+      video_too_large_title: "Filen er for stor",
+      video_too_large: "Din fil er {size} MB. Du skal klippe mindst {pct}% af videoens længde (maks 50 MB).",
+      video_large_tip: "Din video er {size} MB — upload kan tage tid på mobilnetværk.",
       name_placeholder: "Dit navn",
       caption_placeholder: "Billedtekst (valgfrit)",
       no_photos_yet: "Ingen billeder endnu — eventyret fortsætter!", empty: "Ingen billeder endnu \u2014 upload de f\u00F8rste minder! \u{1F3D4}",
@@ -2449,6 +2593,11 @@ const T = {
       title: "Foto del viaggio",
       upload_btn: "Carica foto",
       upload_title: "Condividi le tue foto",
+      upload_video_btn: "Carica video",
+      upload_video_title: "Condividi il tuo video",
+      video_too_large_title: "File troppo grande",
+      video_too_large: "Il tuo file è di {size} MB. Devi tagliare almeno {pct}% della lunghezza del video (massimo 50 MB).",
+      video_large_tip: "Il tuo video è di {size} MB — il caricamento potrebbe richiedere tempo su rete mobile.",
       name_placeholder: "Il tuo nome",
       caption_placeholder: "Didascalia (opzionale)",
       no_photos_yet: "Ancora nessuna foto — l'avventura continua!", empty: "Ancora nessuna foto \u2014 carica i primi ricordi! \u{1F3D4}",
@@ -4363,17 +4512,26 @@ function buildDayAccordion(title, subtitle, countText, bucket, id) {
     const caption = p.caption || '';
     const pDate = p.photo_date || p.taken_at || '';
     const loc = p.location_name || '';
+    const isVideo = p.media_type === 'video';
     const metaParts = [];
     if (loc) metaParts.push(loc);
     if (pDate) metaParts.push(pDate.substring(0, 10));
     const metaStr = metaParts.join(' \u00B7 ');
+
+    const mediaHtml = isVideo
+      ? `<video class="album-card-img" src="${imgUrl}" muted playsinline preload="metadata" onclick="openLightbox(${p._idx})"></video>
+         <div class="album-card-video-badge">\u25B6 VIDEO</div>`
+      : `<img class="album-card-img" src="${imgUrl}" alt="${caption || name}" onclick="openLightbox(${p._idx})" loading="lazy">`;
+
+    const mediaIcon = isVideo ? '\u{1F3A5}' : '\u{1F4F7}';
+
     return `<div class="album-card">
-      <img class="album-card-img" src="${imgUrl}" alt="${caption || name}" onclick="openLightbox(${p._idx})" loading="lazy">
+      ${mediaHtml}
       <button class="album-card-edit" onclick="openEditModal('${p.id}')" title="Edit">&#9998;</button>
       <div class="album-card-info">
         ${caption ? '<div class="album-card-caption">' + escHtml(caption) + '</div>' : ''}
         ${metaStr ? '<div class="album-card-meta">' + escHtml(metaStr) + '</div>' : ''}
-        ${name ? '<div class="album-card-name">\u{1F4F7} ' + escHtml(name) + '</div>' : ''}
+        ${name ? '<div class="album-card-name">' + mediaIcon + ' ' + escHtml(name) + '</div>' : ''}
       </div>
     </div>`;
   }).join('');
@@ -4404,25 +4562,86 @@ function escHtml(s) {
 // ── Upload flow ──
 var pendingUploadFile = null;
 var pendingExifData = null;
+var pendingMediaType = 'photo';  // 'photo' or 'video'
+var pendingPreviewUrl = null;    // object URL to revoke on close
+const MAX_VIDEO_MB = 50;          // Supabase Free tier limit
 
-function openUploadPicker() {
-  document.getElementById('albumFileInput').value = '';
-  document.getElementById('albumFileInput').click();
+function openUploadPicker(type) {
+  pendingMediaType = type === 'video' ? 'video' : 'photo';
+  const inputId = pendingMediaType === 'video' ? 'albumVideoInput' : 'albumFileInput';
+  const input = document.getElementById(inputId);
+  input.value = '';
+  input.click();
 }
 
-async function onAlbumFileSelected(files) {
+function getExpDayLabel(dateStr) {
+  const base = new Date('2026-04-15'); // Day 1
+  const d = new Date(dateStr);
+  const diff = Math.round((d - base) / 86400000) + 1;
+  return (t('album.day_prefix') || 'Day') + ' ' + diff;
+}
+
+async function onAlbumFileSelected(files, type) {
   if (!files || files.length === 0) return;
   const file = files[0];
   pendingUploadFile = file;
+  pendingMediaType = type === 'video' ? 'video' : 'photo';
 
-  // Read EXIF
-  const exif = await readExifData(file);
-  pendingExifData = exif;
+  // Revoke previous preview URL
+  if (pendingPreviewUrl) { URL.revokeObjectURL(pendingPreviewUrl); pendingPreviewUrl = null; }
+  pendingPreviewUrl = URL.createObjectURL(file);
 
-  // Show preview
   const previewImg = document.getElementById('uploadPreviewImg');
-  const objectUrl = URL.createObjectURL(file);
-  previewImg.src = objectUrl;
+  const previewVid = document.getElementById('uploadPreviewVideo');
+  const warning = document.getElementById('uploadSizeWarning');
+  const submitBtn = document.getElementById('uploadSubmitBtn');
+  const modalTitle = document.querySelector('#uploadModal .album-modal-title');
+
+  // Show the right preview element
+  if (pendingMediaType === 'video') {
+    previewImg.style.display = 'none';
+    previewImg.src = '';
+    previewVid.src = pendingPreviewUrl;
+    previewVid.style.display = 'block';
+    if (modalTitle) modalTitle.textContent = t('album.upload_video_title') || 'Share your video';
+  } else {
+    previewVid.pause();
+    previewVid.src = '';
+    previewVid.style.display = 'none';
+    previewImg.src = pendingPreviewUrl;
+    previewImg.style.display = 'block';
+    if (modalTitle) modalTitle.textContent = t('album.upload_title') || 'Share your photos';
+  }
+
+  // Size check (only for video — photos are small)
+  warning.style.display = 'none';
+  submitBtn.disabled = false;
+  if (pendingMediaType === 'video') {
+    const sizeMB = file.size / 1024 / 1024;
+    if (sizeMB > MAX_VIDEO_MB) {
+      // e.g. 130 MB → need to cut (130-50)/130 = 62%
+      const pct = Math.ceil((sizeMB - MAX_VIDEO_MB) / sizeMB * 100);
+      warning.className = 'album-size-warning error';
+      warning.innerHTML = '\u26A0\uFE0F <strong>' + (t('album.video_too_large_title') || 'File too large') + '</strong><br>' +
+        (t('album.video_too_large') || 'Your file is {size} MB. You need to cut at least {pct}% of the video length (max 50 MB).')
+          .replace('{size}', sizeMB.toFixed(1)).replace('{pct}', pct);
+      warning.style.display = 'block';
+      submitBtn.disabled = true;
+    } else if (sizeMB > MAX_VIDEO_MB * 0.8) {
+      warning.className = 'album-size-warning';
+      warning.innerHTML = '\u2139\uFE0F ' +
+        (t('album.video_large_tip') || 'Your video is {size} MB — upload may take a while.')
+          .replace('{size}', sizeMB.toFixed(1));
+      warning.style.display = 'block';
+    }
+  }
+
+  // EXIF only for photos
+  let exif = { date: null, lat: null, lon: null };
+  if (pendingMediaType === 'photo') {
+    exif = await readExifData(file);
+  }
+  pendingExifData = exif;
 
   // Determine date: EXIF > file.lastModified > today
   let detectedDate = '';
@@ -4434,14 +4653,6 @@ async function onAlbumFileSelected(files) {
     detectedDate = new Date().toISOString().substring(0, 10);
   }
   document.getElementById('uploadDate').value = detectedDate;
-
-  // Calculate which expedition day this date corresponds to
-  function getExpDayLabel(dateStr) {
-    const base = new Date('2026-04-15'); // Day 1
-    const d = new Date(dateStr);
-    const diff = Math.round((d - base) / 86400000) + 1;
-    return (t('album.day_prefix') || 'Day') + ' ' + diff;
-  }
 
   // Detected info display
   const infoLines = [];
@@ -4470,8 +4681,16 @@ async function onAlbumFileSelected(files) {
 
 function closeUploadModal() {
   document.getElementById('uploadModal').classList.remove('open');
+  const vid = document.getElementById('uploadPreviewVideo');
+  if (vid) { vid.pause(); vid.src = ''; vid.style.display = 'none'; }
+  const img = document.getElementById('uploadPreviewImg');
+  if (img) { img.src = ''; img.style.display = ''; }
+  if (pendingPreviewUrl) { URL.revokeObjectURL(pendingPreviewUrl); pendingPreviewUrl = null; }
   pendingUploadFile = null;
   pendingExifData = null;
+  pendingMediaType = 'photo';
+  const warning = document.getElementById('uploadSizeWarning');
+  if (warning) warning.style.display = 'none';
 }
 
 function updateUploadCharCount() {
@@ -4482,12 +4701,18 @@ function updateUploadCharCount() {
 async function submitUpload() {
   if (!pendingUploadFile) return;
   const file = pendingUploadFile;
+  const mediaType = pendingMediaType || 'photo';
   const name = document.getElementById('uploadName').value.trim() || 'Anonymous';
   const caption = document.getElementById('uploadCaption').value.trim();
   const photoDate = document.getElementById('uploadDate').value || null;
   const locationName = document.getElementById('uploadLocation').value.trim() || null;
   const lat = (pendingExifData && pendingExifData.lat) || null;
   const lon = (pendingExifData && pendingExifData.lon) || null;
+
+  // Size guard for video
+  if (mediaType === 'video' && file.size / 1024 / 1024 > MAX_VIDEO_MB) {
+    return;
+  }
 
   // Save name for next time
   localStorage.setItem('svalbard_uploader_name', name);
@@ -4497,13 +4722,19 @@ async function submitUpload() {
   btn.disabled = true;
 
   try {
-    await uploadToSupabase(file, { name, caption, photoDate, locationName, lat, lon });
+    await uploadToSupabase(file, { name, caption, photoDate, locationName, lat, lon, mediaType });
     closeUploadModal();
     showAlbumToast(t('album.uploaded_one'));
     await loadPhotosFromSupabase();
   } catch (e) {
     console.error('Upload failed:', e);
-    // Fallback to localStorage
+    // Fallback to localStorage (videos can't be stored as dataURL > few MB — skip for video)
+    if (mediaType === 'video') {
+      alert('Upload failed: ' + (e.message || 'unknown error'));
+      btn.textContent = t('album.upload_submit');
+      btn.disabled = false;
+      return;
+    }
     const dataUrl = await new Promise(resolve => {
       const reader = new FileReader();
       reader.onload = ev => resolve(ev.target.result);
@@ -4516,6 +4747,7 @@ async function submitUpload() {
       caption,
       photo_date: photoDate,
       location_name: locationName,
+      media_type: 'photo',
       created_at: new Date().toISOString()
     });
     localStorage.setItem('svalbard_photos', JSON.stringify(photos.slice(0, 200)));
@@ -4531,11 +4763,12 @@ async function submitUpload() {
 async function uploadToSupabase(file, meta) {
   const datePath = meta.photoDate || new Date().toISOString().substring(0, 10);
   const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-  const fileName = datePath + '/' + Date.now() + '_' + Math.random().toString(36).substring(2, 8) + '_' + safeName;
+  const subfolder = meta.mediaType === 'video' ? 'videos/' : '';
+  const fileName = subfolder + datePath + '/' + Date.now() + '_' + Math.random().toString(36).substring(2, 8) + '_' + safeName;
 
   const storageResp = await supabaseFetch('/storage/v1/object/' + SUPABASE_BUCKET + '/' + fileName, {
     method: 'POST',
-    headers: { 'Content-Type': file.type },
+    headers: { 'Content-Type': file.type || (meta.mediaType === 'video' ? 'video/mp4' : 'image/jpeg') },
     body: file
   });
 
@@ -4551,7 +4784,9 @@ async function uploadToSupabase(file, meta) {
     photo_date: meta.photoDate || null,
     location_name: meta.locationName || null,
     latitude: meta.lat || null,
-    longitude: meta.lon || null
+    longitude: meta.lon || null,
+    media_type: meta.mediaType || 'photo',
+    file_size: file.size
   };
 
   const insertResp = await supabaseFetch('/rest/v1/photos', {
@@ -4572,8 +4807,25 @@ function openEditModal(photoId) {
   const photo = photos.find(p => p.id === photoId);
   if (!photo) return;
 
+  const isVideo = photo.media_type === 'video';
+  const imgEl = document.getElementById('editPreviewImg');
+  const vidEl = document.getElementById('editPreviewVideo');
+  const mediaUrl = photo.url || photo.thumbnail_url || '';
+
+  if (isVideo) {
+    imgEl.src = '';
+    imgEl.style.display = 'none';
+    vidEl.src = mediaUrl;
+    vidEl.style.display = 'block';
+  } else {
+    vidEl.pause();
+    vidEl.src = '';
+    vidEl.style.display = 'none';
+    imgEl.src = mediaUrl;
+    imgEl.style.display = '';
+  }
+
   document.getElementById('editPhotoId').value = photoId;
-  document.getElementById('editPreviewImg').src = photo.url || photo.thumbnail_url || '';
   document.getElementById('editName').value = photo.uploader_name || '';
   document.getElementById('editDate').value = (photo.photo_date || photo.taken_at || '').substring(0, 10);
   document.getElementById('editLocation').value = photo.location_name || '';
@@ -4585,6 +4837,8 @@ function openEditModal(photoId) {
 }
 
 function closeEditModal() {
+  const vidEl = document.getElementById('editPreviewVideo');
+  if (vidEl) { vidEl.pause(); }
   document.getElementById('editModal').classList.remove('open');
 }
 
@@ -4686,16 +4940,37 @@ function openLightbox(i) {
   const caption = p.caption || '';
   const dateStr = p.photo_date || p.taken_at || p.created_at || '';
   const loc = p.location_name || '';
+  const isVideo = p.media_type === 'video';
   const parts = [name];
   if (caption) parts.push(caption);
   if (loc) parts.push(loc);
   if (dateStr) parts.push(new Date(dateStr).toLocaleDateString());
-  document.getElementById('lightboxImg').src = imgUrl;
+
+  const imgEl = document.getElementById('lightboxImg');
+  const vidEl = document.getElementById('lightboxVideo');
+
+  if (isVideo) {
+    imgEl.src = '';
+    imgEl.style.display = 'none';
+    vidEl.src = imgUrl;
+    vidEl.style.display = 'block';
+  } else {
+    vidEl.pause();
+    vidEl.src = '';
+    vidEl.style.display = 'none';
+    imgEl.src = imgUrl;
+    imgEl.style.display = '';
+  }
+
   document.getElementById('lightboxCaption').textContent = parts.join(' \u00B7 ');
   document.getElementById('lightbox').classList.add('open');
 }
 
-function closeLightbox() {
+function closeLightbox(ev) {
+  // Don't close if clicking video controls or video itself
+  if (ev && ev.target && (ev.target.tagName === 'VIDEO' || ev.target.closest('video'))) return;
+  const vidEl = document.getElementById('lightboxVideo');
+  if (vidEl) { vidEl.pause(); }
   document.getElementById('lightbox').classList.remove('open');
 }
 
