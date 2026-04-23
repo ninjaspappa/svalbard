@@ -1006,6 +1006,59 @@
     text-align: center;
   }
 
+  /* Global upload progress banner */
+  #uploadBanner {
+    position: fixed; top: 56px; left: 0; right: 0;
+    z-index: 9000;
+    background: rgba(6,14,28,0.95);
+    border-bottom: 1px solid rgba(168,216,234,0.15);
+    padding: 0.5rem 1.2rem;
+    display: none;
+    align-items: center;
+    gap: 0.75rem;
+    backdrop-filter: blur(8px);
+  }
+  #uploadBannerBar {
+    flex: 1; height: 4px;
+    background: rgba(168,216,234,0.12);
+    border-radius: 2px; overflow: hidden;
+  }
+  #uploadBannerFill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--ice), var(--frost));
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+  #uploadBannerLabel {
+    font-size: 0.72rem; color: var(--frost);
+    white-space: nowrap; min-width: 160px; text-align: right;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* Day quick-jump chips */
+  #albumDayChips {
+    display: none;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.6rem 0 0.8rem;
+    align-items: center;
+  }
+  .day-chip-label {
+    font-size: 0.65rem; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.07em;
+    margin-right: 0.15rem;
+  }
+  .day-chip {
+    font-size: 0.72rem;
+    background: rgba(168,216,234,0.08);
+    border: 1px solid rgba(168,216,234,0.18);
+    color: var(--frost); border-radius: 20px;
+    padding: 0.2rem 0.7rem; cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    font-family: inherit;
+  }
+  .day-chip:hover { background: rgba(168,216,234,0.18); border-color: rgba(168,216,234,0.3); }
+
   /* Video preview */
   #uploadPreviewVideo, #editPreviewVideo {
     display: none;
@@ -1956,6 +2009,12 @@
     </div>
   </nav>
 
+  <!-- Global upload progress banner -->
+  <div id="uploadBanner">
+    <div id="uploadBannerBar"><div id="uploadBannerFill"></div></div>
+    <span id="uploadBannerLabel"></span>
+  </div>
+
   <!-- HOME -->
   <div id="page-home" class="page active">
     <div class="hero">
@@ -2092,6 +2151,8 @@
       <input type="file" id="albumFileInput" accept="image/*" style="display:none" onchange="onAlbumFileSelected(this.files, 'photo')">
       <input type="file" id="albumVideoInput" accept="video/*" style="display:none" onchange="onAlbumFileSelected(this.files, 'video')">
 
+      <div id="albumDayChips"></div>
+
       <div id="albumDayContainer">
         <div class="album-empty" data-t="album.empty">No photos yet &mdash; upload the first memories! &#x1F3D4;</div>
       </div>
@@ -2216,6 +2277,7 @@ const T = {
       upload_video_btn: "Upload video",
       upload_video_title: "Share your video",
       video_too_large_title: "File too large",
+      video_uploading_lock: "One video is already uploading \u2014 see progress at top of screen",
       video_too_large_input: "File is {size} MB — too large (max 500 MB). Please trim the video first.",
       video_will_compress: "Video is {size} MB — will be compressed before upload.",
       compressing: "Compressing\u2026",
@@ -2300,6 +2362,7 @@ const T = {
       upload_video_btn: "Last opp video",
       upload_video_title: "Del videoen din",
       video_too_large_title: "Filen er for stor",
+      video_uploading_lock: "En video lastes allerede opp \u2014 se fremdrift \u00f8verst p\u00e5 skjermen",
       video_too_large_input: "Filen er {size} MB — for stor (maks 500 MB). Klipp videoen f\u00f8rst.",
       video_will_compress: "Videoen er {size} MB — vil bli komprimert f\u00f8r opplasting.",
       compressing: "Komprimerer\u2026",
@@ -2384,6 +2447,7 @@ const T = {
       upload_video_btn: "Ladda upp video",
       upload_video_title: "Dela din video",
       video_too_large_title: "Filen är för stor",
+      video_uploading_lock: "En video laddas redan upp \u2014 se framsteg h\u00f6gst upp p\u00e5 sk\u00e4rmen",
       video_too_large_input: "Filen är {size} MB — för stor (max 500 MB). Klipp videon först.",
       video_will_compress: "Video är {size} MB — komprimeras innan uppladdning.",
       compressing: "Komprimerar\u2026",
@@ -2478,6 +2542,7 @@ const T = {
       upload_submit: "Hla\u00F0a upp",
       upload_video_btn: "Hla\u00F0a upp myndb\u00E1ndi",
       video_too_large_title: "Skr\u00E1 of st\u00F3r",
+      video_uploading_lock: "Myndb\u00E1ndi er \u00FEegar h\u00lade upp \u2014 sj\u00E1 framvindu efst \u00E1 sk\u00E1",
       video_too_large_input: "Skr\u00E1in er {size} MB \u2014 of st\u00F3r (h\u00E1m. 500 MB). Klipptu myndb\u00E1ndi\u00F0 fyrst.",
       video_will_compress: "Myndb\u00E1ndi\u00F0 er {size} MB \u2014 ver\u00F0ur \u00FEj\u00E1ppast fyrir upphle\u00F0slu.",
       compressing: "Þjappar\u2026",
@@ -2551,6 +2616,7 @@ const T = {
       upload_video_btn: "Upload video",
       upload_video_title: "Del din video",
       video_too_large_title: "Filen er for stor",
+      video_uploading_lock: "En video uploades allerede \u2014 se fremskridt \u00f8verst p\u00e5 sk\u00e6rmen",
       video_too_large_input: "Filen er {size} MB — for stor (maks 500 MB). Klip videoen f\u00f8rst.",
       video_will_compress: "Video er {size} MB — komprimeres inden upload.",
       compressing: "Komprimerer\u2026",
@@ -2635,6 +2701,7 @@ const T = {
       upload_video_btn: "Carica video",
       upload_video_title: "Condividi il tuo video",
       video_too_large_title: "File troppo grande",
+      video_uploading_lock: "Un video \u00e8 gi\u00e0 in caricamento \u2014 vedi i progressi in cima allo schermo",
       video_too_large_input: "Il file è {size} MB — troppo grande (max 500 MB). Taglia il video prima.",
       video_will_compress: "Video è {size} MB — verrà compresso prima del caricamento.",
       compressing: "Compressione\u2026",
@@ -4544,6 +4611,25 @@ function renderAlbum() {
   );
 
   container.innerHTML = html;
+
+  // Build day quick-jump chips
+  const chipsEl = document.getElementById('albumDayChips');
+  if (chipsEl) {
+    const chipDays = ALBUM_DAYS.slice(1); // Day 2 onwards
+    let chipsHtml = '<span class="day-chip-label">Scroll to</span>';
+    chipDays.forEach(d => {
+      if (document.getElementById('album-day-' + d.day)) {
+        chipsHtml += `<button class="day-chip" onclick="document.getElementById('album-day-${d.day}').scrollIntoView({behavior:'smooth',block:'start'})">${getDayLabel(d.day)}</button>`;
+      }
+    });
+    const unsortedEl = document.getElementById('album-day-unsorted');
+    if (unsortedEl) {
+      const unsortedLabel = t('album.unsorted') || 'Unsorted';
+      chipsHtml += `<button class="day-chip" onclick="document.getElementById('album-day-unsorted').scrollIntoView({behavior:'smooth',block:'start'})">${unsortedLabel}</button>`;
+    }
+    chipsEl.innerHTML = chipsHtml;
+    chipsEl.style.display = 'flex';
+  }
 }
 
 function buildDayAccordion(title, subtitle, countText, bucket, id) {
@@ -4566,7 +4652,7 @@ function buildDayAccordion(title, subtitle, countText, bucket, id) {
 
     const mediaIcon = isVideo ? '\u{1F3A5}' : '\u{1F4F7}';
 
-    return `<div class="album-card">
+    return `<div class="album-card" data-photo-id="${p.id}">
       ${mediaHtml}
       <button class="album-card-edit" onclick="openEditModal('${p.id}')" title="Edit">&#9998;</button>
       <div class="album-card-info">
@@ -4601,6 +4687,7 @@ function escHtml(s) {
 }
 
 // ── Upload flow ──
+var isUploadingVideo = false;
 var pendingUploadFile = null;
 var pendingExifData = null;
 var pendingMediaType = 'photo';  // 'photo' or 'video'
@@ -4610,11 +4697,30 @@ const MAX_VIDEO_OUTPUT_MB = 45;   // target output after compression
 const COMPRESS_THRESHOLD_MB = 40; // skip compression below this
 
 function openUploadPicker(type) {
+  if (type === 'video' && isUploadingVideo) {
+    showAlbumToast(t('album.video_uploading_lock') || 'One video is already uploading \u2014 see progress at top of screen');
+    return;
+  }
   pendingMediaType = type === 'video' ? 'video' : 'photo';
   const inputId = pendingMediaType === 'video' ? 'albumVideoInput' : 'albumFileInput';
   const input = document.getElementById(inputId);
   input.value = '';
   input.click();
+}
+
+function setUploadBanner(label, pct) {
+  const banner = document.getElementById('uploadBanner');
+  banner.style.display = 'flex';
+  document.getElementById('uploadBannerFill').style.width = pct + '%';
+  document.getElementById('uploadBannerLabel').textContent = label;
+}
+
+function hideUploadBanner() {
+  setTimeout(() => {
+    const banner = document.getElementById('uploadBanner');
+    banner.style.display = 'none';
+    document.getElementById('uploadBannerFill').style.width = '0%';
+  }, 2000);
 }
 
 function getExpDayLabel(dateStr) {
@@ -4750,54 +4856,65 @@ async function submitUpload() {
   const lat = (pendingExifData && pendingExifData.lat) || null;
   const lon = (pendingExifData && pendingExifData.lon) || null;
 
-  // Hard guard — should already be disabled in UI
   if (mediaType === 'video' && file.size / 1024 / 1024 > MAX_VIDEO_INPUT_MB) return;
 
-  // Save name for next time
   localStorage.setItem('svalbard_uploader_name', name);
 
-  const btn = document.getElementById('uploadSubmitBtn');
-  btn.disabled = true;
+  // Close modal immediately and hand off to banner
+  closeUploadModal();
+  if (mediaType === 'video') isUploadingVideo = true;
 
-  // Compress if needed
+  let countdownTimer = null;
   let fileToUpload = file;
-  if (mediaType === 'video' && file.size / 1024 / 1024 > COMPRESS_THRESHOLD_MB) {
-    const barWrap = document.getElementById('compressBarWrap');
-    const bar = document.getElementById('compressBar');
-    const label = document.getElementById('compressLabel');
-    barWrap.style.display = 'block';
-    label.style.display = 'block';
-    btn.textContent = t('album.compressing') || 'Compressing\u2026';
-    const previewVid = document.getElementById('uploadPreviewVideo');
-    const dur = (previewVid.duration && isFinite(previewVid.duration)) ? previewVid.duration : 60;
-    try {
-      fileToUpload = await compressVideo(file, dur, (p) => {
-        bar.style.width = (p * 100).toFixed(0) + '%';
-        label.textContent = (t('album.compressing_pct') || 'Compressing\u2026 {pct}%').replace('{pct}', (p * 100).toFixed(0));
-      });
-    } finally {
-      barWrap.style.display = 'none';
-      label.style.display = 'none';
-      bar.style.width = '0%';
-    }
-  }
-
-  btn.textContent = t('album.uploading');
 
   try {
-    await uploadToSupabase(fileToUpload, { name, caption, photoDate, locationName, lat, lon, mediaType });
-    closeUploadModal();
-    showAlbumToast(t('album.uploaded_one'));
+    // ── Compression phase ──
+    if (mediaType === 'video' && file.size / 1024 / 1024 > COMPRESS_THRESHOLD_MB) {
+      const previewVid = document.getElementById('uploadPreviewVideo');
+      const dur = (previewVid.duration && isFinite(previewVid.duration)) ? previewVid.duration : 60;
+      setUploadBanner('\u{1F3A5} ' + (t('album.compressing') || 'Komprimerar\u2026') + ' 0%', 0);
+      fileToUpload = await compressVideo(file, dur, (p) => {
+        const pct = (p * 100).toFixed(0);
+        setUploadBanner('\u{1F3A5} ' + (t('album.compressing_pct') || 'Komprimerar\u2026 {pct}%').replace('{pct}', pct), p * 50);
+      });
+    }
+
+    // ── Upload phase ──
+    const estSec = Math.ceil(fileToUpload.size / (400 * 1024));
+    let remaining = estSec;
+    setUploadBanner('\u2B06\uFE0F ' + (t('album.uploading') || 'Laddar upp') + '\u2026 ~' + remaining + 's', 50);
+    countdownTimer = setInterval(() => {
+      remaining = Math.max(0, remaining - 1);
+      setUploadBanner('\u2B06\uFE0F ' + (t('album.uploading') || 'Laddar upp') + '\u2026 ~' + remaining + 's', 50 + Math.min(45, (estSec - remaining) / estSec * 45));
+    }, 1000);
+
+    const result = await uploadToSupabase(fileToUpload, { name, caption, photoDate, locationName, lat, lon, mediaType });
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+
+    setUploadBanner('\u2705 ' + (t('album.uploaded_one') || 'Uploaded!'), 100);
+    hideUploadBanner();
+
+    // Reload and scroll to new card
     await loadPhotosFromSupabase();
+    const newId = Array.isArray(result) ? result[0]?.id : result?.id;
+    if (newId) {
+      setTimeout(() => {
+        const card = document.querySelector('[data-photo-id="' + newId + '"]');
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    }
+
   } catch (e) {
+    if (countdownTimer) clearInterval(countdownTimer);
     console.error('Upload failed:', e);
-    // Fallback to localStorage (videos can't be stored as dataURL > few MB — skip for video)
+    document.getElementById('uploadBanner').style.display = 'none';
+
     if (mediaType === 'video') {
-      alert('Upload failed: ' + (e.message || 'unknown error'));
-      btn.textContent = t('album.upload_submit');
-      btn.disabled = false;
+      showAlbumToast('Upload failed: ' + (e.message || 'unknown error'));
       return;
     }
+    // Photo fallback to localStorage
     const dataUrl = await new Promise(resolve => {
       const reader = new FileReader();
       reader.onload = ev => resolve(ev.target.result);
@@ -4814,12 +4931,11 @@ async function submitUpload() {
       created_at: new Date().toISOString()
     });
     localStorage.setItem('svalbard_photos', JSON.stringify(photos.slice(0, 200)));
-    closeUploadModal();
     showAlbumToast(t('album.uploaded_one'));
     renderAlbum();
   } finally {
-    btn.textContent = t('album.upload_submit');
-    btn.disabled = false;
+    if (mediaType === 'video') isUploadingVideo = false;
+    if (countdownTimer) clearInterval(countdownTimer);
   }
 }
 
