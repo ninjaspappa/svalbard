@@ -41,6 +41,8 @@
     z-index: 1000;
     flex-direction: column;
     gap: 2rem;
+    overflow-y: auto;
+    padding: 1rem 0;
   }
 
   .gate-bg {
@@ -56,8 +58,8 @@
   }
 
   .gate-bear {
-    font-size: 4rem;
-    margin-bottom: 1.5rem;
+    font-size: 3.5rem;
+    margin-bottom: 0.6rem;
     display: block;
     animation: float 4s ease-in-out infinite;
   }
@@ -82,7 +84,7 @@
     color: var(--muted);
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.2rem;
   }
 
   .gate-prompt {
@@ -91,7 +93,7 @@
     color: var(--muted);
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .gate-code-display {
@@ -148,6 +150,7 @@
     transition: all 0.15s;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   .numpad-btn:hover { background: rgba(168,216,234,0.12); border-color: var(--ice-dim); }
@@ -166,6 +169,7 @@
     border: 1px solid var(--border);
     border-radius: 4px;
     padding: 0.875rem;
+    width: 100%;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.8rem;
     font-weight: 500;
@@ -175,6 +179,7 @@
     transition: all 0.4s;
     pointer-events: none;
     opacity: 0.4;
+    touch-action: manipulation;
   }
 
   .gate-btn.unlocked {
