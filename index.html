@@ -34,168 +34,81 @@
   }
 
   /* ── Password Gate ── */
+  /* ── Gate (login screen) ── */
   #gate {
     position: fixed; inset: 0;
-    background: var(--deep);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1000;
-    flex-direction: column;
-    gap: 0;
+    background: #060E1C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
   }
-
-  .gate-bg {
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(168,216,234,0.06) 0%, transparent 70%);
-  }
-
-  .gate-content {
-    position: relative; z-index: 1;
+  #gate-box {
     text-align: center;
-    max-width: 360px;
-    width: 90%;
+    width: 300px;
+    max-width: 92vw;
   }
-
-  .gate-bear {
-    font-size: 3.5rem;
-    margin-bottom: 0.6rem;
-    display: block;
-    animation: float 4s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-
-  .gate-title {
+  #gate-bear { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
+  #gate-heading {
     font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--frost);
-    letter-spacing: 0.02em;
-    margin-bottom: 0.5rem;
+    font-size: 1.8rem; font-weight: 900;
+    color: #E8F4F8; margin: 0 0 0.25rem;
   }
-
-  .gate-sub {
+  #gate-sub {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+    font-size: 0.65rem; color: #5A7080;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin: 0 0 1.2rem;
+  }
+  #gate-dots {
+    display: flex; justify-content: center; gap: 10px;
     margin-bottom: 1.2rem;
   }
-
-  .gate-prompt {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
+  .gdot {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 1px solid #2A3A4A; background: transparent;
   }
-
-  .gate-code-display {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .code-dot {
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: transparent;
-    transition: all 0.2s;
-  }
-
-  .code-dot.filled {
-    background: var(--ice-dim);
-    border-color: var(--ice-dim);
-    box-shadow: 0 0 8px rgba(74,143,168,0.4);
-  }
-
-  .code-dot.wrong {
-    background: var(--danger);
-    border-color: var(--danger);
-    animation: shake 0.3s;
-  }
-
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
-  }
-
-  .numpad {
+  .gdot.on { background: #4A8FA8; border-color: #4A8FA8; }
+  .gdot.err { background: #C94040; border-color: #C94040; }
+  #gate-pad {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-    max-width: 240px;
-    margin: 0 auto 1.5rem;
+    gap: 8px;
+    margin-bottom: 10px;
   }
-
-  .numpad-btn {
-    background: rgba(168,216,234,0.06);
-    border: 1px solid var(--border);
+  .gkey {
+    background: #0D1E30;
+    border: 1px solid #1A2A3A;
     border-radius: 8px;
-    padding: 0.9rem;
-    color: var(--frost);
+    padding: 14px 0;
+    color: #E8F4F8;
     font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.35rem; font-weight: 700;
     cursor: pointer;
-    transition: all 0.15s;
-    user-select: none;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    user-select: none;
   }
-
-  .numpad-btn:hover { background: rgba(168,216,234,0.12); border-color: var(--ice-dim); }
-  .numpad-btn:active { transform: scale(0.95); background: rgba(168,216,234,0.18); }
-
-  .numpad-btn.zero { grid-column: 2; }
-  .numpad-btn.backspace {
-    font-size: 1rem;
-    color: var(--muted);
+  .gkey:active { background: #1A3A50; }
+  .gkey.bsp { font-family: monospace; font-size: 1rem; color: #5A7080; }
+  .gkey.z { grid-column: 2; }
+  #gate-enter {
+    width: 100%; padding: 13px;
+    background: #4A8FA8; color: #060E1C;
+    border: none; border-radius: 6px;
     font-family: 'IBM Plex Mono', monospace;
-  }
-
-  .gate-btn {
-    background: rgba(168,216,234,0.08);
-    color: var(--muted);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 0.875rem;
-    width: 100%;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    cursor: default;
-    transition: all 0.4s;
-    pointer-events: none;
-    opacity: 0.4;
-    touch-action: manipulation;
-  }
-
-  .gate-btn.unlocked {
-    background: var(--ice-dim);
-    color: var(--deep);
-    border-color: var(--ice-dim);
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
     cursor: pointer;
-    pointer-events: all;
-    opacity: 1;
-    box-shadow: 0 0 20px rgba(74,143,168,0.3);
-    animation: pulse-glow 1.5s ease-in-out infinite;
+    touch-action: manipulation;
+    display: none;
+    margin-bottom: 0.75rem;
   }
-
-  .gate-btn.unlocked:hover { background: var(--ice); }
-
-  @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 20px rgba(74,143,168,0.3); }
-    50% { box-shadow: 0 0 30px rgba(74,143,168,0.5); }
+  #gate-enter:active { background: #A8D8EA; }
+  #gate-ts {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem; color: #2A3A4A;
+    letter-spacing: 0.1em;
   }
 
   /* ── App ── */
@@ -1934,32 +1847,31 @@
 
 <!-- CODE GATE -->
 <div id="gate">
-  <div class="gate-bg"></div>
-  <div class="gate-content">
-    <span class="gate-bear">&#x1F43B;&#x200D;&#x2744;&#xFE0F;</span>
-    <div class="gate-title" data-t="gate.title">Svalbard 2026</div>
-    <div class="gate-sub" data-t="gate.sub">78°N · The Expedition</div>
-    <div class="gate-prompt" data-t="gate.prompt">Enter code to join the expedition</div>
-    <div class="gate-code-display" id="codeDots">
-      <div class="code-dot"></div>
-      <div class="code-dot"></div>
-      <div class="code-dot"></div>
-      <div class="code-dot"></div>
+  <div id="gate-box">
+    <span id="gate-bear">&#x1F43B;&#x200D;&#x2744;&#xFE0F;</span>
+    <h1 id="gate-heading">Svalbard 2026</h1>
+    <p id="gate-sub">78&deg;N &middot; The Expedition</p>
+    <div id="gate-dots">
+      <div class="gdot" id="gd0"></div>
+      <div class="gdot" id="gd1"></div>
+      <div class="gdot" id="gd2"></div>
+      <div class="gdot" id="gd3"></div>
     </div>
-    <div class="numpad">
-      <button class="numpad-btn" onclick="numPress('1')">1</button>
-      <button class="numpad-btn" onclick="numPress('2')">2</button>
-      <button class="numpad-btn" onclick="numPress('3')">3</button>
-      <button class="numpad-btn" onclick="numPress('4')">4</button>
-      <button class="numpad-btn" onclick="numPress('5')">5</button>
-      <button class="numpad-btn" onclick="numPress('6')">6</button>
-      <button class="numpad-btn" onclick="numPress('7')">7</button>
-      <button class="numpad-btn" onclick="numPress('8')">8</button>
-      <button class="numpad-btn" onclick="numPress('9')">9</button>
-      <button class="numpad-btn backspace" onclick="numBackspace()">&#x232B;</button>
-      <button class="numpad-btn zero" onclick="numPress('0')">0</button>
+    <div id="gate-pad">
+      <button class="gkey" id="gk1">1</button>
+      <button class="gkey" id="gk2">2</button>
+      <button class="gkey" id="gk3">3</button>
+      <button class="gkey" id="gk4">4</button>
+      <button class="gkey" id="gk5">5</button>
+      <button class="gkey" id="gk6">6</button>
+      <button class="gkey" id="gk7">7</button>
+      <button class="gkey" id="gk8">8</button>
+      <button class="gkey" id="gk9">9</button>
+      <button class="gkey bsp" id="gkb">&#x232B;</button>
+      <button class="gkey z" id="gk0">0</button>
     </div>
-    <button class="gate-btn" id="enterBtn" onclick="enterExpedition()" data-t="gate.enter">Welcome aboard &rarr;</button>
+    <button id="gate-enter">Welcome aboard &rarr;</button>
+    <div id="gate-ts"></div>
   </div>
 </div>
 
@@ -3870,54 +3782,81 @@ function supabaseFetch(path, options = {}) {
 
 // ══ CODE GATE ═════════════════════════════════════════════
 
-const CODE = "1337";
-let entered = "";
+// ── Gate ──
+(function() {
+  var CODE = '1337';
+  var buf = '';
 
-function updateDots() {
-  const dots = document.querySelectorAll('.code-dot');
-  dots.forEach((d, i) => {
-    d.classList.toggle('filled', i < entered.length);
-    d.classList.remove('wrong');
-  });
-}
+  function dot(i, cls) {
+    var el = document.getElementById('gd' + i);
+    el.className = 'gdot' + (cls ? ' ' + cls : '');
+  }
 
-function numPress(n) {
-  if (entered.length >= 4) return;
-  entered += n;
-  updateDots();
+  function render() {
+    for (var i = 0; i < 4; i++) dot(i, i < buf.length ? 'on' : '');
+  }
 
-  if (entered.length === 4) {
-    if (entered === CODE) {
-      document.getElementById('enterBtn').classList.add('unlocked');
-    } else {
-      const dots = document.querySelectorAll('.code-dot');
-      dots.forEach(d => { d.classList.add('wrong'); d.classList.remove('filled'); });
-      setTimeout(() => { entered = ""; updateDots(); }, 500);
+  function wrong() {
+    for (var i = 0; i < 4; i++) dot(i, 'err');
+    setTimeout(function() { buf = ''; render(); }, 600);
+  }
+
+  function press(n) {
+    if (buf.length >= 4) return;
+    buf += n;
+    render();
+    if (buf.length === 4) {
+      if (buf === CODE) {
+        enter();
+      } else {
+        wrong();
+      }
     }
   }
-}
 
-function numBackspace() {
-  if (entered.length === 0) return;
-  entered = entered.slice(0, -1);
-  document.getElementById('enterBtn').classList.remove('unlocked');
-  updateDots();
-}
+  function back() {
+    if (buf.length === 0) return;
+    buf = buf.slice(0, -1);
+    render();
+  }
 
-function enterExpedition() {
-  sessionStorage.setItem('svalbard_auth', '1');
-  document.getElementById('gate').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  init();
-}
+  function enter() {
+    sessionStorage.setItem('svalbard_auth', '1');
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    init();
+  }
 
-// Keyboard support
-document.addEventListener('keydown', e => {
-  if (document.getElementById('gate').style.display === 'none') return;
-  if (e.key >= '0' && e.key <= '9') numPress(e.key);
-  if (e.key === 'Backspace') numBackspace();
-  if (e.key === 'Enter' && entered === CODE) enterExpedition();
-});
+  // Wire buttons
+  for (var d = 0; d <= 9; d++) {
+    (function(n) {
+      var btn = document.getElementById('gk' + n);
+      if (btn) btn.addEventListener('click', function() { press(String(n)); });
+    })(d);
+  }
+  var bsp = document.getElementById('gkb');
+  if (bsp) bsp.addEventListener('click', back);
+
+  var enterBtn = document.getElementById('gate-enter');
+  if (enterBtn) enterBtn.addEventListener('click', enter);
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (document.getElementById('gate').style.display === 'none') return;
+    if (e.key >= '0' && e.key <= '9') press(e.key);
+    if (e.key === 'Backspace') back();
+    if (e.key === 'Enter' && buf === CODE) enter();
+  });
+
+  // Timestamp
+  var ts = document.getElementById('gate-ts');
+  if (ts) {
+    var d = new Date();
+    var pad = function(n) { return n < 10 ? '0' + n : n; };
+    ts.textContent = pad(d.getDate()) + '.' + pad(d.getMonth()+1) + '.' + d.getFullYear()
+      + ' · ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+})();
 
 // Apply translations on load (including gate)
 applyTranslations();
