@@ -48,21 +48,21 @@
     width: 300px;
     max-width: 92vw;
   }
-  #gate-bear { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
+  #gate-bear { font-size: 2.4rem; display: block; margin-bottom: 0.25rem; }
   #gate-heading {
     font-family: 'Playfair Display', serif;
-    font-size: 1.8rem; font-weight: 900;
-    color: #E8F4F8; margin: 0 0 0.25rem;
+    font-size: 1.6rem; font-weight: 900;
+    color: #E8F4F8; margin: 0 0 0.15rem;
   }
   #gate-sub {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.65rem; color: #5A7080;
     letter-spacing: 0.2em; text-transform: uppercase;
-    margin: 0 0 1.2rem;
+    margin: 0 0 0.7rem;
   }
   #gate-dots {
     display: flex; justify-content: center; gap: 10px;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.7rem;
   }
   .gdot {
     width: 14px; height: 14px; border-radius: 50%;
@@ -73,14 +73,14 @@
   #gate-pad {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 10px;
+    gap: 7px;
+    margin-bottom: 8px;
   }
   .gkey {
     background: #0D1E30;
     border: 1px solid #1A2A3A;
     border-radius: 8px;
-    padding: 14px 0;
+    padding: 11px 0;
     color: #E8F4F8;
     font-family: 'Playfair Display', serif;
     font-size: 1.35rem; font-weight: 700;
@@ -101,7 +101,7 @@
     letter-spacing: 0.15em; text-transform: uppercase;
     cursor: pointer;
     touch-action: manipulation;
-    display: none;
+    display: block;
     margin-bottom: 0.75rem;
   }
   #gate-enter:active { background: #A8D8EA; }
@@ -1858,19 +1858,19 @@
       <div class="gdot" id="gd3"></div>
     </div>
     <div id="gate-pad">
-      <button class="gkey" id="gk1">1</button>
-      <button class="gkey" id="gk2">2</button>
-      <button class="gkey" id="gk3">3</button>
-      <button class="gkey" id="gk4">4</button>
-      <button class="gkey" id="gk5">5</button>
-      <button class="gkey" id="gk6">6</button>
-      <button class="gkey" id="gk7">7</button>
-      <button class="gkey" id="gk8">8</button>
-      <button class="gkey" id="gk9">9</button>
-      <button class="gkey bsp" id="gkb">&#x232B;</button>
-      <button class="gkey z" id="gk0">0</button>
+      <button class="gkey" onclick="gatePress('1')">1</button>
+      <button class="gkey" onclick="gatePress('2')">2</button>
+      <button class="gkey" onclick="gatePress('3')">3</button>
+      <button class="gkey" onclick="gatePress('4')">4</button>
+      <button class="gkey" onclick="gatePress('5')">5</button>
+      <button class="gkey" onclick="gatePress('6')">6</button>
+      <button class="gkey" onclick="gatePress('7')">7</button>
+      <button class="gkey" onclick="gatePress('8')">8</button>
+      <button class="gkey" onclick="gatePress('9')">9</button>
+      <button class="gkey bsp" onclick="gateBack()">&#x232B;</button>
+      <button class="gkey z" onclick="gatePress('0')">0</button>
     </div>
-    <button id="gate-enter">Welcome aboard &rarr;</button>
+    <button id="gate-enter" onclick="gateEnter()">Welcome aboard &rarr;</button>
     <div id="gate-ts"></div>
   </div>
 </div>
@@ -3783,78 +3783,56 @@ function supabaseFetch(path, options = {}) {
 // ══ CODE GATE ═════════════════════════════════════════════
 
 // ── Gate ──
+var _gateBuf = '';
+var _gateCode = '1337';
+
+function _gateDot(i, cls) {
+  var el = document.getElementById('gd' + i);
+  if (el) el.className = 'gdot' + (cls ? ' ' + cls : '');
+}
+function _gateRender() {
+  for (var i = 0; i < 4; i++) _gateDot(i, i < _gateBuf.length ? 'on' : '');
+}
+function _gateWrong() {
+  for (var i = 0; i < 4; i++) _gateDot(i, 'err');
+  setTimeout(function() { _gateBuf = ''; _gateRender(); }, 600);
+}
+function gatePress(n) {
+  if (_gateBuf.length >= 4) return;
+  _gateBuf += n;
+  _gateRender();
+  if (_gateBuf.length === 4) {
+    if (_gateBuf === _gateCode) { gateEnter(); } else { _gateWrong(); }
+  }
+}
+function gateBack() {
+  if (_gateBuf.length === 0) return;
+  _gateBuf = _gateBuf.slice(0, -1);
+  _gateRender();
+}
+function gateEnter() {
+  sessionStorage.setItem('svalbard_auth', '1');
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  init();
+}
+
+// Keyboard support
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('gate') || document.getElementById('gate').style.display === 'none') return;
+  if (e.key >= '0' && e.key <= '9') gatePress(e.key);
+  if (e.key === 'Backspace') { e.preventDefault(); gateBack(); }
+  if (e.key === 'Enter') gateEnter();
+});
+
+// Timestamp
 (function() {
-  var CODE = '1337';
-  var buf = '';
-
-  function dot(i, cls) {
-    var el = document.getElementById('gd' + i);
-    el.className = 'gdot' + (cls ? ' ' + cls : '');
-  }
-
-  function render() {
-    for (var i = 0; i < 4; i++) dot(i, i < buf.length ? 'on' : '');
-  }
-
-  function wrong() {
-    for (var i = 0; i < 4; i++) dot(i, 'err');
-    setTimeout(function() { buf = ''; render(); }, 600);
-  }
-
-  function press(n) {
-    if (buf.length >= 4) return;
-    buf += n;
-    render();
-    if (buf.length === 4) {
-      if (buf === CODE) {
-        enter();
-      } else {
-        wrong();
-      }
-    }
-  }
-
-  function back() {
-    if (buf.length === 0) return;
-    buf = buf.slice(0, -1);
-    render();
-  }
-
-  function enter() {
-    sessionStorage.setItem('svalbard_auth', '1');
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    init();
-  }
-
-  // Wire buttons
-  for (var d = 0; d <= 9; d++) {
-    (function(n) {
-      var btn = document.getElementById('gk' + n);
-      if (btn) btn.addEventListener('click', function() { press(String(n)); });
-    })(d);
-  }
-  var bsp = document.getElementById('gkb');
-  if (bsp) bsp.addEventListener('click', back);
-
-  var enterBtn = document.getElementById('gate-enter');
-  if (enterBtn) enterBtn.addEventListener('click', enter);
-
-  // Keyboard
-  document.addEventListener('keydown', function(e) {
-    if (document.getElementById('gate').style.display === 'none') return;
-    if (e.key >= '0' && e.key <= '9') press(e.key);
-    if (e.key === 'Backspace') back();
-    if (e.key === 'Enter' && buf === CODE) enter();
-  });
-
-  // Timestamp
   var ts = document.getElementById('gate-ts');
   if (ts) {
-    var d = new Date();
-    var pad = function(n) { return n < 10 ? '0' + n : n; };
-    ts.textContent = pad(d.getDate()) + '.' + pad(d.getMonth()+1) + '.' + d.getFullYear()
-      + ' · ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+    var now = new Date();
+    var p = function(n) { return n < 10 ? '0' + n : n; };
+    ts.textContent = p(now.getDate()) + '.' + p(now.getMonth()+1) + '.' + now.getFullYear()
+      + ' · ' + p(now.getHours()) + ':' + p(now.getMinutes());
   }
 })();
 
